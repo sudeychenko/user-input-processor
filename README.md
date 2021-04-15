@@ -33,7 +33,7 @@ Constraint violation object describes which field contains invalid value. [`Cons
 
 * `public static function getType(): string` — returns constraint violation type. It is a string identifier of an error (e.g. `string_is_too_long`).
 * `public function getDescription(): string` — returns human-readable description of an error. Content of this field is a message for development purposes, and it's not intended to be shown to the end user.
-* `public function getPointer(): JsonPointer` — returns path to the invalid property in [JSON Pointer](https://tools.ietf.org/html/rfc6901) format (e.g. `#/users/1/id`).
+* `public function getPointer(): JsonPointer` — returns path to the invalid property in [JSON Pointer](https://tools.ietf.org/html/rfc6901) format (e.g. `#/users/0/id`).
 
 Any class implementing the interface may add its own public methods specific to its kind of constraint. For example, class [`StringIsTooLong`](src/ConstraintViolation/StringIsTooLong.php) has extra public method `public function getMaxLength(): int` that allows to get max length from the violation.
 
