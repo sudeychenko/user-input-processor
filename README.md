@@ -27,6 +27,8 @@ Deserializer is something that should be used to validate and deserialize data. 
 * If deserialization was successful, deserializer may return anything: unmodified data, [DTO](https://en.wikipedia.org/wiki/Data_transfer_object) or [value object](https://en.wikipedia.org/wiki/Value_object).
 * If validation error happened (e.g. email has invalid format), deserializer throws [`ValidationError`](src/Exception/ValidationError.php) exception that has [`ConstraintViolationCollection`](src/ConstraintViolation/ConstraintViolationCollection.php).
 
+The library is bundled with some basic deserializers for each type that may appear in JSON. Most of them come with validation options inspired by [JSON Schema specification](https://json-schema.org/specification.html). Opinionated deserializers and constraint violations for emails, phone numbers, IP addresses and for other cases are out of scope of the library.
+
 ### Constraint violation
 
 Constraint violation object describes which field contains invalid value. [`ConstraintViolationInterface`](src/ConstraintViolation/ConstraintViolationInterface.php) has several public methods:
