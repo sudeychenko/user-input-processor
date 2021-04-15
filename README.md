@@ -36,3 +36,11 @@ Constraint violation object describes which field contains invalid value. [`Cons
 * `public function getPointer(): JsonPointer` — returns path to the invalid property in [JSON Pointer](https://tools.ietf.org/html/rfc6901) format (e.g. `#/users/1/id`).
 
 Any class implementing the interface may add its own public methods specific to its kind of constraint. For example, class [`StringIsTooLong`](src/ConstraintViolation/StringIsTooLong.php) has extra public method `public function getMaxLength(): int` that allows to get max length from the violation.
+
+#### How to get localized validation error message for user?
+
+There is no such functionality out-of-the-box, because formatting error messages for end-user is not something deserializer and validator should do. It should be implemented on another abstraction layer. It should be a method in another service that accepts [`ConstraintViolationInterface`](src/ConstraintViolation/ConstraintViolationInterface.php) and returns localized error message for user.
+
+`public function getDescription(): string` method exists only for debugging and logging purposes. This value is not recommended being rendered in UI because some constraints may contain very nerd messages like [`ValueDoesNotMatchRegex`](src/ConstraintViolation/ValueDoesNotMatchRegex.php) violation has:
+
+> Property "#/id" does not match regex "/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/".
