@@ -25,7 +25,7 @@ composer require flaksp/user-input-deserializer
 Deserializer is something that should be used to validate and deserialize data. It may also re-use other deserializers, which should be passed via [dependency injection](https://en.wikipedia.org/wiki/Dependency_injection).
 
 * If deserialization was successful, deserializer may return anything: unmodified data, [DTO](https://en.wikipedia.org/wiki/Data_transfer_object) or [value object](https://en.wikipedia.org/wiki/Value_object).
-* If validation error happened (e.g. email has invalid format), deserializer throws [`ValidationError`](src/Exception/ValidationError.php) exception with collection of constraint violations.
+* If validation error happened (e.g. email has invalid format), deserializer throws [`ValidationError`](src/Exception/ValidationError.php) exception that has [`ConstraintViolationCollection`](src/ConstraintViolation/ConstraintViolationCollection.php).
 
 ### Constraint violation
 
@@ -37,10 +37,16 @@ Constraint violation object describes which field contains invalid value. [`Cons
 
 Any class implementing the interface may add its own public methods specific to its kind of constraint. For example, class [`StringIsTooLong`](src/ConstraintViolation/StringIsTooLong.php) has extra public method `public function getMaxLength(): int` that allows to get max length from the violation.
 
-#### How to get localized validation error message for user?
+## FAQ
+
+### How to get localized validation error message for user?
 
 There is no such functionality out-of-the-box, because formatting error messages for end-user is not something deserializer and validator should do. It should be implemented on another abstraction layer. It should be a method in another service that accepts [`ConstraintViolationInterface`](src/ConstraintViolation/ConstraintViolationInterface.php) and returns localized error message for user.
 
 `public function getDescription(): string` method exists only for debugging and logging purposes. This value is not recommended being rendered in UI because some constraints may contain very nerd messages like [`ValueDoesNotMatchRegex`](src/ConstraintViolation/ValueDoesNotMatchRegex.php) violation has:
 
 > Property "#/id" does not match regex "/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/".
+
+### Why [`ValidationError`](src/Exception/ValidationError.php) exception contains [`ConstraintViolationCollection`](src/ConstraintViolation/ConstraintViolationCollection.php) (collection of constraint violations), not a single violation?
+
+Your deserializers should return as much constraint violations as possible in one time for better user experience. Check out simple [`StringDeserializer`](src/Deserializer/StringDeserializer.php) to see how it may be implemented in your deserializers.
