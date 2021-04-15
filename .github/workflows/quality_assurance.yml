@@ -1,0 +1,31 @@
+name: Quality assurance
+
+on: push
+
+jobs:
+  phpunit:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup PHP
+
+      run: |
+        sudo add-apt-repository ppa:ondrej/php
+        sudo apt-get update
+        sudo apt-get install php8.0
+
+    - name: Setup Composer
+      run: |
+        mkdir --parent "$HOME/.local/bin"
+        echo "$HOME/.local/bin" >> $GITHUB_PATH
+        wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/installer -O - -q | php -- --quiet --install-dir="$HOME/.local/bin" --filename=composer
+
+    - name: Checkout repository
+      uses: actions/checkout@master
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Run PHP-CS-Fixer
+      run: vendor/bin/php-cs-fixer fix --config=.php_cs --verbose --allow-risky=yes --dry-run

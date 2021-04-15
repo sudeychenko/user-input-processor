@@ -1,0 +1,51 @@
+{
+  "name": "flaksp/user-input-deserializer",
+  "description": "Deserializer and validator for any kind of user input.",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/flaksp/user-input-deserializer",
+  "readme": "./README.md",
+  "keywords": [
+    "deserializer",
+    "validator",
+    "forms"
+  ],
+  "authors": [
+    {
+      "name": "Petr Flaks",
+      "email": "petr@flaks.dev",
+      "homepage": "https://flaks.dev",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/flaksp/user-input-deserializer/issues",
+    "forum": "https://github.com/flaksp/user-input-deserializer/discussions",
+    "source": "https://github.com/flaksp/user-input-deserializer",
+    "docs": "https://github.com/flaksp/user-input-deserializer/blob/main/README.md"
+  },
+  "require": {
+    "php": ">= 8.0",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "2.18.4",
+    "phpunit/phpunit": "9.5.2",
+    "rector/rector": "0.9.28",
+    "slevomat/coding-standard": "6.4.1",
+    "squizlabs/php_codesniffer": "3.5.8"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Flaksp\\UserInputDeserializer\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\Flaksp\\UserInputDeserializer\\": "tests/"
+    }
+  }
+}
