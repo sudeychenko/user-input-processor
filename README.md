@@ -1,4 +1,4 @@
-# flaksp/user-input-deserializer
+# flaksp/user-input-processor
 
 Deserializes and validates any kind of user input, so it may be easily used in:
 
@@ -12,10 +12,10 @@ Deserializes and validates any kind of user input, so it may be easily used in:
 
 ***Warning:** At this moment the library is being tested in real projects to detect possible problems in its design, so API changes are possible. Please wait for stable version.*
 
-PHP 8.0 or newer is required. The library is available in [Packagist](https://packagist.org/packages/flaksp/user-input-deserializer) and may be installed with Composer:
+PHP 8.0 or newer is required. The library is available in [Packagist](https://packagist.org/packages/flaksp/user-input-processor) and may be installed with Composer:
 
 ```console
-composer require flaksp/user-input-deserializer
+composer require flaksp/user-input-processor
 ```
 
 ## Conception

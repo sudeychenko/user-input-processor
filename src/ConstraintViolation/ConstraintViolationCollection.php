@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer\ConstraintViolation;
+namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
 use ArrayAccess;
 use ArrayIterator;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer\Exception;
+namespace Flaksp\UserInputProcessor\Exception;
 
-use Flaksp\UserInputDeserializer\ConstraintViolation\ConstraintViolationCollection;
+use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use InvalidArgumentException;
 
 final class ValidationError extends InvalidArgumentException

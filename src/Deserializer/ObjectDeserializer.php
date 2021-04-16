@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer\Deserializer;
+namespace Flaksp\UserInputProcessor\Deserializer;
 
-use Flaksp\UserInputDeserializer\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputDeserializer\ConstraintViolation\MandatoryFieldMissing;
-use Flaksp\UserInputDeserializer\ConstraintViolation\WrongDiscriminatorValue;
-use Flaksp\UserInputDeserializer\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputDeserializer\Exception\ValidationError;
-use Flaksp\UserInputDeserializer\JsonPointer;
-use Flaksp\UserInputDeserializer\ObjectDiscriminatorFields;
-use Flaksp\UserInputDeserializer\ObjectStaticFields;
+use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use Flaksp\UserInputProcessor\ConstraintViolation\WrongDiscriminatorValue;
+use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Flaksp\UserInputProcessor\Exception\ValidationError;
+use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
+use Flaksp\UserInputProcessor\ObjectStaticFields;
 
 final class ObjectDeserializer
 {

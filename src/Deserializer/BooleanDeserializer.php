@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer\Deserializer;
+namespace Flaksp\UserInputProcessor\Deserializer;
 
-use Flaksp\UserInputDeserializer\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputDeserializer\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputDeserializer\Exception\ValidationError;
-use Flaksp\UserInputDeserializer\JsonPointer;
+use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Flaksp\UserInputProcessor\Exception\ValidationError;
+use Flaksp\UserInputProcessor\JsonPointer;
 
 final class BooleanDeserializer
 {

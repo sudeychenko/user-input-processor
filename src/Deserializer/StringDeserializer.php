@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer\Deserializer;
+namespace Flaksp\UserInputProcessor\Deserializer;
 
-use Flaksp\UserInputDeserializer\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputDeserializer\ConstraintViolation\StringIsTooLong;
-use Flaksp\UserInputDeserializer\ConstraintViolation\StringIsTooShort;
-use Flaksp\UserInputDeserializer\ConstraintViolation\ValueDoesNotMatchRegex;
-use Flaksp\UserInputDeserializer\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputDeserializer\Exception\ValidationError;
-use Flaksp\UserInputDeserializer\JsonPointer;
+use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Flaksp\UserInputProcessor\ConstraintViolation\StringIsTooLong;
+use Flaksp\UserInputProcessor\ConstraintViolation\StringIsTooShort;
+use Flaksp\UserInputProcessor\ConstraintViolation\ValueDoesNotMatchRegex;
+use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Flaksp\UserInputProcessor\Exception\ValidationError;
+use Flaksp\UserInputProcessor\JsonPointer;
 use LogicException;
 
 final class StringDeserializer

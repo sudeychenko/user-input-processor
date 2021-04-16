@@ -1,9 +1,9 @@
 {
-  "name": "flaksp/user-input-deserializer",
+  "name": "flaksp/user-input-processor",
   "description": "Deserializer and validator for any kind of user input.",
   "type": "library",
   "license": "MIT",
-  "homepage": "https://github.com/flaksp/user-input-deserializer",
+  "homepage": "https://github.com/flaksp/user-input-processor",
   "readme": "./README.md",
   "keywords": [
     "deserializer",
@@ -19,10 +19,10 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/flaksp/user-input-deserializer/issues",
-    "forum": "https://github.com/flaksp/user-input-deserializer/discussions",
-    "source": "https://github.com/flaksp/user-input-deserializer",
-    "docs": "https://github.com/flaksp/user-input-deserializer/blob/main/README.md"
+    "issues": "https://github.com/flaksp/user-input-processor/issues",
+    "forum": "https://github.com/flaksp/user-input-processor/discussions",
+    "source": "https://github.com/flaksp/user-input-processor",
+    "docs": "https://github.com/flaksp/user-input-processor/blob/main/README.md"
   },
   "require": {
     "php": ">= 8.0",
@@ -40,12 +40,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Flaksp\\UserInputDeserializer\\": "src/"
+      "Flaksp\\UserInputProcessor\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Flaksp\\UserInputDeserializer\\": "tests/"
+      "Tests\\Flaksp\\UserInputProcessor\\": "tests/"
     }
   }
 }

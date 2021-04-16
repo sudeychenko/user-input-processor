@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer;
+namespace Flaksp\UserInputProcessor;
 
 final class JsonPointer
 {

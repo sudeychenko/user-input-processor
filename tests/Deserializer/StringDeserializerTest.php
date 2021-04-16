@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Flaksp\UserInputDeserializer\Deserializer;
+namespace Tests\Flaksp\UserInputProcessor\Deserializer;
 
-use Flaksp\UserInputDeserializer\Deserializer\StringDeserializer;
-use Flaksp\UserInputDeserializer\JsonPointer;
+use Flaksp\UserInputProcessor\Deserializer\StringDeserializer;
+use Flaksp\UserInputProcessor\JsonPointer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Flaksp\UserInputDeserializer\StringDeserializer
+ * @covers \Flaksp\UserInputProcessor\StringDeserializer
  *
  * @internal
  */

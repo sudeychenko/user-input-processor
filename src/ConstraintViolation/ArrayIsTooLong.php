@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer\ConstraintViolation;
+namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputDeserializer\JsonPointer;
+use Flaksp\UserInputProcessor\JsonPointer;
 
 final class ArrayIsTooLong implements ConstraintViolationInterface
 {

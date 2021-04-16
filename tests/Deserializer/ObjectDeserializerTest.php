@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Flaksp\UserInputDeserializer\Deserializer;
+namespace Tests\Flaksp\UserInputProcessor\Deserializer;
 
-use Flaksp\UserInputDeserializer\ConstraintViolation\MandatoryFieldMissing;
-use Flaksp\UserInputDeserializer\Deserializer\ObjectDeserializer;
-use Flaksp\UserInputDeserializer\Deserializer\StringDeserializer;
-use Flaksp\UserInputDeserializer\Exception\ValidationError;
-use Flaksp\UserInputDeserializer\JsonPointer;
-use Flaksp\UserInputDeserializer\ObjectDiscriminatorFields;
-use Flaksp\UserInputDeserializer\ObjectField;
-use Flaksp\UserInputDeserializer\ObjectStaticFields;
+use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use Flaksp\UserInputProcessor\Deserializer\ObjectDeserializer;
+use Flaksp\UserInputProcessor\Deserializer\StringDeserializer;
+use Flaksp\UserInputProcessor\Exception\ValidationError;
+use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
+use Flaksp\UserInputProcessor\ObjectField;
+use Flaksp\UserInputProcessor\ObjectStaticFields;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Flaksp\UserInputDeserializer\Deserializer\ObjectDeserializer
+ * @covers \Flaksp\UserInputProcessor\Deserializer\ObjectDeserializer
  *
  * @internal
  */

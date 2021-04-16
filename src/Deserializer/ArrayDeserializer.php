@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputDeserializer\Deserializer;
+namespace Flaksp\UserInputProcessor\Deserializer;
 
 use Closure;
-use Flaksp\UserInputDeserializer\ConstraintViolation\ArrayIsTooLong;
-use Flaksp\UserInputDeserializer\ConstraintViolation\ArrayIsTooShort;
-use Flaksp\UserInputDeserializer\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputDeserializer\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputDeserializer\Exception\ValidationError;
-use Flaksp\UserInputDeserializer\JsonPointer;
+use Flaksp\UserInputProcessor\ConstraintViolation\ArrayIsTooLong;
+use Flaksp\UserInputProcessor\ConstraintViolation\ArrayIsTooShort;
+use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Flaksp\UserInputProcessor\Exception\ValidationError;
+use Flaksp\UserInputProcessor\JsonPointer;
 use LogicException;
 
 final class ArrayDeserializer
