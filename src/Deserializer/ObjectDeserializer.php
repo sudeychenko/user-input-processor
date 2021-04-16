@@ -25,7 +25,7 @@ final class ObjectDeserializer
     }
 
     public function deserializeDynamicFields(
-        $data,
+        mixed $data,
         string $discriminatorFieldName,
         ObjectDiscriminatorFields $discriminatorFields,
         JsonPointer $pointer,
@@ -73,7 +73,7 @@ final class ObjectDeserializer
     }
 
     public function deserializeStaticFields(
-        $data,
+        mixed $data,
         ObjectStaticFields $staticFields,
         JsonPointer $pointer,
         bool $isNullable = false,

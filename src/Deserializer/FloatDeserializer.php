@@ -15,7 +15,7 @@ use LogicException;
 final class FloatDeserializer
 {
     public function deserialize(
-        $data,
+        mixed $data,
         JsonPointer $pointer,
         bool $isNullable = false,
         int $minimum = null,

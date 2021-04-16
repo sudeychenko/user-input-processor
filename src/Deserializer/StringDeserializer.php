@@ -16,7 +16,7 @@ use LogicException;
 final class StringDeserializer
 {
     public function deserialize(
-        $data,
+        mixed $data,
         JsonPointer $pointer,
         bool $isNullable = false,
         int $minLength = null,

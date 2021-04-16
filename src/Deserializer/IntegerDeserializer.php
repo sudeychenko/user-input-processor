@@ -15,7 +15,7 @@ use LogicException;
 final class IntegerDeserializer
 {
     public function deserialize(
-        $data,
+        mixed $data,
         JsonPointer $pointer,
         bool $isNullable = false,
         int $minimum = null,

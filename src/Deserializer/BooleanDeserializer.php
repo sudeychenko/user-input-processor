@@ -12,7 +12,7 @@ use Flaksp\UserInputDeserializer\JsonPointer;
 final class BooleanDeserializer
 {
     public function deserialize(
-        $data,
+        mixed $data,
         JsonPointer $pointer,
         bool $isNullable = false,
     ): ?bool {
