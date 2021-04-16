@@ -113,7 +113,7 @@ final class ObjectDeserializer
             }
         }
 
-        if ($violations->count() > 0) {
+        if ($violations->isNotEmpty()) {
             throw new ValidationError($violations);
         }
 

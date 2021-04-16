@@ -84,6 +84,11 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
         return isset($this->violations[$offset]);
     }
 
+    public function isNotEmpty(): bool
+    {
+        return 0 !== $this->count();
+    }
+
     /**
      * @param mixed $offset
      *

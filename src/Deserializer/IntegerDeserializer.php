@@ -55,7 +55,7 @@ final class IntegerDeserializer
             );
         }
 
-        if (\count($violations) > 0) {
+        if ($violations->isNotEmpty()) {
             throw new ValidationError($violations);
         }
 
