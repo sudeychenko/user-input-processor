@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Deserializer;
+namespace Flaksp\UserInputProcessor\Denormalizer;
 
 use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
 use Flaksp\UserInputProcessor\JsonPointer;
 
-final class BooleanDeserializer
+final class BooleanDenormalizer
 {
-    public function deserialize(
+    public function denormalize(
         mixed $data,
         JsonPointer $pointer,
         bool $isNullable = false,

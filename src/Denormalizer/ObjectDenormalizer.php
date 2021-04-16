@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Deserializer;
+namespace Flaksp\UserInputProcessor\Denormalizer;
 
 use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
@@ -13,7 +13,7 @@ use Flaksp\UserInputProcessor\JsonPointer;
 use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
 use Flaksp\UserInputProcessor\ObjectStaticFields;
 
-final class ObjectDeserializer
+final class ObjectDenormalizer
 {
     public static function isAssocArray(array $array): bool
     {
@@ -24,7 +24,7 @@ final class ObjectDeserializer
         return array_keys($array) !== range(0, \count($array) - 1);
     }
 
-    public function deserializeDynamicFields(
+    public function denormalizeDynamicFields(
         mixed $data,
         string $discriminatorFieldName,
         ObjectDiscriminatorFields $discriminatorFields,
@@ -64,7 +64,7 @@ final class ObjectDeserializer
             throw new ValidationError($violations);
         }
 
-        return $this->deserializeStaticFields(
+        return $this->denormalizeStaticFields(
             $data,
             $discriminatorFields->getStaticFieldsByDiscriminatorValue($data[$discriminatorFieldName]),
             $pointer,
@@ -72,7 +72,7 @@ final class ObjectDeserializer
         );
     }
 
-    public function deserializeStaticFields(
+    public function denormalizeStaticFields(
         mixed $data,
         ObjectStaticFields $staticFields,
         JsonPointer $pointer,
@@ -104,7 +104,7 @@ final class ObjectDeserializer
             }
 
             try {
-                $data[$fieldName] = $fieldDefinition->getDeserializer()(
+                $data[$fieldName] = $fieldDefinition->getDenormalizer()(
                     $data[$fieldName],
                     JsonPointer::append($pointer, $fieldName)
                 );

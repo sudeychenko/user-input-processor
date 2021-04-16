@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Deserializer;
+namespace Flaksp\UserInputProcessor\Denormalizer;
 
 use Closure;
 use Flaksp\UserInputProcessor\ConstraintViolation\ArrayIsTooLong;
@@ -13,12 +13,12 @@ use Flaksp\UserInputProcessor\Exception\ValidationError;
 use Flaksp\UserInputProcessor\JsonPointer;
 use LogicException;
 
-final class ArrayDeserializer
+final class ArrayDenormalizer
 {
-    public function deserialize(
+    public function denormalize(
         mixed $data,
         JsonPointer $pointer,
-        Closure $deserializer,
+        Closure $denormalizer,
         bool $isNullable = false,
         int $minItems = null,
         int $maxItems = null,
@@ -43,7 +43,7 @@ final class ArrayDeserializer
             throw new ValidationError($violations);
         }
 
-        if (ObjectDeserializer::isAssocArray($data)) {
+        if (ObjectDenormalizer::isAssocArray($data)) {
             $violations[] = new WrongPropertyType(
                 $pointer,
                 WrongPropertyType::JSON_TYPE_OBJECT,
@@ -73,7 +73,7 @@ final class ArrayDeserializer
 
         foreach ($data as $index => $indexedData) {
             try {
-                $data[$index] = $deserializer(
+                $data[$index] = $denormalizer(
                     $data[$index],
                     JsonPointer::append($pointer, $index)
                 );

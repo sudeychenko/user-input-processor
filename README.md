@@ -1,6 +1,6 @@
 # flaksp/user-input-processor
 
-Deserializes and validates any kind of user input, so it may be easily used in:
+Denormalizes and validates any kind of user input, so it may be easily used in:
 
 * HTML forms
 * APIs
@@ -20,14 +20,14 @@ composer require flaksp/user-input-processor
 
 ## Conception
 
-### Deserializer
+### Denormalizer
 
-Deserializer is something that should be used to validate and deserialize data. It may also re-use other deserializers, which should be passed via [dependency injection](https://en.wikipedia.org/wiki/Dependency_injection).
+Denormalizer is something that should be used to validate and denormalize data. It may also re-use other denormalizers, which should be passed via [dependency injection](https://en.wikipedia.org/wiki/Dependency_injection).
 
-* If deserialization was successful, deserializer may return anything: unmodified data, [DTO](https://en.wikipedia.org/wiki/Data_transfer_object) or [value object](https://en.wikipedia.org/wiki/Value_object).
-* If validation error happened (e.g. email has invalid format), deserializer throws [`ValidationError`](src/Exception/ValidationError.php) exception that has [`ConstraintViolationCollection`](src/ConstraintViolation/ConstraintViolationCollection.php).
+* If denormalization was successful, denormalizer may return anything: unmodified data, [DTO](https://en.wikipedia.org/wiki/Data_transfer_object) or [value object](https://en.wikipedia.org/wiki/Value_object).
+* If validation error happened (e.g. email has invalid format), denormalizer throws [`ValidationError`](src/Exception/ValidationError.php) exception that has [`ConstraintViolationCollection`](src/ConstraintViolation/ConstraintViolationCollection.php).
 
-The library is bundled with some basic deserializers for each type that may appear in JSON. Most of them come with validation options inspired by [JSON Schema specification](https://json-schema.org/specification.html). Opinionated deserializers and constraint violations for emails, phone numbers, IP addresses and for other cases are out of scope of the library.
+The library is bundled with some basic denormalizers for each type that may appear in JSON. Most of them come with validation options inspired by [JSON Schema specification](https://json-schema.org/specification.html). Opinionated denormalizers and constraint violations for emails, phone numbers, IP addresses and for other cases are out of scope of the library.
 
 ### Constraint violation
 
@@ -43,7 +43,7 @@ Any class implementing the interface may add its own public methods specific to 
 
 ### How to get localized validation error message for user?
 
-There is no such functionality out-of-the-box, because formatting error messages for end-user is not something deserializer and validator should do. It should be implemented on another abstraction layer. It should be a method in another service that accepts [`ConstraintViolationInterface`](src/ConstraintViolation/ConstraintViolationInterface.php) and returns localized error message for user.
+There is no such functionality out-of-the-box, because formatting error messages for end-user is not something denormalizer and validator should do. It should be implemented on another abstraction layer. It should be a method in another service that accepts [`ConstraintViolationInterface`](src/ConstraintViolation/ConstraintViolationInterface.php) and returns localized error message for user.
 
 `public function getDescription(): string` method exists only for debugging and logging purposes. This value is not recommended being rendered in UI because some constraints may contain very nerd messages like [`ValueDoesNotMatchRegex`](src/ConstraintViolation/ValueDoesNotMatchRegex.php) violation has:
 
@@ -51,4 +51,4 @@ There is no such functionality out-of-the-box, because formatting error messages
 
 ### Why [`ValidationError`](src/Exception/ValidationError.php) exception contains [`ConstraintViolationCollection`](src/ConstraintViolation/ConstraintViolationCollection.php) (collection of constraint violations), not a single violation?
 
-Your deserializers should return as much constraint violations as possible in one time for better user experience. Check out simple [`StringDeserializer`](src/Deserializer/StringDeserializer.php) to see how it may be implemented in your deserializers.
+Your denormalizers should return as much constraint violations as possible in one time for better user experience. Check out simple [`StringDenormalizer`](src/Denormalizer/StringDenormalizer.php) to see how it may be implemented in your denormalizers.

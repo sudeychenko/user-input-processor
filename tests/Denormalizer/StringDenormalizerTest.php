@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Tests\Flaksp\UserInputProcessor\Deserializer;
+namespace Tests\Flaksp\UserInputProcessor\Denormalizer;
 
-use Flaksp\UserInputProcessor\Deserializer\StringDeserializer;
+use Flaksp\UserInputProcessor\Denormalizer\StringDenormalizer;
 use Flaksp\UserInputProcessor\JsonPointer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Flaksp\UserInputProcessor\StringDeserializer
+ * @covers \Flaksp\UserInputProcessor\StringDenormalizer
  *
  * @internal
  */
-final class StringDeserializerTest extends TestCase
+final class StringDenormalizerTest extends TestCase
 {
     public function successfulScenarioDataProvider(): array
     {
@@ -28,12 +28,12 @@ final class StringDeserializerTest extends TestCase
     /**
      * @dataProvider successfulScenarioDataProvider
      */
-    public function testSuccessfulDeserialization(
+    public function testSuccessfulDenormalization(
         string $payload
     ): void {
-        $stringDeserializer = new StringDeserializer();
+        $stringDenormalizer = new StringDenormalizer();
 
-        $data = $stringDeserializer->deserialize(
+        $data = $stringDenormalizer->denormalize(
             $payload,
             JsonPointer::empty(),
             isNullable: false,

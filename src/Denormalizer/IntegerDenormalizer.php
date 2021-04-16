@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Deserializer;
+namespace Flaksp\UserInputProcessor\Denormalizer;
 
 use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use Flaksp\UserInputProcessor\ConstraintViolation\IntegerIsTooBig;
@@ -12,15 +12,15 @@ use Flaksp\UserInputProcessor\Exception\ValidationError;
 use Flaksp\UserInputProcessor\JsonPointer;
 use LogicException;
 
-final class FloatDeserializer
+final class IntegerDenormalizer
 {
-    public function deserialize(
+    public function denormalize(
         mixed $data,
         JsonPointer $pointer,
         bool $isNullable = false,
         int $minimum = null,
         int $maximum = null,
-    ): ?float {
+    ): ?int {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
         }
@@ -31,11 +31,11 @@ final class FloatDeserializer
 
         $violations = new ConstraintViolationCollection();
 
-        if (!\is_float($data)) {
+        if (!\is_int($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
                 $pointer,
                 $data,
-                [WrongPropertyType::JSON_TYPE_FLOAT]
+                [WrongPropertyType::JSON_TYPE_INTEGER]
             );
 
             throw new ValidationError($violations);

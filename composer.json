@@ -1,12 +1,12 @@
 {
   "name": "flaksp/user-input-processor",
-  "description": "Deserializer and validator for any kind of user input.",
+  "description": "Denormalizer and validator for any kind of user input.",
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/flaksp/user-input-processor",
   "readme": "./README.md",
   "keywords": [
-    "deserializer",
+    "denormalizer",
     "validator",
     "forms"
   ],

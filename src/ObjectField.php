@@ -9,14 +9,14 @@ use Closure;
 class ObjectField
 {
     public function __construct(
-        private Closure $deserializer,
+        private Closure $denormalizer,
         private bool $isMandatory = true
     ) {
     }
 
-    public function getDeserializer(): Closure
+    public function getDenormalizer(): Closure
     {
-        return $this->deserializer;
+        return $this->denormalizer;
     }
 
     public function isMandatory(): bool
