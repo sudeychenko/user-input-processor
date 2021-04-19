@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class IntegerIsTooBig implements ConstraintViolationInterface
 {
     public const TYPE = 'integer_is_too_big';
 
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private int $max
     ) {
     }
@@ -34,7 +34,7 @@ final class IntegerIsTooBig implements ConstraintViolationInterface
         return $this->max;
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

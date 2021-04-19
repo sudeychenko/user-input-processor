@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
 {
     public const TYPE = 'value_does_not_match_regex';
 
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private string $regex
     ) {
     }
@@ -30,7 +30,7 @@ final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
         );
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

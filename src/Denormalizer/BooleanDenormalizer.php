@@ -7,13 +7,13 @@ namespace Flaksp\UserInputProcessor\Denormalizer;
 use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class BooleanDenormalizer
 {
     public function denormalize(
         mixed $data,
-        JsonPointer $pointer,
+        AbstractPointer $pointer,
         bool $isNullable = false,
     ): ?bool {
         if (null === $data && $isNullable) {

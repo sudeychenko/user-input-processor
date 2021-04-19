@@ -9,14 +9,14 @@ use Flaksp\UserInputProcessor\ConstraintViolation\IntegerIsTooBig;
 use Flaksp\UserInputProcessor\ConstraintViolation\IntegerIsTooSmall;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 use LogicException;
 
 final class FloatDenormalizer
 {
     public function denormalize(
         mixed $data,
-        JsonPointer $pointer,
+        AbstractPointer $pointer,
         bool $isNullable = false,
         int $minimum = null,
         int $maximum = null,

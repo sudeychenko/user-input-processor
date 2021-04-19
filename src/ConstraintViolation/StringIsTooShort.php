@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class StringIsTooShort implements ConstraintViolationInterface
 {
     public const TYPE = 'string_is_too_short';
 
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private int $minLength
     ) {
     }
@@ -34,7 +34,7 @@ final class StringIsTooShort implements ConstraintViolationInterface
         return $this->minLength;
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

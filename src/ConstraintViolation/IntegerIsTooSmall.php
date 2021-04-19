@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class IntegerIsTooSmall implements ConstraintViolationInterface
 {
     public const TYPE = 'integer_is_too_small';
 
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private int $min
     ) {
     }
@@ -34,7 +34,7 @@ final class IntegerIsTooSmall implements ConstraintViolationInterface
         return $this->min;
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

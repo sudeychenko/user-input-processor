@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 interface ConstraintViolationInterface
 {
@@ -12,5 +12,5 @@ interface ConstraintViolationInterface
 
     public function getDescription(): string;
 
-    public function getPointer(): JsonPointer;
+    public function getPointer(): AbstractPointer;
 }

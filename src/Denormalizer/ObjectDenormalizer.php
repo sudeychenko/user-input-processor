@@ -9,7 +9,7 @@ use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongDiscriminatorValue;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
 use Flaksp\UserInputProcessor\ObjectStaticFields;
 
@@ -28,7 +28,7 @@ final class ObjectDenormalizer
         mixed $data,
         string $discriminatorFieldName,
         ObjectDiscriminatorFields $discriminatorFields,
-        JsonPointer $pointer,
+        AbstractPointer $pointer,
         bool $isNullable = false,
     ): ?array {
         if (null === $data && $isNullable) {
@@ -49,7 +49,7 @@ final class ObjectDenormalizer
 
         if (!\array_key_exists($discriminatorFieldName, $data)) {
             $violations[] = new MandatoryFieldMissing(
-                JsonPointer::append($pointer, $discriminatorFieldName),
+                AbstractPointer::append($pointer, $discriminatorFieldName),
             );
 
             throw new ValidationError($violations);
@@ -57,7 +57,7 @@ final class ObjectDenormalizer
 
         if (!\in_array($data[$discriminatorFieldName], $discriminatorFields->getPossibleDiscriminatorValues(), true)) {
             $violations[] = new WrongDiscriminatorValue(
-                JsonPointer::append($pointer, $discriminatorFieldName),
+                AbstractPointer::append($pointer, $discriminatorFieldName),
                 $discriminatorFields->getPossibleDiscriminatorValues(),
             );
 
@@ -75,7 +75,7 @@ final class ObjectDenormalizer
     public function denormalizeStaticFields(
         mixed $data,
         ObjectStaticFields $staticFields,
-        JsonPointer $pointer,
+        AbstractPointer $pointer,
         bool $isNullable = false,
     ): ?array {
         if (null === $data && $isNullable) {
@@ -97,7 +97,7 @@ final class ObjectDenormalizer
         foreach ($staticFields->getFields() as $fieldName => $fieldDefinition) {
             if (!\array_key_exists($fieldName, $data)) {
                 if ($fieldDefinition->isMandatory()) {
-                    $violations[] = new MandatoryFieldMissing(JsonPointer::append($pointer, $fieldName));
+                    $violations[] = new MandatoryFieldMissing(AbstractPointer::append($pointer, $fieldName));
                 }
 
                 continue;
@@ -106,7 +106,7 @@ final class ObjectDenormalizer
             try {
                 $data[$fieldName] = $fieldDefinition->getDenormalizer()(
                     $data[$fieldName],
-                    JsonPointer::append($pointer, $fieldName)
+                    AbstractPointer::append($pointer, $fieldName)
                 );
             } catch (ValidationError $e) {
                 $violations->addAll($e->getViolations());

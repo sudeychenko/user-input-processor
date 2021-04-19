@@ -10,14 +10,14 @@ use Flaksp\UserInputProcessor\ConstraintViolation\ArrayIsTooShort;
 use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 use LogicException;
 
 final class ArrayDenormalizer
 {
     public function denormalize(
         mixed $data,
-        JsonPointer $pointer,
+        AbstractPointer $pointer,
         Closure $denormalizer,
         bool $isNullable = false,
         int $minItems = null,
@@ -75,7 +75,7 @@ final class ArrayDenormalizer
             try {
                 $data[$index] = $denormalizer(
                     $data[$index],
-                    JsonPointer::append($pointer, $index)
+                    AbstractPointer::append($pointer, $index)
                 );
             } catch (ValidationError $e) {
                 $violations->addAll($e->getViolations());

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class WrongDiscriminatorValue implements ConstraintViolationInterface
 {
@@ -14,7 +14,7 @@ final class WrongDiscriminatorValue implements ConstraintViolationInterface
      * @param string[] $possibleValues
      */
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private array $possibleValues
     ) {
     }
@@ -33,7 +33,7 @@ final class WrongDiscriminatorValue implements ConstraintViolationInterface
         );
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

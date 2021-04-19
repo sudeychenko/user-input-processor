@@ -8,7 +8,7 @@ use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
 use Flaksp\UserInputProcessor\Denormalizer\ObjectDenormalizer;
 use Flaksp\UserInputProcessor\Denormalizer\StringDenormalizer;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
 use Flaksp\UserInputProcessor\ObjectField;
 use Flaksp\UserInputProcessor\ObjectStaticFields;
@@ -69,21 +69,21 @@ final class ObjectDenormalizerTest extends TestCase
         $objectDenormalizer = new ObjectDenormalizer();
         $stringDenormalizer = new StringDenormalizer();
 
-        $pointer = JsonPointer::empty();
+        $pointer = AbstractPointer::empty();
 
         $data = $objectDenormalizer->denormalizeStaticFields(
             $payload,
             new ObjectStaticFields([
                 'foo' => new ObjectField(
-                    static fn ($data) => $stringDenormalizer->denormalize($data, JsonPointer::append($pointer, 'foo')),
+                    static fn ($data) => $stringDenormalizer->denormalize($data, AbstractPointer::append($pointer, 'foo')),
                     isMandatory: true,
                 ),
                 'bar' => new ObjectField(
-                    static fn ($data) => $stringDenormalizer->denormalize($data, JsonPointer::append($pointer, 'bar'), isNullable: true),
+                    static fn ($data) => $stringDenormalizer->denormalize($data, AbstractPointer::append($pointer, 'bar'), isNullable: true),
                     isMandatory: true,
                 ),
                 'baz' => new ObjectField(
-                    static fn ($data) => $stringDenormalizer->denormalize($data, JsonPointer::append($pointer, 'baz')),
+                    static fn ($data) => $stringDenormalizer->denormalize($data, AbstractPointer::append($pointer, 'baz')),
                     isMandatory: false,
                 ),
             ]),
@@ -103,7 +103,7 @@ final class ObjectDenormalizerTest extends TestCase
         $objectDenormalizer = new ObjectDenormalizer();
         $stringDenormalizer = new StringDenormalizer();
 
-        $pointer = JsonPointer::empty();
+        $pointer = AbstractPointer::empty();
 
         $data = $objectDenormalizer->denormalizeDynamicFields(
             $payload,
@@ -138,7 +138,7 @@ final class ObjectDenormalizerTest extends TestCase
         $objectDenormalizer = new ObjectDenormalizer();
         $stringDenormalizer = new StringDenormalizer();
 
-        $pointer = JsonPointer::empty();
+        $pointer = AbstractPointer::empty();
 
         try {
             $objectDenormalizer->denormalizeStaticFields(
@@ -147,15 +147,15 @@ final class ObjectDenormalizerTest extends TestCase
                 ],
                 new ObjectStaticFields([
                     'foo' => new ObjectField(
-                        static fn ($data) => $stringDenormalizer->denormalize($data, JsonPointer::append($pointer, 'foo')),
+                        static fn ($data) => $stringDenormalizer->denormalize($data, AbstractPointer::append($pointer, 'foo')),
                         isMandatory: true,
                     ),
                     'bar' => new ObjectField(
-                        static fn ($data) => $stringDenormalizer->denormalize($data, JsonPointer::append($pointer, 'bar'), isNullable: true),
+                        static fn ($data) => $stringDenormalizer->denormalize($data, AbstractPointer::append($pointer, 'bar'), isNullable: true),
                         isMandatory: true,
                     ),
                     'baz' => new ObjectField(
-                        static fn ($data) => $stringDenormalizer->denormalize($data, JsonPointer::append($pointer, 'baz')),
+                        static fn ($data) => $stringDenormalizer->denormalize($data, AbstractPointer::append($pointer, 'baz')),
                         isMandatory: false,
                     ),
                 ]),

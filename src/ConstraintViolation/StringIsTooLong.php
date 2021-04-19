@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class StringIsTooLong implements ConstraintViolationInterface
 {
     public const TYPE = 'string_is_too_long';
 
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private int $maxLength
     ) {
     }
@@ -34,7 +34,7 @@ final class StringIsTooLong implements ConstraintViolationInterface
         return $this->maxLength;
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

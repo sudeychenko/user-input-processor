@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 
 final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
 {
     public const TYPE = 'array_should_have_exact_length';
 
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private int $length
     ) {
     }
@@ -35,7 +35,7 @@ final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
         return $this->length;
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 use RuntimeException;
 
 final class WrongPropertyType implements ConstraintViolationInterface
@@ -20,7 +20,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     public const TYPE = 'wrong_property_type';
 
     public function __construct(
-        private JsonPointer $pointer,
+        private AbstractPointer $pointer,
         private string $givenType,
         private array $allowedTypes,
     ) {
@@ -32,7 +32,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     }
 
     public static function guessGivenType(
-        JsonPointer $pointer,
+        AbstractPointer $pointer,
         $givenValue,
         array $allowedTypes,
     ): self {
@@ -66,7 +66,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
         return $this->givenType;
     }
 
-    public function getPointer(): JsonPointer
+    public function getPointer(): AbstractPointer
     {
         return $this->pointer;
     }

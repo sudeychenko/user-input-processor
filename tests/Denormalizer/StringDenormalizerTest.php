@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Flaksp\UserInputProcessor\Denormalizer;
 
 use Flaksp\UserInputProcessor\Denormalizer\StringDenormalizer;
-use Flaksp\UserInputProcessor\JsonPointer;
+use Flaksp\UserInputProcessor\AbstractPointer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +35,7 @@ final class StringDenormalizerTest extends TestCase
 
         $data = $stringDenormalizer->denormalize(
             $payload,
-            JsonPointer::empty(),
+            AbstractPointer::empty(),
             isNullable: false,
             minLength: 1,
         );
