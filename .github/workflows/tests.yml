@@ -4,12 +4,12 @@ on: push
 
 jobs:
   phpunit:
-    name: PHPUnit
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
         php: ["8.0"]
+
+    name: PHPUnit (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
 
     steps:
     - name: Setup PHP ${{ matrix.php }}
