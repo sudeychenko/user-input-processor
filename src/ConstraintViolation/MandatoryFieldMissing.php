@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class MandatoryFieldMissing implements ConstraintViolationInterface
 {
     public const TYPE = 'mandatory_field_missing';
 
     public function __construct(
-        private AbstractPointer $pointer
+        private Pointer $pointer
     ) {
     }
 
@@ -22,13 +22,10 @@ final class MandatoryFieldMissing implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return sprintf(
-            'Property "%s" is mandatory, but it\'s missing. Even if field is nullable it should be presented in request payload.',
-            $this->pointer->getPointer()
-        );
+        return 'Property is mandatory, but it\'s missing. Even if field is nullable it should be presented in request payload.';
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

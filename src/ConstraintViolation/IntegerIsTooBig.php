@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class IntegerIsTooBig implements ConstraintViolationInterface
 {
     public const TYPE = 'integer_is_too_big';
 
     public function __construct(
-        private AbstractPointer $pointer,
+        private Pointer $pointer,
         private int $max
     ) {
     }
@@ -23,10 +23,7 @@ final class IntegerIsTooBig implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return sprintf(
-            'Property "%s" contains too big integer.',
-            $this->pointer->getPointer(),
-        );
+        return 'Property contains too big integer.';
     }
 
     public function getMax(): int
@@ -34,7 +31,7 @@ final class IntegerIsTooBig implements ConstraintViolationInterface
         return $this->max;
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

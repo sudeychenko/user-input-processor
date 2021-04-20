@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 use RuntimeException;
 
 final class WrongPropertyType implements ConstraintViolationInterface
@@ -20,7 +20,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     public const TYPE = 'wrong_property_type';
 
     public function __construct(
-        private AbstractPointer $pointer,
+        private Pointer $pointer,
         private string $givenType,
         private array $allowedTypes,
     ) {
@@ -32,7 +32,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     }
 
     public static function guessGivenType(
-        AbstractPointer $pointer,
+        Pointer $pointer,
         $givenValue,
         array $allowedTypes,
     ): self {
@@ -54,8 +54,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     public function getDescription(): string
     {
         return sprintf(
-            'Property "%s" is %s type, but only following types are allowed: %s',
-            $this->pointer->getPointer(),
+            'Property is %s type, but only following types are allowed: %s',
             $this->givenType,
             implode(', ', $this->allowedTypes)
         );
@@ -66,7 +65,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
         return $this->givenType;
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

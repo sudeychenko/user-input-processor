@@ -33,11 +33,32 @@ The library is bundled with some basic denormalizers for each type that may appe
 
 Constraint violation object describes which field contains invalid value. [`ConstraintViolationInterface`](src/ConstraintViolation/ConstraintViolationInterface.php) has several public methods:
 
-* `public static function getType(): string` — returns constraint violation type. It is a string identifier of an error (e.g. `string_is_too_long`).
-* `public function getDescription(): string` — returns human-readable description of an error. Content of this field is a message for development purposes, and it's not intended to be shown to the end user.
-* `public function getPointer(): JsonPointer` — returns path to the invalid property in [JSON Pointer](https://tools.ietf.org/html/rfc6901) format (e.g. `#/users/0/id`).
+* `public static function getType(): string` — constraint violation type. It is a string identifier of an error (e.g. `string_is_too_long`).
+* `public function getDescription(): string` — human-readable description of an error. Content of this field is a message for development purposes, and it's not intended to be shown to the end user.
+* `public function getPointer(): Pointer` — path to the invalid property.
 
 Any class implementing the interface may add its own public methods specific to its kind of constraint. For example, class [`StringIsTooLong`](src/ConstraintViolation/StringIsTooLong.php) has extra public method `public function getMaxLength(): int` that allows to get max length from the violation.
+
+### Pointer
+
+Every denormalizer and constraint violation accepts [`Pointer`](src/Pointer.php) as an argument. Pointer is a special object that contains path to your property. In most cases you will create only one pointer per form as `Pointer::empty()` for root object denormalizer.
+
+Pointer may be easily converted to something specific to be shown to your client applications. For example, you may serialize it to [JSON Pointer](https://tools.ietf.org/html/rfc6901):
+
+```php
+public function getJsonPointer(Pointer $pointer): string
+{
+    $jsonPointer = '#';
+
+    foreach ($pointer->propertyPath as $pathItem) {
+        $jsonPointer .= '/' . $pathItem;
+    }
+
+    return $jsonPointer;
+}
+```
+
+Converting pointers to strings is out of scope of the library, so you should do it by yourself on another abstraction layer.
 
 ## FAQ
 

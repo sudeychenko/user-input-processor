@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class ArrayIsTooShort implements ConstraintViolationInterface
 {
     public const TYPE = 'array_is_too_short';
 
     public function __construct(
-        private AbstractPointer $pointer,
+        private Pointer $pointer,
         private int $minLength
     ) {
     }
@@ -23,10 +23,7 @@ final class ArrayIsTooShort implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return sprintf(
-            'Property "%s" contains too short array.',
-            $this->pointer->getPointer(),
-        );
+        return 'Property contains too short array.';
     }
 
     public function getMinLength(): int
@@ -34,7 +31,7 @@ final class ArrayIsTooShort implements ConstraintViolationInterface
         return $this->minLength;
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

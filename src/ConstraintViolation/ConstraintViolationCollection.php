@@ -28,42 +28,21 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function add(ConstraintViolationInterface $violation): void
     {
         $this->violations[] = $violation;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addAll(self $otherList): void
     {
         foreach ($otherList as $violation) {
-            $this->violations[] = $violation;
+            $this->add($violation);
         }
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return \count($this->violations);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get(int $offset)
-    {
-        if (!isset($this->violations[$offset])) {
-            throw new OutOfBoundsException(sprintf('The offset "%s" does not exist.', $offset));
-        }
-
-        return $this->violations[$offset];
     }
 
     /**
@@ -76,77 +55,64 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
         return new ArrayIterator($this->violations);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function has(int $offset)
-    {
-        return isset($this->violations[$offset]);
-    }
-
     public function isNotEmpty(): bool
     {
         return 0 !== $this->count();
     }
 
     /**
-     * @param mixed $offset
+     * {@inheritdoc}
      *
-     * @return bool
+     * @param $offset int
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
-        return $this->has($offset);
+        return isset($this->violations[$offset]);
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @param $offset int
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): ConstraintViolationInterface
     {
-        return $this->get($offset);
+        if (!isset($this->violations[$offset])) {
+            throw new OutOfBoundsException(sprintf('The offset "%s" does not exist.', $offset));
+        }
+
+        return $this->violations[$offset];
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @param $offset int
+     * @param $violation ConstraintViolationInterface
      */
     public function offsetSet($offset, $violation): void
     {
         if (null === $offset) {
-            $this->add($violation);
+            $this->violations[] = $violation;
         } else {
-            $this->set($offset, $violation);
+            $this->violations[$offset] = $violation;
         }
     }
 
     /**
      * {@inheritdoc}
+     *
+     * @param $offset int
      */
     public function offsetUnset($offset): void
-    {
-        $this->remove($offset);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(int $offset): void
     {
         unset($this->violations[$offset]);
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function set(int $offset, ConstraintViolationInterface $violation): void
-    {
-        $this->violations[$offset] = $violation;
-    }
-
-    /**
      * Converts the violation into a string for debugging purposes.
      *
-     * @return string The violation as string
+     * @return string Collection of violations as string
      */
     public function __toString(): string
     {
@@ -156,10 +122,10 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
             return $carry .= sprintf(
                 '%d) %s (%s): %s' . "\n",
                 $violationIndex++,
-                $violation->getPointer()->getPointer(),
                 $violation->getType(),
+                '/' . implode('/', $violation->getPointer()->getPropertyPath()),
                 $violation->getDescription()
             );
-        }, "\n");
+        }, '');
     }
 }

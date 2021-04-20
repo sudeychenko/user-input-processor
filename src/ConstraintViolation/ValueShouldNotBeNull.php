@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class ValueShouldNotBeNull implements ConstraintViolationInterface
 {
     public const TYPE = 'value_should_not_be_null';
 
     public function __construct(
-        private AbstractPointer $pointer
+        private Pointer $pointer
     ) {
     }
 
@@ -22,13 +22,10 @@ final class ValueShouldNotBeNull implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return sprintf(
-            'Property "%s" should not be null.',
-            $this->pointer->getPointer()
-        );
+        return 'Property should not be null.';
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

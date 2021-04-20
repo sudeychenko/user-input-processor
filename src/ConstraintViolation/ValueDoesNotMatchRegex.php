@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
 {
     public const TYPE = 'value_does_not_match_regex';
 
     public function __construct(
-        private AbstractPointer $pointer,
+        private Pointer $pointer,
         private string $regex
     ) {
     }
@@ -24,13 +24,12 @@ final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
     public function getDescription(): string
     {
         return sprintf(
-            'Property "%s" does not match regex "%s".',
-            $this->pointer->getPointer(),
+            'Property does not match regex "%s".',
             $this->getRegex()
         );
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class WrongDiscriminatorValue implements ConstraintViolationInterface
 {
@@ -14,7 +14,7 @@ final class WrongDiscriminatorValue implements ConstraintViolationInterface
      * @param string[] $possibleValues
      */
     public function __construct(
-        private AbstractPointer $pointer,
+        private Pointer $pointer,
         private array $possibleValues
     ) {
     }
@@ -27,13 +27,12 @@ final class WrongDiscriminatorValue implements ConstraintViolationInterface
     public function getDescription(): string
     {
         return sprintf(
-            'Property "%s" contains invalid discriminator value, possible values are: %s.',
-            $this->pointer->getPointer(),
+            'Property contains invalid discriminator value, possible values are: %s.',
             implode(', ', $this->possibleValues),
         );
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

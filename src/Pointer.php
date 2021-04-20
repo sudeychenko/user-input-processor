@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor;
 
-
-abstract class AbstractPointer
+class Pointer
 {
     public function __construct(
         protected array $propertyPath
@@ -23,8 +23,6 @@ abstract class AbstractPointer
     {
         return new static([]);
     }
-
-    abstract public function getPointer(): string;
 
     public function getPropertyPath(): array
     {

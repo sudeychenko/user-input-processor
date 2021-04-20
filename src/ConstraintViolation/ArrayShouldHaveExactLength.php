@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
 {
     public const TYPE = 'array_should_have_exact_length';
 
     public function __construct(
-        private AbstractPointer $pointer,
+        private Pointer $pointer,
         private int $length
     ) {
     }
@@ -24,8 +24,7 @@ final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
     public function getDescription(): string
     {
         return sprintf(
-            'Property "%s" should contain array with %d elements.',
-            $this->pointer->getPointer(),
+            'Property should contain array with %d elements.',
             $this->getLength()
         );
     }
@@ -35,7 +34,7 @@ final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
         return $this->length;
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 
 final class ArrayIsTooLong implements ConstraintViolationInterface
 {
     public const TYPE = 'array_is_too_long';
 
     public function __construct(
-        private AbstractPointer $pointer,
+        private Pointer $pointer,
         private int $maxLength
     ) {
     }
@@ -23,10 +23,7 @@ final class ArrayIsTooLong implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return sprintf(
-            'Property "%s" contains too long array.',
-            $this->pointer->getPointer(),
-        );
+        return 'Property contains too long array.';
     }
 
     public function getMaxLength(): int
@@ -34,7 +31,7 @@ final class ArrayIsTooLong implements ConstraintViolationInterface
         return $this->maxLength;
     }
 
-    public function getPointer(): AbstractPointer
+    public function getPointer(): Pointer
     {
         return $this->pointer;
     }

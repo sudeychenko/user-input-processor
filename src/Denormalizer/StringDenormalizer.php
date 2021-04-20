@@ -10,14 +10,14 @@ use Flaksp\UserInputProcessor\ConstraintViolation\StringIsTooShort;
 use Flaksp\UserInputProcessor\ConstraintViolation\ValueDoesNotMatchRegex;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
 
 final class StringDenormalizer
 {
     public function denormalize(
         mixed $data,
-        AbstractPointer $pointer,
+        Pointer $pointer,
         bool $isNullable = false,
         int $minLength = null,
         int $maxLength = null,

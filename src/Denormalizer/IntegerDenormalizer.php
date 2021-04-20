@@ -9,14 +9,14 @@ use Flaksp\UserInputProcessor\ConstraintViolation\IntegerIsTooBig;
 use Flaksp\UserInputProcessor\ConstraintViolation\IntegerIsTooSmall;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\AbstractPointer;
+use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
 
 final class IntegerDenormalizer
 {
     public function denormalize(
         mixed $data,
-        AbstractPointer $pointer,
+        Pointer $pointer,
         bool $isNullable = false,
         int $minimum = null,
         int $maximum = null,
