@@ -68,7 +68,7 @@ There is no such functionality out-of-the-box, because formatting error messages
 
 `public function getDescription(): string` method exists only for debugging and logging purposes. This value is not recommended being rendered in UI because some constraints may contain very nerd messages like [`ValueDoesNotMatchRegex`](src/ConstraintViolation/ValueDoesNotMatchRegex.php) violation has:
 
-> Property "#/id" does not match regex "/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/".
+> Property does not match regex "/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/".
 
 ### Why [`ValidationError`](src/Exception/ValidationError.php) exception contains [`ConstraintViolationCollection`](src/ConstraintViolation/ConstraintViolationCollection.php) (collection of constraint violations), not a single violation?
 
