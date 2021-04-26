@@ -11,6 +11,9 @@ use Flaksp\UserInputProcessor\Pointer;
 
 final class BooleanDenormalizer
 {
+    /**
+     * @throws ValidationError If $data has invalid parameters
+     */
     public function denormalize(
         mixed $data,
         Pointer $pointer,

@@ -15,6 +15,9 @@ use LogicException;
 
 final class StringDenormalizer
 {
+    /**
+     * @throws ValidationError If $data has invalid parameters
+     */
     public function denormalize(
         mixed $data,
         Pointer $pointer,

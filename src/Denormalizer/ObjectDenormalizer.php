@@ -24,6 +24,9 @@ final class ObjectDenormalizer
         return array_keys($array) !== range(0, \count($array) - 1);
     }
 
+    /**
+     * @throws ValidationError If $data has invalid parameters
+     */
     public function denormalizeDynamicFields(
         mixed $data,
         string $discriminatorFieldName,
@@ -72,6 +75,9 @@ final class ObjectDenormalizer
         );
     }
 
+    /**
+     * @throws ValidationError If $data has invalid parameters
+     */
     public function denormalizeStaticFields(
         mixed $data,
         ObjectStaticFields $staticFields,
