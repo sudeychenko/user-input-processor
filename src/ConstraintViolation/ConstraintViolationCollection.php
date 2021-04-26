@@ -123,7 +123,7 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
                 '%d) %s (%s): %s' . "\n",
                 $violationIndex++,
                 $violation->getType(),
-                '/' . implode('/', $violation->getPointer()->getPropertyPath()),
+                implode(' > ', $violation->getPointer()->getPropertyPath()),
                 $violation->getDescription()
             );
         }, '');
