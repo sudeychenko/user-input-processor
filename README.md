@@ -48,7 +48,7 @@ Pointer may be easily converted to something specific to be shown to your client
 ```php
 public function getJsonPointer(Pointer $pointer): string
 {
-    $jsonPointer = '#';
+    $jsonPointer = '';
 
     foreach ($pointer->propertyPath as $pathItem) {
         $jsonPointer .= '/' . $pathItem;
