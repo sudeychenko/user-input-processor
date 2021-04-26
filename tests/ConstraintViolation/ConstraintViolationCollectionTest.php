@@ -26,9 +26,9 @@ final class ConstraintViolationCollectionTest extends TestCase
         ]);
 
         $expectedMessage = <<<'MESSAGE'
-            1) mandatory_field_missing (/): Property is mandatory, but it's missing. Even if field is nullable it should be presented in request payload.
-            2) mandatory_field_missing (/): Property is mandatory, but it's missing. Even if field is nullable it should be presented in request payload.
-            3) mandatory_field_missing (/): Property is mandatory, but it's missing. Even if field is nullable it should be presented in request payload.
+            1) mandatory_field_missing (): Property is mandatory, but it's missing. Even if field is nullable it should be presented in request payload.
+            2) mandatory_field_missing (): Property is mandatory, but it's missing. Even if field is nullable it should be presented in request payload.
+            3) mandatory_field_missing (): Property is mandatory, but it's missing. Even if field is nullable it should be presented in request payload.
 
             MESSAGE;
 
