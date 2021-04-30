@@ -71,27 +71,27 @@ final class ObjectDenormalizerTest extends TestCase
 
         $pointer = Pointer::empty();
 
-        $data = $objectDenormalizer->denormalizeStaticFields(
+        $processedData = $objectDenormalizer->denormalizeStaticFields(
             $payload,
             $pointer,
             new ObjectStaticFields([
                 'foo' => new ObjectField(
-                    static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                     isMandatory: true,
                 ),
                 'bar' => new ObjectField(
-                    static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer, isNullable: true),
+                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer, isNullable: true),
                     isMandatory: true,
                 ),
                 'baz' => new ObjectField(
-                    static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                     isMandatory: false,
                 ),
             ]),
             isNullable: false,
         );
 
-        Assert::assertEquals($payload, $data);
+        Assert::assertEquals($payload, $processedData);
     }
 
     /**
@@ -105,24 +105,24 @@ final class ObjectDenormalizerTest extends TestCase
 
         $pointer = Pointer::empty();
 
-        $data = $objectDenormalizer->denormalizeDynamicFields(
+        $processedData = $objectDenormalizer->denormalizeDynamicFields(
             $payload,
             $pointer,
             'type',
             new ObjectDiscriminatorFields([
                 'a' => new ObjectStaticFields([
                     'foo' => new ObjectField(
-                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: true,
                     ),
                 ]),
                 'b' => new ObjectStaticFields([
                     'bar' => new ObjectField(
-                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer, isNullable: true),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer, isNullable: true),
                         isMandatory: true,
                     ),
                     'baz' => new ObjectField(
-                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: false,
                     ),
                 ]),
@@ -130,7 +130,7 @@ final class ObjectDenormalizerTest extends TestCase
             isNullable: false,
         );
 
-        Assert::assertEquals($payload, $data);
+        Assert::assertEquals($payload, $processedData);
     }
 
     public function testUnsuccessfulDenormalization(): void
@@ -150,15 +150,15 @@ final class ObjectDenormalizerTest extends TestCase
                 $pointer,
                 new ObjectStaticFields([
                     'foo' => new ObjectField(
-                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: true,
                     ),
                     'bar' => new ObjectField(
-                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer, isNullable: true),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer, isNullable: true),
                         isMandatory: true,
                     ),
                     'baz' => new ObjectField(
-                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: false,
                     ),
                 ]),

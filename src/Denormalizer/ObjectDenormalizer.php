@@ -100,6 +100,8 @@ final class ObjectDenormalizer
             throw new ValidationError($violations);
         }
 
+        $processedData = [];
+
         foreach ($staticFields->getFields() as $fieldName => $fieldDefinition) {
             if (!\array_key_exists($fieldName, $data)) {
                 if ($fieldDefinition->isMandatory()) {
@@ -110,7 +112,7 @@ final class ObjectDenormalizer
             }
 
             try {
-                $data[$fieldName] = $fieldDefinition->getDenormalizer()(
+                $processedData[$fieldName] = $fieldDefinition->getDenormalizer()(
                     $data[$fieldName],
                     Pointer::append($pointer, $fieldName)
                 );
@@ -123,6 +125,6 @@ final class ObjectDenormalizer
             throw new ValidationError($violations);
         }
 
-        return $data;
+        return $processedData;
     }
 }
