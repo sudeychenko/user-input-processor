@@ -75,15 +75,15 @@ final class ObjectDenormalizerTest extends TestCase
             $payload,
             new ObjectStaticFields([
                 'foo' => new ObjectField(
-                    static fn ($data) => $stringDenormalizer->denormalize($data, Pointer::append($pointer, 'foo')),
+                    static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
                     isMandatory: true,
                 ),
                 'bar' => new ObjectField(
-                    static fn ($data) => $stringDenormalizer->denormalize($data, Pointer::append($pointer, 'bar'), isNullable: true),
+                    static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer, isNullable: true),
                     isMandatory: true,
                 ),
                 'baz' => new ObjectField(
-                    static fn ($data) => $stringDenormalizer->denormalize($data, Pointer::append($pointer, 'baz')),
+                    static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
                     isMandatory: false,
                 ),
             ]),
@@ -111,17 +111,17 @@ final class ObjectDenormalizerTest extends TestCase
             new ObjectDiscriminatorFields([
                 'a' => new ObjectStaticFields([
                     'foo' => new ObjectField(
-                        static fn ($data, $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
                         isMandatory: true,
                     ),
                 ]),
                 'b' => new ObjectStaticFields([
                     'bar' => new ObjectField(
-                        static fn ($data, $pointer) => $stringDenormalizer->denormalize($data, $pointer, isNullable: true),
+                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer, isNullable: true),
                         isMandatory: true,
                     ),
                     'baz' => new ObjectField(
-                        static fn ($data, $pointer) => $stringDenormalizer->denormalize($data, $pointer),
+                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
                         isMandatory: false,
                     ),
                 ]),
@@ -147,15 +147,15 @@ final class ObjectDenormalizerTest extends TestCase
                 ],
                 new ObjectStaticFields([
                     'foo' => new ObjectField(
-                        static fn ($data) => $stringDenormalizer->denormalize($data, Pointer::append($pointer, 'foo')),
+                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
                         isMandatory: true,
                     ),
                     'bar' => new ObjectField(
-                        static fn ($data) => $stringDenormalizer->denormalize($data, Pointer::append($pointer, 'bar'), isNullable: true),
+                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer, isNullable: true),
                         isMandatory: true,
                     ),
                     'baz' => new ObjectField(
-                        static fn ($data) => $stringDenormalizer->denormalize($data, Pointer::append($pointer, 'baz')),
+                        static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
                         isMandatory: false,
                     ),
                 ]),
