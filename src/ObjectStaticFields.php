@@ -7,7 +7,7 @@ namespace Flaksp\UserInputProcessor;
 class ObjectStaticFields
 {
     /**
-     * @param $fields array<string, ObjectField>
+     * @param array<string, ObjectField> $fields
      */
     public function __construct(
         private array $fields,
@@ -15,7 +15,7 @@ class ObjectStaticFields
     }
 
     /**
-     * @param $properties array<string, ObjectField>
+     * @return array<string, ObjectField>
      */
     public function getFields(): array
     {

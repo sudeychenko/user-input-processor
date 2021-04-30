@@ -58,7 +58,19 @@ final class ObjectDenormalizer
             throw new ValidationError($violations);
         }
 
-        if (!\in_array($data[$discriminatorFieldName], $discriminatorFields->getPossibleDiscriminatorValues(), true)) {
+        $discriminatorValue = $data[$discriminatorFieldName];
+
+        if (!\is_string($discriminatorValue)) {
+            $violations[] = WrongPropertyType::guessGivenType(
+                Pointer::append($pointer, $discriminatorFieldName),
+                $discriminatorValue,
+                [WrongPropertyType::JSON_TYPE_STRING]
+            );
+
+            throw new ValidationError($violations);
+        }
+
+        if (!\in_array($discriminatorValue, $discriminatorFields->getPossibleDiscriminatorValues(), true)) {
             $violations[] = new WrongDiscriminatorValue(
                 Pointer::append($pointer, $discriminatorFieldName),
                 $discriminatorFields->getPossibleDiscriminatorValues(),
@@ -70,7 +82,7 @@ final class ObjectDenormalizer
         return $this->denormalizeStaticFields(
             $data,
             $pointer,
-            $discriminatorFields->getStaticFieldsByDiscriminatorValue($data[$discriminatorFieldName]),
+            $discriminatorFields->getStaticFieldsByDiscriminatorValue($discriminatorValue),
             isNullable: false,
         );
     }
@@ -112,10 +124,12 @@ final class ObjectDenormalizer
             }
 
             try {
-                $processedData[$fieldName] = $fieldDefinition->getDenormalizer()(
+                $processedField = $fieldDefinition->getDenormalizer()(
                     $data[$fieldName],
                     Pointer::append($pointer, $fieldName)
                 );
+
+                $processedData[$fieldName] = $processedField;
             } catch (ValidationError $e) {
                 $violations->addAll($e->getViolations());
             }

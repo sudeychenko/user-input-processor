@@ -35,6 +35,7 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
 
     public function addAll(self $otherList): void
     {
+        /** @var ConstraintViolationInterface $violation */
         foreach ($otherList as $violation) {
             $this->add($violation);
         }
@@ -47,8 +48,6 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
 
     /**
      * {@inheritdoc}
-     *
-     * @return ArrayIterator|ConstraintViolationInterface[]
      */
     public function getIterator(): ArrayIterator | array
     {
@@ -62,8 +61,6 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
 
     /**
      * {@inheritdoc}
-     *
-     * @param $offset int
      */
     public function offsetExists($offset): bool
     {
@@ -72,8 +69,6 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
 
     /**
      * {@inheritdoc}
-     *
-     * @param $offset int
      */
     public function offsetGet($offset): ConstraintViolationInterface
     {
@@ -87,8 +82,8 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
     /**
      * {@inheritdoc}
      *
-     * @param $offset int
-     * @param $violation ConstraintViolationInterface
+     * @param mixed                        $offset
+     * @param ConstraintViolationInterface $violation
      */
     public function offsetSet($offset, $violation): void
     {
@@ -101,8 +96,6 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
 
     /**
      * {@inheritdoc}
-     *
-     * @param $offset int
      */
     public function offsetUnset($offset): void
     {

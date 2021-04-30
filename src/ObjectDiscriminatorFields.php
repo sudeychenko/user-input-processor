@@ -9,7 +9,7 @@ use InvalidArgumentException;
 class ObjectDiscriminatorFields
 {
     /**
-     * @param $fields array<string, ObjectStaticFields>
+     * @param array<string, ObjectStaticFields> $fields
      */
     public function __construct(
         private array $fields,

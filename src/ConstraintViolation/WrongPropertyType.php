@@ -33,7 +33,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
 
     public static function guessGivenType(
         Pointer $pointer,
-        $givenValue,
+        mixed $givenValue,
         array $allowedTypes,
     ): self {
         return new self(
@@ -70,7 +70,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
         return $this->pointer;
     }
 
-    private static function getJsonTypeFromValue($value): string
+    private static function getJsonTypeFromValue(mixed $value): string
     {
         return match (\gettype($value)) {
             'boolean' => self::JSON_TYPE_BOOLEAN,

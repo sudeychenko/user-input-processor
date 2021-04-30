@@ -74,12 +74,16 @@ final class ArrayDenormalizer
             throw new ValidationError($violations);
         }
 
+        $processedData = [];
+
         foreach ($data as $index => $indexedData) {
             try {
-                $data[$index] = $denormalizer(
-                    $data[$index],
+                $processedIndex = $denormalizer(
+                    $indexedData,
                     Pointer::append($pointer, $index)
                 );
+
+                $processedData[$index] = $processedIndex;
             } catch (ValidationError $e) {
                 $violations->addAll($e->getViolations());
             }
@@ -89,6 +93,6 @@ final class ArrayDenormalizer
             throw new ValidationError($violations);
         }
 
-        return $data;
+        return $processedData;
     }
 }

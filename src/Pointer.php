@@ -11,17 +11,17 @@ class Pointer
     ) {
     }
 
-    public static function append(self $pointer, string | int ...$pathItems): static
+    public static function append(self $pointer, string | int ...$pathItems): self
     {
-        return new static(array_merge(
+        return new self(array_merge(
             $pointer->getPropertyPath(),
             array_map(static fn (string | int $pathItem) => $pathItem, $pathItems),
         ));
     }
 
-    public static function empty(): static
+    public static function empty(): self
     {
-        return new static([]);
+        return new self([]);
     }
 
     public function getPropertyPath(): array
