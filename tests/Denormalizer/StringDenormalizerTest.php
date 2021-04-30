@@ -33,13 +33,13 @@ final class StringDenormalizerTest extends TestCase
     ): void {
         $stringDenormalizer = new StringDenormalizer();
 
-        $data = $stringDenormalizer->denormalize(
+        $processedData = $stringDenormalizer->denormalize(
             $payload,
             Pointer::empty(),
             isNullable: false,
             minLength: 1,
         );
 
-        Assert::assertIsString($data);
+        Assert::assertIsString($processedData);
     }
 }

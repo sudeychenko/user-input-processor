@@ -29,9 +29,9 @@ final class ObjectDenormalizer
      */
     public function denormalizeDynamicFields(
         mixed $data,
+        Pointer $pointer,
         string $discriminatorFieldName,
         ObjectDiscriminatorFields $discriminatorFields,
-        Pointer $pointer,
         bool $isNullable = false,
     ): ?array {
         if (null === $data && $isNullable) {
@@ -69,8 +69,8 @@ final class ObjectDenormalizer
 
         return $this->denormalizeStaticFields(
             $data,
-            $discriminatorFields->getStaticFieldsByDiscriminatorValue($data[$discriminatorFieldName]),
             $pointer,
+            $discriminatorFields->getStaticFieldsByDiscriminatorValue($data[$discriminatorFieldName]),
             isNullable: false,
         );
     }
@@ -80,8 +80,8 @@ final class ObjectDenormalizer
      */
     public function denormalizeStaticFields(
         mixed $data,
-        ObjectStaticFields $staticFields,
         Pointer $pointer,
+        ObjectStaticFields $staticFields,
         bool $isNullable = false,
     ): ?array {
         if (null === $data && $isNullable) {

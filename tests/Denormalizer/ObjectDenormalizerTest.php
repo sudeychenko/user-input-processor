@@ -73,6 +73,7 @@ final class ObjectDenormalizerTest extends TestCase
 
         $data = $objectDenormalizer->denormalizeStaticFields(
             $payload,
+            $pointer,
             new ObjectStaticFields([
                 'foo' => new ObjectField(
                     static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
@@ -87,7 +88,6 @@ final class ObjectDenormalizerTest extends TestCase
                     isMandatory: false,
                 ),
             ]),
-            $pointer,
             isNullable: false,
         );
 
@@ -107,6 +107,7 @@ final class ObjectDenormalizerTest extends TestCase
 
         $data = $objectDenormalizer->denormalizeDynamicFields(
             $payload,
+            $pointer,
             'type',
             new ObjectDiscriminatorFields([
                 'a' => new ObjectStaticFields([
@@ -126,7 +127,6 @@ final class ObjectDenormalizerTest extends TestCase
                     ),
                 ]),
             ]),
-            $pointer,
             isNullable: false,
         );
 
@@ -138,13 +138,16 @@ final class ObjectDenormalizerTest extends TestCase
         $objectDenormalizer = new ObjectDenormalizer();
         $stringDenormalizer = new StringDenormalizer();
 
+        $data = [
+            'randomNameField' => '',
+        ];
+
         $pointer = Pointer::empty();
 
         try {
             $objectDenormalizer->denormalizeStaticFields(
-                [
-                    'randomNameField' => '',
-                ],
+                $data,
+                $pointer,
                 new ObjectStaticFields([
                     'foo' => new ObjectField(
                         static fn (mixed $data, Pointer $pointer) => $stringDenormalizer->denormalize($data, $pointer),
@@ -159,7 +162,6 @@ final class ObjectDenormalizerTest extends TestCase
                         isMandatory: false,
                     ),
                 ]),
-                $pointer,
                 isNullable: false,
             );
         } catch (ValidationError $exception) {
