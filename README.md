@@ -60,6 +60,67 @@ public function getJsonPointer(Pointer $pointer): string
 
 Converting pointers to strings is out of scope of the library, so you should do it by yourself on another abstraction layer.
 
+## Examples
+
+### Your own object denormalizer
+
+In most cases you will want to create your own object types. For example, it may be user profile structure that has display name, username and optional contact email. To implement such denormalizer that returns `UserProfileData` value object, you may write something like this:
+
+```php
+declare(strict_types=1);
+
+namespace App\Denormalizer;
+
+use App\Denormalizer\DisplayNameDenormalizer;
+use App\Denormalizer\EmailDenormalizer;
+use App\Denormalizer\UsernameDenormalizer;
+use App\ValueObject\UserProfileData;
+use Flaksp\UserInputProcessor\Denormalizer\ObjectDenormalizer;
+use Flaksp\UserInputProcessor\ObjectField;
+use Flaksp\UserInputProcessor\ObjectStaticFields;
+use Flaksp\UserInputProcessor\Pointer;
+
+final class UserProfileDenormalizer {
+    public function __construct(
+        private ObjectDenormalizer $objectDenormalizer,
+        private EmailDenormalizer $emailDenormalizer,
+        private DisplayNameDenormalizer $displayNameDenormalizer,
+        private UsernameDenormalizer $usernameDenormalizer,
+    ) {}
+
+    public function denormalize(
+        mixed $data
+    ): UserProfileData {
+        $processedData = $this->objectDenormalizer->denormalize(
+            $data,
+            Pointer::empty(),
+            new ObjectStaticFields([
+                'contactEmail' => new ObjectField(
+                    static fn (mixed $fieldData, Pointer $fieldPointer) => $this->emailDenormalizer->denormalize($fieldData, $fieldPointer),
+                    isMandatory: true,
+                ),
+                'displayName' => new ObjectField(
+                    static fn (mixed $fieldData, Pointer $fieldPointer) => $this->displayNameDenormalizer->denormalize($fieldData, $fieldPointer),
+                    isMandatory: true,
+                ),
+                'username' => new ObjectField(
+                    static fn (mixed $fieldData, Pointer $fieldPointer) => $this->usernameDenormalizer->denormalize($fieldData, $fieldPointer),
+                    isMandatory: true,
+                ),
+            ]),
+        );
+
+        return new UserProfileData(
+            $processedData['contactEmail'],
+            $processedData['displayName'],
+            $processedData['username'],
+        );
+    }
+}
+```
+
+[`ObjectDenormalizer`](src/Denormalizer/ObjectDenormalizer.php) accepts data (variable `$data`) in any format in the first argument. The second argument accepts pointer. And the third one allows us to describe structure of input data and denormalization rules for each field using [`ObjectStaticFields`](src/ObjectStaticFields.php) object. This object accepts associative array: key is field name and value is [`ObjectField`](src/ObjectField.php). `ObjectField` accepts callable as first argument, object denormalizer passes field's data and its pointer to this callable, so you may simply pass them into denormalizer as shown in the example above. `isMandatory` means the property must be presented in request payload, even if it has `null` value. If `isMandatory` is `false`, client application is allowed to omit the field from request, and `$processedData` variable will miss such key too.
+
 ## FAQ
 
 ### How to get localized validation error message for user?
