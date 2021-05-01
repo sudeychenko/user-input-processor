@@ -12,6 +12,7 @@ use Flaksp\UserInputProcessor\Exception\ValidationError;
 use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
 use Flaksp\UserInputProcessor\ObjectStaticFields;
 use Flaksp\UserInputProcessor\Pointer;
+use LogicException;
 
 final class ObjectDenormalizer
 {
@@ -79,12 +80,20 @@ final class ObjectDenormalizer
             throw new ValidationError($violations);
         }
 
-        return $this->denormalizeStaticFields(
+        $processedData = $this->denormalizeStaticFields(
             $data,
             $pointer,
             $discriminatorFields->getStaticFieldsByDiscriminatorValue($discriminatorValue),
             isNullable: false,
         );
+
+        if (\array_key_exists($discriminatorFieldName, $processedData)) {
+            throw new LogicException('The same field name as discriminator field name can not be used within ObjectStaticFields declarations');
+        }
+
+        $processedData[$discriminatorFieldName] = $discriminatorValue;
+
+        return $processedData;
     }
 
     /**
