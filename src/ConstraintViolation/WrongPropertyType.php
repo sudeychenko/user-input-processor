@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
 use Flaksp\UserInputProcessor\Pointer;
-use RuntimeException;
+use UnexpectedValueException;
 
 final class WrongPropertyType implements ConstraintViolationInterface
 {
@@ -79,7 +79,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
             'string' => self::JSON_TYPE_STRING,
             'array' => self::JSON_TYPE_ARRAY,
             'NULL' => self::JSON_TYPE_NULL,
-            default => throw new RuntimeException('Given PHP type is not supported in JSON conversion: ' . $value),
+            default => throw new UnexpectedValueException('Given PHP type is not supported in JSON conversion: ' . $value),
         };
     }
 }
