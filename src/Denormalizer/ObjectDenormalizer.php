@@ -80,6 +80,7 @@ final class ObjectDenormalizer
             throw new ValidationError($violations);
         }
 
+        /** @var array $processedData */
         $processedData = $this->denormalizeStaticFields(
             $data,
             $pointer,
