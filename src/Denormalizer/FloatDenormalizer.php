@@ -21,8 +21,8 @@ final class FloatDenormalizer
         mixed $data,
         Pointer $pointer,
         bool $isNullable = false,
-        int $minimum = null,
-        int $maximum = null,
+        float $minimum = null,
+        float $maximum = null,
     ): ?float {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
