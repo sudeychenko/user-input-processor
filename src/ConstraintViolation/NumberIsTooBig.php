@@ -6,13 +6,13 @@ namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
 use Flaksp\UserInputProcessor\Pointer;
 
-final class IntegerIsTooBig implements ConstraintViolationInterface
+final class NumberIsTooBig implements ConstraintViolationInterface
 {
-    public const TYPE = 'integer_is_too_big';
+    public const TYPE = 'number_is_too_big';
 
     public function __construct(
         private Pointer $pointer,
-        private int $max
+        private float $max
     ) {
     }
 
@@ -23,10 +23,10 @@ final class IntegerIsTooBig implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return 'Property contains too big integer.';
+        return 'Property contains too big number.';
     }
 
-    public function getMax(): int
+    public function getMax(): float
     {
         return $this->max;
     }

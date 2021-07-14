@@ -6,13 +6,13 @@ namespace Flaksp\UserInputProcessor\ConstraintViolation;
 
 use Flaksp\UserInputProcessor\Pointer;
 
-final class IntegerIsTooSmall implements ConstraintViolationInterface
+final class NumberIsTooSmall implements ConstraintViolationInterface
 {
-    public const TYPE = 'integer_is_too_small';
+    public const TYPE = 'number_is_too_small';
 
     public function __construct(
         private Pointer $pointer,
-        private int $min
+        private float $min
     ) {
     }
 
@@ -23,10 +23,10 @@ final class IntegerIsTooSmall implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return 'Property contains too small integer.';
+        return 'Property contains too small number.';
     }
 
-    public function getMin(): int
+    public function getMin(): float
     {
         return $this->min;
     }

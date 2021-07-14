@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Flaksp\UserInputProcessor\Denormalizer;
 
 use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputProcessor\ConstraintViolation\IntegerIsTooBig;
-use Flaksp\UserInputProcessor\ConstraintViolation\IntegerIsTooSmall;
+use Flaksp\UserInputProcessor\ConstraintViolation\NumberIsTooBig;
+use Flaksp\UserInputProcessor\ConstraintViolation\NumberIsTooSmall;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
 use Flaksp\UserInputProcessor\Pointer;
@@ -45,14 +45,14 @@ final class IntegerDenormalizer
         }
 
         if (null !== $minimum && $data < $minimum) {
-            $violations[] = new IntegerIsTooSmall(
+            $violations[] = new NumberIsTooSmall(
                 $pointer,
                 $minimum
             );
         }
 
         if (null !== $maximum && $data > $maximum) {
-            $violations[] = new IntegerIsTooBig(
+            $violations[] = new NumberIsTooBig(
                 $pointer,
                 $maximum
             );
