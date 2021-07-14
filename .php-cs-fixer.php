@@ -8,7 +8,7 @@ use PhpCsFixer\RuleSet\RuleSets;
 $finder = PhpCsFixer\Finder::create()
     ->in('./src/')
     ->in('./tests/')
-    ->append(['.php_cs'])
+    ->append(['.php-cs-fixer.php'])
 ;
 
 $ruleSet = new RuleSet();
@@ -20,24 +20,26 @@ $rules = array_reduce(RuleSets::getSetDefinitionNames(), static function (array 
 }, []);
 
 $rules['blank_line_before_statement'] = [
-    'statements' => ['break', 'case', 'continue', 'default', 'die', 'exit', 'for', 'foreach', 'if', 'return', 'switch', 'throw', 'try', 'while', 'yield'],
+    'statements' => ['break', 'case', 'continue', 'default', 'exit', 'for', 'foreach', 'if', 'return', 'switch', 'throw', 'try', 'while', 'yield'],
 ];
 
 $rules['class_attributes_separation'] = [
-    'elements' => ['method', 'property'],
+    'elements' => [
+        'method' => 'one',
+        'property' => 'one',
+    ],
 ];
 
 $rules['concat_space'] = [
     'spacing' => 'one',
 ];
 
-$rules['final_static_access'] = true;
 $rules['global_namespace_import'] = true;
 $rules['linebreak_after_opening_tag'] = true;
 $rules['mb_str_functions'] = true;
 
 $rules['ordered_class_elements'] = [
-    'sortAlgorithm' => 'alpha',
+    'sort_algorithm' => 'alpha',
     'order' => [
         'use_trait',
 
