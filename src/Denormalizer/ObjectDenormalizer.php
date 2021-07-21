@@ -16,15 +16,6 @@ use LogicException;
 
 final class ObjectDenormalizer
 {
-    public static function isAssocArray(array $array): bool
-    {
-        if ([] === $array) {
-            return false;
-        }
-
-        return array_keys($array) !== range(0, \count($array) - 1);
-    }
-
     /**
      * @throws ValidationError If $data has invalid parameters
      */
@@ -150,5 +141,10 @@ final class ObjectDenormalizer
         }
 
         return $processedData;
+    }
+
+    private static function isAssocArray(array $array): bool
+    {
+        return array_keys($array) !== range(0, \count($array) - 1);
     }
 }
