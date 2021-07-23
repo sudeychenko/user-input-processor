@@ -34,7 +34,7 @@ final class FloatDenormalizer
 
         $violations = new ConstraintViolationCollection();
 
-        if (!\is_float($data)) {
+        if (!\is_int($data) && !\is_float($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
                 $pointer,
                 $data,
@@ -62,6 +62,6 @@ final class FloatDenormalizer
             throw new ValidationError($violations);
         }
 
-        return $data;
+        return (float) $data;
     }
 }
