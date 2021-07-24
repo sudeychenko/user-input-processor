@@ -23,6 +23,7 @@ final class IntegerDenormalizer
         bool $isNullable = false,
         int $minimum = null,
         int $maximum = null,
+        bool $allowNumericString = false
     ): ?int {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
@@ -33,6 +34,10 @@ final class IntegerDenormalizer
         }
 
         $violations = new ConstraintViolationCollection();
+
+        if ($allowNumericString && is_string($data) && is_numeric($data)) {
+            $data = (int) $data;
+        }
 
         if (!\is_int($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
