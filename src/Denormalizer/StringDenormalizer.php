@@ -21,17 +21,12 @@ final class StringDenormalizer
     public function denormalize(
         mixed $data,
         Pointer $pointer,
-        bool $isNullable = false,
         int $minLength = null,
         int $maxLength = null,
         string $pattern = null,
-    ): ?string {
+    ): string {
         if (null !== $minLength && null !== $maxLength && $minLength > $maxLength) {
             throw new LogicException('Min length constraint can not be bigger than max length');
-        }
-
-        if (null === $data && $isNullable) {
-            return null;
         }
 
         $violations = new ConstraintViolationCollection();

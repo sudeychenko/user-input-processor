@@ -17,12 +17,7 @@ final class BooleanDenormalizer
     public function denormalize(
         mixed $data,
         Pointer $pointer,
-        bool $isNullable = false,
-    ): ?bool {
-        if (null === $data && $isNullable) {
-            return null;
-        }
-
+    ): bool {
         $violations = new ConstraintViolationCollection();
 
         if (!\is_bool($data)) {

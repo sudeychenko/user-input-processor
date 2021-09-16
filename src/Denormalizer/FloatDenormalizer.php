@@ -20,22 +20,17 @@ final class FloatDenormalizer
     public function denormalize(
         mixed $data,
         Pointer $pointer,
-        bool $isNullable = false,
         float $minimum = null,
         float $maximum = null,
         bool $allowNumericString = false
-    ): ?float {
+    ): float {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
         }
 
-        if (null === $data && $isNullable) {
-            return null;
-        }
-
         $violations = new ConstraintViolationCollection();
 
-        if ($allowNumericString && is_string($data) && is_numeric($data)) {
+        if ($allowNumericString && \is_string($data) && is_numeric($data)) {
             $data = (float) $data;
         }
 

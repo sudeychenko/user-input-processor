@@ -36,7 +36,6 @@ final class StringDenormalizerTest extends TestCase
         $processedData = $stringDenormalizer->denormalize(
             $payload,
             Pointer::empty(),
-            isNullable: false,
             minLength: 1,
         );
 

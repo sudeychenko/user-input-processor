@@ -80,15 +80,15 @@ final class ObjectDenormalizerTest extends TestCase
                     isMandatory: true,
                 ),
                 'bar' => new ObjectField(
-                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer, isNullable: true),
+                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                     isMandatory: true,
+                    isNullable: true,
                 ),
                 'baz' => new ObjectField(
                     static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                     isMandatory: false,
                 ),
             ]),
-            isNullable: false,
         );
 
         Assert::assertEquals($payload, $processedData);
@@ -118,8 +118,9 @@ final class ObjectDenormalizerTest extends TestCase
                 ]),
                 'b' => new ObjectStaticFields([
                     'bar' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer, isNullable: true),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: true,
+                        isNullable: true,
                     ),
                     'baz' => new ObjectField(
                         static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
@@ -127,7 +128,6 @@ final class ObjectDenormalizerTest extends TestCase
                     ),
                 ]),
             ]),
-            isNullable: false,
         );
 
         Assert::assertEquals($payload, $processedData);
@@ -154,15 +154,15 @@ final class ObjectDenormalizerTest extends TestCase
                         isMandatory: true,
                     ),
                     'bar' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer, isNullable: true),
+                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: true,
+                        isNullable: true,
                     ),
                     'baz' => new ObjectField(
                         static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: false,
                     ),
                 ]),
-                isNullable: false,
             );
         } catch (ValidationError $exception) {
             Assert::assertCount(2, $exception->getViolations());
