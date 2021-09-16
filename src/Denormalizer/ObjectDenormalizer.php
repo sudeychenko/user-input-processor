@@ -6,6 +6,7 @@ namespace Flaksp\UserInputProcessor\Denormalizer;
 
 use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use Flaksp\UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongDiscriminatorValue;
 use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Flaksp\UserInputProcessor\Exception\ValidationError;
@@ -24,12 +25,7 @@ final class ObjectDenormalizer
         Pointer $pointer,
         string $discriminatorFieldName,
         ObjectDiscriminatorFields $discriminatorFields,
-        bool $isNullable = false,
-    ): ?array {
-        if (null === $data && $isNullable) {
-            return null;
-        }
-
+    ): array {
         $violations = new ConstraintViolationCollection();
 
         if (!\is_array($data) || !self::isAssocArray($data)) {
@@ -76,7 +72,6 @@ final class ObjectDenormalizer
             $data,
             $pointer,
             $discriminatorFields->getStaticFieldsByDiscriminatorValue($discriminatorValue),
-            isNullable: false,
         );
 
         if (\array_key_exists($discriminatorFieldName, $processedData)) {
@@ -95,12 +90,7 @@ final class ObjectDenormalizer
         mixed $data,
         Pointer $pointer,
         ObjectStaticFields $staticFields,
-        bool $isNullable = false,
-    ): ?array {
-        if (null === $data && $isNullable) {
-            return null;
-        }
-
+    ): array {
         $violations = new ConstraintViolationCollection();
 
         if (!\is_array($data) || !self::isAssocArray($data)) {
@@ -120,6 +110,16 @@ final class ObjectDenormalizer
                 if ($fieldDefinition->isMandatory()) {
                     $violations[] = new MandatoryFieldMissing(Pointer::append($pointer, $fieldName));
                 }
+
+                continue;
+            }
+
+            if (null === $data[$fieldName]) {
+                if (!$fieldDefinition->isNullable()) {
+                    $violations[] = new ValueShouldNotBeNull(Pointer::append($pointer, $fieldName));
+                }
+
+                $processedData[$fieldName] = null;
 
                 continue;
             }

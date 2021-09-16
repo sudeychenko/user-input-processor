@@ -22,16 +22,11 @@ final class ArrayDenormalizer
         mixed $data,
         Pointer $pointer,
         Closure $denormalizer,
-        bool $isNullable = false,
         int $minItems = null,
         int $maxItems = null,
-    ): ?array {
+    ): array {
         if (null !== $minItems && null !== $maxItems && $minItems > $maxItems) {
             throw new LogicException('Min items constraint can not be bigger than max items');
-        }
-
-        if (null === $data && $isNullable) {
-            return null;
         }
 
         $violations = new ConstraintViolationCollection();

@@ -10,7 +10,8 @@ class ObjectField
 {
     public function __construct(
         private Closure $denormalizer,
-        private bool $isMandatory = true
+        private bool $isMandatory = true,
+        private bool $isNullable = false,
     ) {
     }
 
@@ -22,5 +23,10 @@ class ObjectField
     public function isMandatory(): bool
     {
         return $this->isMandatory;
+    }
+
+    public function isNullable(): bool
+    {
+        return $this->isNullable;
     }
 }
