@@ -22,17 +22,12 @@ final class IntegerDenormalizer
         Pointer $pointer,
         int $minimum = null,
         int $maximum = null,
-        bool $allowNumericString = false
     ): int {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
         }
 
         $violations = new ConstraintViolationCollection();
-
-        if ($allowNumericString && \is_string($data) && is_numeric($data)) {
-            $data = (int) $data;
-        }
 
         if (!\is_int($data)) {
             $violations[] = WrongPropertyType::guessGivenType(

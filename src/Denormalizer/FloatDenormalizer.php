@@ -22,17 +22,12 @@ final class FloatDenormalizer
         Pointer $pointer,
         float $minimum = null,
         float $maximum = null,
-        bool $allowNumericString = false
     ): float {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
         }
 
         $violations = new ConstraintViolationCollection();
-
-        if ($allowNumericString && \is_string($data) && is_numeric($data)) {
-            $data = (float) $data;
-        }
 
         if (!\is_int($data) && !\is_float($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
