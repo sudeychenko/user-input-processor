@@ -15,7 +15,7 @@ class Pointer
     {
         return new self(array_merge(
             $pointer->getPropertyPath(),
-            array_map(static fn (string | int $pathItem) => $pathItem, $pathItems),
+            $pathItems,
         ));
     }
 
