@@ -10,7 +10,7 @@ Denormalizes and validates any kind of user input, so it may be easily used in:
 
 ## Installation
 
-**\*Warning:** At this moment the library is being tested in real projects to detect possible problems in its design, so API changes are possible. Please wait for stable version.\*
+_**Warning:** At this moment the library is being tested in real projects to detect possible problems in its design, so API changes are possible. Please wait for stable version._
 
 PHP 8.0 or newer is required. The library is available in [Packagist](https://packagist.org/packages/flaksp/user-input-processor) and may be installed with Composer:
 
