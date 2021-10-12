@@ -1,34 +1,40 @@
 name: Tests
 
-on: push
+on: pull_request
 
 jobs:
   phpunit:
     strategy:
       matrix:
-        php: ["8.0"]
+        php: ['8.0']
 
     name: PHPUnit (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
 
     steps:
-    - name: Setup PHP ${{ matrix.php }}
-      run: |
-        sudo add-apt-repository ppa:ondrej/php
-        sudo apt-get update
-        sudo apt-get install php${{ matrix.php }}
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.4
 
-    - name: Setup Composer
-      run: |
-        mkdir --parent "$HOME/.local/bin"
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-        wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/installer -O - -q | php -- --quiet --install-dir="$HOME/.local/bin" --filename=composer
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.15.0
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer
 
-    - name: Checkout repository
-      uses: actions/checkout@master
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-    - name: Install dependencies
-      run: composer install
+      - name: Cache dependencies
+        uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
 
-    - name: Run PHPUnit
-      run: vendor/bin/phpunit --configuration phpunit.xml
+      - name: Install Composer dependencies
+        run: composer install
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --configuration phpunit.xml
