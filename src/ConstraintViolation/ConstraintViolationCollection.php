@@ -52,7 +52,7 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
     /**
      * {@inheritdoc}
      */
-    public function getIterator(): ArrayIterator | array
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->violations);
     }
