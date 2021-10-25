@@ -11,6 +11,9 @@ use IteratorAggregate;
 use OutOfBoundsException;
 use Stringable;
 
+/**
+ * @implements IteratorAggregate<int, ConstraintViolationInterface>
+ */
 class ConstraintViolationCollection implements IteratorAggregate, Countable, ArrayAccess, Stringable
 {
     /** @var ConstraintViolationInterface[] */
