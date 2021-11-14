@@ -93,6 +93,6 @@ final class ArrayDenormalizer
 
     private static function isIndexedArray(array $array): bool
     {
-        return array_keys($array) === range(0, \count($array) - 1);
+        return 0 === \count($array) || array_keys($array) === range(0, \count($array) - 1);
     }
 }
