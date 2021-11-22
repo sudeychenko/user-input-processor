@@ -15,10 +15,34 @@ use Flaksp\UserInputProcessor\ObjectStaticFields;
 use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
 
+/**
+ * Denormalizer for fields where associative arrays are expected.
+ *
+ * It will fail if indexed array (list) passed. Use {@see ArrayDenormalizer} instead.
+ */
 final class ObjectDenormalizer
 {
     /**
-     * @throws ValidationError If $data has invalid parameters
+     * Validates and denormalizes passed data.
+     *
+     * It expects `$data` to be array type, but also accepts additional validation requirements.
+     *
+     * This method should be used when denormalization may differ depending on specific field value.
+     * Such field called "discriminator". All possible values of the discriminator are static and known
+     * in advance. For example, if you are denormalizing OAuth 2 grant, `grant_type` field may be used as
+     * discriminator, and, for example, all possible values of the field will be `authorization_code`, `password`,
+     * `client_credentials`, `refresh_token`, and so on. Depending on the value of the discriminator, denormalization
+     * may differ, and returned by the denormalizer value may also differ.
+     *
+     * @param mixed                     $data                   Data to validate and denormalize
+     * @param Pointer                   $pointer                Pointer containing path to current field
+     * @param string                    $discriminatorFieldName field name of the discriminator
+     * @param ObjectDiscriminatorFields $discriminatorFields    Denormalization rules for each allowed discriminator value
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
+     *
+     * @return array The same array as `$data`, but value of each key may be modified by denormalization functions
+     *               defined in `$discriminatorFields` object
      */
     public function denormalizeDynamicFields(
         mixed $data,
@@ -84,7 +108,18 @@ final class ObjectDenormalizer
     }
 
     /**
-     * @throws ValidationError If $data has invalid parameters
+     * Validates and denormalizes passed data.
+     *
+     * It expects `$data` to be array type, but also accepts additional validation requirements.
+     *
+     * @param mixed              $data         Data to validate and denormalize
+     * @param Pointer            $pointer      Pointer containing path to current field
+     * @param ObjectStaticFields $staticFields Denormalization rules for each allowed discriminator value
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
+     *
+     * @return array The same array as `$data`, but value of each key may be modified by denormalization functions
+     *               defined in `$staticFields` object
      */
     public function denormalizeStaticFields(
         mixed $data,

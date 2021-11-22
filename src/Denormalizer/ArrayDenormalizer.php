@@ -13,10 +13,29 @@ use Flaksp\UserInputProcessor\Exception\ValidationError;
 use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
 
+/**
+ * Denormalizer for fields where indexed array (lists) is expected.
+ *
+ * It will fail if associative array passed. Use {@see ObjectDenormalizer} instead.
+ */
 final class ArrayDenormalizer
 {
     /**
-     * @throws ValidationError If $data has invalid parameters
+     * Validates and denormalizes passed data.
+     *
+     * It expects `$data` to be array type, but also accepts additional validation requirements.
+     *
+     * @param mixed                          $data         Data to validate and denormalize
+     * @param Pointer                        $pointer      Pointer containing path to current field
+     * @param Closure(mixed, Pointer): mixed $denormalizer Denormalizer function that will be called for each array entry.
+     *                                                     First parameter of the function will contain value of the entry.
+     *                                                     The second one will contain {@see Pointer} for this entry.
+     * @param int|null                       $minItems     Minimum amount of entries in passed array
+     * @param int|null                       $maxItems     Maximum amount of entries in passed array
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
+     *
+     * @return array The same array as `$data`, but modified by `$denormalizer` function applied to each array entry
      */
     public function denormalize(
         mixed $data,
