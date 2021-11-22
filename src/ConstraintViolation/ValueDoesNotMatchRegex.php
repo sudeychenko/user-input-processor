@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\ConstraintViolation;
+namespace Spiks\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\Pointer;
+use Spiks\UserInputProcessor\Pointer;
 
 final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
 {

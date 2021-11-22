@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Flaksp\UserInputProcessor\Denormalizer;
+namespace Tests\Spiks\UserInputProcessor\Denormalizer;
 
-use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
-use Flaksp\UserInputProcessor\Denormalizer\ObjectDenormalizer;
-use Flaksp\UserInputProcessor\Denormalizer\StringDenormalizer;
-use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
-use Flaksp\UserInputProcessor\ObjectField;
-use Flaksp\UserInputProcessor\ObjectStaticFields;
-use Flaksp\UserInputProcessor\Pointer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use Spiks\UserInputProcessor\Denormalizer\ObjectDenormalizer;
+use Spiks\UserInputProcessor\Denormalizer\StringDenormalizer;
+use Spiks\UserInputProcessor\Exception\ValidationError;
+use Spiks\UserInputProcessor\ObjectDiscriminatorFields;
+use Spiks\UserInputProcessor\ObjectField;
+use Spiks\UserInputProcessor\ObjectStaticFields;
+use Spiks\UserInputProcessor\Pointer;
 
 /**
- * @covers \Flaksp\UserInputProcessor\Denormalizer\ObjectDenormalizer
+ * @covers \Spiks\UserInputProcessor\Denormalizer\ObjectDenormalizer
  *
  * @internal
  */

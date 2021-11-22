@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\ConstraintViolation;
+namespace Spiks\UserInputProcessor\ConstraintViolation;
 
 use ArrayAccess;
 use ArrayIterator;

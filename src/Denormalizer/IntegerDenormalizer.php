@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Denormalizer;
+namespace Spiks\UserInputProcessor\Denormalizer;
 
-use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputProcessor\ConstraintViolation\NumberIsTooBig;
-use Flaksp\UserInputProcessor\ConstraintViolation\NumberIsTooSmall;
-use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\NumberIsTooBig;
+use Spiks\UserInputProcessor\ConstraintViolation\NumberIsTooSmall;
+use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Spiks\UserInputProcessor\Exception\ValidationError;
+use Spiks\UserInputProcessor\Pointer;
 
 /**
  * Denormalizer for fields where integer is expected.

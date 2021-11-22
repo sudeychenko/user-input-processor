@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Denormalizer;
+namespace Spiks\UserInputProcessor\Denormalizer;
 
-use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputProcessor\ConstraintViolation\StringIsTooLong;
-use Flaksp\UserInputProcessor\ConstraintViolation\StringIsTooShort;
-use Flaksp\UserInputProcessor\ConstraintViolation\ValueDoesNotMatchRegex;
-use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\StringIsTooLong;
+use Spiks\UserInputProcessor\ConstraintViolation\StringIsTooShort;
+use Spiks\UserInputProcessor\ConstraintViolation\ValueDoesNotMatchRegex;
+use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Spiks\UserInputProcessor\Exception\ValidationError;
+use Spiks\UserInputProcessor\Pointer;
 
 /**
  * Denormalizer for fields where string is expected.

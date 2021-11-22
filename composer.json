@@ -1,9 +1,9 @@
 {
-  "name": "flaksp/user-input-processor",
+  "name": "spiks/user-input-processor",
   "description": "Denormalizer and validator for any kind of user input.",
   "type": "library",
   "license": "MIT",
-  "homepage": "https://github.com/flaksp/user-input-processor",
+  "homepage": "https://github.com/spiks/user-input-processor",
   "readme": "./README.md",
   "keywords": [
     "denormalizer",
@@ -19,10 +19,10 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/flaksp/user-input-processor/issues",
-    "forum": "https://github.com/flaksp/user-input-processor/discussions",
-    "source": "https://github.com/flaksp/user-input-processor",
-    "docs": "https://github.com/flaksp/user-input-processor/blob/main/README.md"
+    "issues": "https://github.com/spiks/user-input-processor/issues",
+    "forum": "https://github.com/spiks/user-input-processor/discussions",
+    "source": "https://github.com/spiks/user-input-processor",
+    "docs": "https://github.com/spiks/user-input-processor/blob/main/README.md"
   },
   "require": {
     "php": ">= 8.0",
@@ -40,12 +40,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Flaksp\\UserInputProcessor\\": "src/"
+      "Spiks\\UserInputProcessor\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Flaksp\\UserInputProcessor\\": "tests/"
+      "Tests\\Spiks\\UserInputProcessor\\": "tests/"
     }
   }
 }

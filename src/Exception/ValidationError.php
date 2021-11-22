@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Exception;
+namespace Spiks\UserInputProcessor\Exception;
 
-use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 use InvalidArgumentException;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
 
 final class ValidationError extends InvalidArgumentException
 {

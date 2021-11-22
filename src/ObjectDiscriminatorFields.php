@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor;
+namespace Spiks\UserInputProcessor;
 
 use InvalidArgumentException;
 

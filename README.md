@@ -1,4 +1,4 @@
-# flaksp/user-input-processor
+# spiks/user-input-processor
 
 Denormalizes and validates any kind of user input, so it may be easily used in:
 
@@ -12,10 +12,10 @@ Denormalizes and validates any kind of user input, so it may be easily used in:
 
 _**Warning:** At this moment the library is being tested in real projects to detect possible problems in its design, so API changes are possible. Please wait for stable version._
 
-PHP 8.0 or newer is required. The library is available in [Packagist](https://packagist.org/packages/flaksp/user-input-processor) and may be installed with Composer:
+PHP 8.0 or newer is required. The library is available in [Packagist](https://packagist.org/packages/spiks/user-input-processor) and may be installed with Composer:
 
 ```console
-composer require flaksp/user-input-processor
+composer require spiks/user-input-processor
 ```
 
 ## Conception
@@ -75,10 +75,10 @@ use App\Denormalizer\DisplayNameDenormalizer;
 use App\Denormalizer\EmailDenormalizer;
 use App\Denormalizer\UsernameDenormalizer;
 use App\ValueObject\UserProfileData;
-use Flaksp\UserInputProcessor\Denormalizer\ObjectDenormalizer;
-use Flaksp\UserInputProcessor\ObjectField;
-use Flaksp\UserInputProcessor\ObjectStaticFields;
-use Flaksp\UserInputProcessor\Pointer;
+use Spiks\UserInputProcessor\Denormalizer\ObjectDenormalizer;
+use Spiks\UserInputProcessor\ObjectField;
+use Spiks\UserInputProcessor\ObjectStaticFields;
+use Spiks\UserInputProcessor\Pointer;
 
 final class UserProfileDenormalizer {
     public function __construct(

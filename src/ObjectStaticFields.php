@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor;
+namespace Spiks\UserInputProcessor;
 
 /**
  * This class represents structure and denormalization rules for each field of an object (associative array).

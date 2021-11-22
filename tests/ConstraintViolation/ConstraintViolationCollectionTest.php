@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Tests\Flaksp\UserInputProcessor\ConstraintViolation;
+namespace Tests\Spiks\UserInputProcessor\ConstraintViolation;
 
-use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
-use Flaksp\UserInputProcessor\Pointer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use Spiks\UserInputProcessor\Pointer;
 
 /**
- * @covers \Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection
+ * @covers \Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection
  *
  * @internal
  */

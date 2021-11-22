@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Denormalizer;
+namespace Spiks\UserInputProcessor\Denormalizer;
 
 use Closure;
-use Flaksp\UserInputProcessor\ConstraintViolation\ArrayIsTooLong;
-use Flaksp\UserInputProcessor\ConstraintViolation\ArrayIsTooShort;
-use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
+use Spiks\UserInputProcessor\ConstraintViolation\ArrayIsTooLong;
+use Spiks\UserInputProcessor\ConstraintViolation\ArrayIsTooShort;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Spiks\UserInputProcessor\Exception\ValidationError;
+use Spiks\UserInputProcessor\Pointer;
 
 /**
  * Denormalizer for fields where indexed array (lists) is expected.

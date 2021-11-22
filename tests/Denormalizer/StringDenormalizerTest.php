@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Flaksp\UserInputProcessor\Denormalizer;
+namespace Tests\Spiks\UserInputProcessor\Denormalizer;
 
-use Flaksp\UserInputProcessor\Denormalizer\StringDenormalizer;
-use Flaksp\UserInputProcessor\Pointer;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Spiks\UserInputProcessor\Denormalizer\StringDenormalizer;
+use Spiks\UserInputProcessor\Pointer;
 
 /**
- * @covers \Flaksp\UserInputProcessor\StringDenormalizer
+ * @covers \Spiks\UserInputProcessor\StringDenormalizer
  *
  * @internal
  */

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Flaksp\UserInputProcessor\Denormalizer;
+namespace Spiks\UserInputProcessor\Denormalizer;
 
-use Flaksp\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
-use Flaksp\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
-use Flaksp\UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
-use Flaksp\UserInputProcessor\ConstraintViolation\WrongDiscriminatorValue;
-use Flaksp\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Flaksp\UserInputProcessor\Exception\ValidationError;
-use Flaksp\UserInputProcessor\ObjectDiscriminatorFields;
-use Flaksp\UserInputProcessor\ObjectStaticFields;
-use Flaksp\UserInputProcessor\Pointer;
 use LogicException;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use Spiks\UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
+use Spiks\UserInputProcessor\ConstraintViolation\WrongDiscriminatorValue;
+use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use Spiks\UserInputProcessor\Exception\ValidationError;
+use Spiks\UserInputProcessor\ObjectDiscriminatorFields;
+use Spiks\UserInputProcessor\ObjectStaticFields;
+use Spiks\UserInputProcessor\Pointer;
 
 /**
  * Denormalizer for fields where associative arrays are expected.

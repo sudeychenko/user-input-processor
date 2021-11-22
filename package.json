@@ -1,5 +1,6 @@
 {
-  "name": "@flaksp/user-input-processor",
+  "name": "@spiks/user-input-processor",
+  "private": true,
   "engines": {
     "node": ">=16"
   },
