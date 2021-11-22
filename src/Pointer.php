@@ -25,7 +25,7 @@ class Pointer
      *
      * @return self New instance of the Pointer
      */
-    public static function append(self $pointer, string | int ...$pathItems): self
+    public static function append(self $pointer, string|int ...$pathItems): self
     {
         return new self(array_merge(
             $pointer->getPropertyPath(),
