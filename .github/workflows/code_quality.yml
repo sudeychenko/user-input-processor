@@ -32,7 +32,7 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
 
-      - name: Run PHP-CS-Fixer
+      - name: Lint with PHP-CS-Fixer
         run: vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --verbose --allow-risky=yes --dry-run
 
   psalm:
@@ -64,7 +64,7 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
 
-      - name: Run Psalm
+      - name: Analyze with Psalm
         run: vendor/bin/psalm --show-info=true --output-format=github
 
   phpstan:
@@ -96,8 +96,8 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
 
-      - name: Run PHPStan
-        run: vendor/bin/phpstan analyze --configuration=phpstan.neon --error-format=github
+      - name: Analyze with PHPStan
+        run: php -d memory_limit=-1 vendor/bin/phpstan analyse --error-format=github
 
   prettier:
     name: Prettier
@@ -107,21 +107,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2.4.0
 
-      - name: Cache dependencies
-        uses: actions/cache@v2.1.6
-        with:
-          path: ./.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-
       - name: Setup Node.js
         uses: actions/setup-node@v2.4.1
         with:
           node-version: '16.x'
 
-      - name: Install npm dependencies
-        run: npm ci --prefer-offline --cache=./.npm
+      - name: Get npm cache directory
+        id: npm-cache
+        run: echo "::set-output name=dir::$(npm config get cache)"
 
-      - name: Lint with ESLint
+      - name: Cache dependencies
+        uses: actions/cache@v2.1.6
+        with:
+          path: ${{ steps.npm-cache.outputs.dir }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install npm dependencies
+        run: npm ci --prefer-offline
+
+      - name: Lint with Prettier
         run: npx prettier --check .
