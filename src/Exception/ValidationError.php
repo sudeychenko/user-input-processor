@@ -13,7 +13,7 @@ final class ValidationError extends InvalidArgumentException
         private ConstraintViolationCollection $violations
     ) {
         parent::__construct(
-            message: $violations->__toString()
+            message: $violations->toString()
         );
     }
 

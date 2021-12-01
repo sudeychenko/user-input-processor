@@ -9,12 +9,11 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use OutOfBoundsException;
-use Stringable;
 
 /**
  * @implements IteratorAggregate<int, ConstraintViolationInterface>
  */
-class ConstraintViolationCollection implements IteratorAggregate, Countable, ArrayAccess, Stringable
+class ConstraintViolationCollection implements IteratorAggregate, Countable, ArrayAccess
 {
     /** @var ConstraintViolationInterface[] */
     private array $violations = [];
@@ -106,11 +105,29 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
     }
 
     /**
+     * Converts the violation into an array for debugging purposes.
+     *
+     * @return array<array{pointer: string, type: string, description: string}> Collection of violations as array
+     *
+     * @internal Should not be used outside of the library
+     */
+    public function toArray(): array
+    {
+        return array_map(static fn (ConstraintViolationInterface $violation) => [
+            'pointer' => $violation->getPointer()->toString(),
+            'type' => $violation::getType(),
+            'description' => $violation->getDescription(),
+        ], $this->violations);
+    }
+
+    /**
      * Converts the violation into a string for debugging purposes.
      *
      * @return string Collection of violations as string
+     *
+     * @internal Should not be used outside of the library
      */
-    public function __toString(): string
+    public function toString(): string
     {
         $violationIndex = 1;
 
@@ -119,7 +136,7 @@ class ConstraintViolationCollection implements IteratorAggregate, Countable, Arr
                 '%d) %s (%s): %s' . "\n",
                 $violationIndex++,
                 $violation->getType(),
-                implode(' > ', $violation->getPointer()->getPropertyPath()),
+                $violation->getPointer()->toString(),
                 $violation->getDescription()
             );
         }, '');

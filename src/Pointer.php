@@ -48,4 +48,14 @@ class Pointer
     {
         return $this->propertyPath;
     }
+
+    /**
+     * Converts pointer to string.
+     *
+     * @internal Should not be used outside of the library
+     */
+    public function toString(): string
+    {
+        return '/' . implode('/', $this->getPropertyPath());
+    }
 }
