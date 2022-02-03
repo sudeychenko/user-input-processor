@@ -61,7 +61,7 @@ final class ArrayDenormalizer
             throw new ValidationError($violations);
         }
 
-        if (!self::isIndexedArray($data)) {
+        if (!array_is_list($data)) {
             $violations[] = new WrongPropertyType(
                 $pointer,
                 WrongPropertyType::JSON_TYPE_OBJECT,
@@ -112,10 +112,5 @@ final class ArrayDenormalizer
         }
 
         return $processedData;
-    }
-
-    private static function isIndexedArray(array $array): bool
-    {
-        return 0 === \count($array) || array_keys($array) === range(0, \count($array) - 1);
     }
 }
