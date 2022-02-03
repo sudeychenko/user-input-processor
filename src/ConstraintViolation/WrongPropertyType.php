@@ -72,12 +72,19 @@ final class WrongPropertyType implements ConstraintViolationInterface
 
     private static function getJsonTypeFromValue(mixed $value): string
     {
-        return match (\gettype($value)) {
+        if (\is_array($value)) {
+            return array_is_list($value)
+                ? self::JSON_TYPE_ARRAY
+                : self::JSON_TYPE_OBJECT;
+        }
+
+        $type = \gettype($value);
+
+        return match ($type) {
             'boolean' => self::JSON_TYPE_BOOLEAN,
             'integer' => self::JSON_TYPE_NUMBER,
             'double' => self::JSON_TYPE_FLOAT,
             'string' => self::JSON_TYPE_STRING,
-            'array' => self::JSON_TYPE_ARRAY,
             'NULL' => self::JSON_TYPE_NULL,
             default => throw new UnexpectedValueException('Given PHP type is not supported in JSON conversion: ' . $value),
         };
