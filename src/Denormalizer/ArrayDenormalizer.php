@@ -8,7 +8,7 @@ use Closure;
 use LogicException;
 use Spiks\UserInputProcessor\ConstraintViolation\ArrayIsTooLong;
 use Spiks\UserInputProcessor\ConstraintViolation\ArrayIsTooShort;
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
 use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Spiks\UserInputProcessor\Exception\ValidationError;
 use Spiks\UserInputProcessor\Pointer;
@@ -48,7 +48,8 @@ final class ArrayDenormalizer
             throw new LogicException('Min items constraint can not be bigger than max items');
         }
 
-        $violations = new ConstraintViolationCollection();
+        /** @var list<ConstraintViolationInterface> $violations */
+        $violations = [];
 
         if (!\is_array($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
@@ -84,7 +85,7 @@ final class ArrayDenormalizer
             );
         }
 
-        if ($violations->isNotEmpty()) {
+        if (\count($violations) > 0) {
             throw new ValidationError($violations);
         }
 
@@ -99,11 +100,14 @@ final class ArrayDenormalizer
 
                 $processedData[$index] = $processedIndex;
             } catch (ValidationError $e) {
-                $violations->addAll($e->getViolations());
+                $violations = [
+                    ...$violations,
+                    ...$e->getViolations(),
+                ];
             }
         }
 
-        if ($violations->isNotEmpty()) {
+        if (\count($violations) > 0) {
             throw new ValidationError($violations);
         }
 

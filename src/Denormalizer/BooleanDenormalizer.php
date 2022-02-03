@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Spiks\UserInputProcessor\Denormalizer;
 
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
 use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Spiks\UserInputProcessor\Exception\ValidationError;
 use Spiks\UserInputProcessor\Pointer;
@@ -30,7 +30,8 @@ final class BooleanDenormalizer
         mixed $data,
         Pointer $pointer,
     ): bool {
-        $violations = new ConstraintViolationCollection();
+        /** @var list<ConstraintViolationInterface> $violations */
+        $violations = [];
 
         if (!\is_bool($data)) {
             $violations[] = WrongPropertyType::guessGivenType(

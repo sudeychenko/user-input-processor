@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Spiks\UserInputProcessor\Denormalizer;
 
 use LogicException;
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
 use Spiks\UserInputProcessor\ConstraintViolation\NumberIsTooBig;
 use Spiks\UserInputProcessor\ConstraintViolation\NumberIsTooSmall;
 use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
@@ -45,7 +45,8 @@ final class FloatDenormalizer
             throw new LogicException('Minimum constraint can not be bigger than maximum');
         }
 
-        $violations = new ConstraintViolationCollection();
+        /** @var list<ConstraintViolationInterface> $violations */
+        $violations = [];
 
         if (!\is_int($data) && !\is_float($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
@@ -71,7 +72,7 @@ final class FloatDenormalizer
             );
         }
 
-        if ($violations->isNotEmpty()) {
+        if (\count($violations) > 0) {
             throw new ValidationError($violations);
         }
 

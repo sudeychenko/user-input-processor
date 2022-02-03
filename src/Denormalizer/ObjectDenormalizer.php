@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Spiks\UserInputProcessor\Denormalizer;
 
 use LogicException;
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
 use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
 use Spiks\UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
 use Spiks\UserInputProcessor\ConstraintViolation\WrongDiscriminatorValue;
@@ -50,7 +50,8 @@ final class ObjectDenormalizer
         string $discriminatorFieldName,
         ObjectDiscriminatorFields $discriminatorFields,
     ): array {
-        $violations = new ConstraintViolationCollection();
+        /** @var list<ConstraintViolationInterface> $violations */
+        $violations = [];
 
         if (!\is_array($data) || !self::isAssocArray($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
@@ -126,7 +127,8 @@ final class ObjectDenormalizer
         Pointer $pointer,
         ObjectStaticFields $staticFields,
     ): array {
-        $violations = new ConstraintViolationCollection();
+        /** @var list<ConstraintViolationInterface> $violations */
+        $violations = [];
 
         if (!\is_array($data) || !self::isAssocArray($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
@@ -167,11 +169,14 @@ final class ObjectDenormalizer
 
                 $processedData[$fieldName] = $processedField;
             } catch (ValidationError $e) {
-                $violations->addAll($e->getViolations());
+                $violations = [
+                    ...$violations,
+                    ...$e->getViolations(),
+                ];
             }
         }
 
-        if ($violations->isNotEmpty()) {
+        if (\count($violations) > 0) {
             throw new ValidationError($violations);
         }
 
