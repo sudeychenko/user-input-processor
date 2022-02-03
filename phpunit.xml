@@ -11,10 +11,6 @@
   </php>
 
   <testsuites>
-    <testsuite name="ConstraintViolation">
-      <directory>tests/ConstraintViolation/</directory>
-    </testsuite>
-
     <testsuite name="Denormalizer">
       <directory>tests/Denormalizer/</directory>
     </testsuite>
