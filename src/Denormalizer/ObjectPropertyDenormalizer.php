@@ -16,6 +16,8 @@ use Spiks\UserInputProcessor\Pointer;
  * Denormalizer for fields where associative arrays are expected.
  *
  * It will fail if indexed array (list) passed. Use {@see ArrayDenormalizer} instead.
+ *
+ * WARNING: This API is experimental and may be removed in the future.
  */
 final class ObjectPropertyDenormalizer
 {
@@ -47,7 +49,7 @@ final class ObjectPropertyDenormalizer
 
         $processedData = null;
 
-        if (!\is_array($data) || !self::isAssocArray($data)) {
+        if (!\is_array($data) || array_is_list($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
                 $pointer,
                 $data,
@@ -126,13 +128,5 @@ final class ObjectPropertyDenormalizer
         }
 
         return $processedData;
-    }
-
-    /**
-     * @param array<array-key, mixed> $array
-     */
-    private static function isAssocArray(array $array): bool
-    {
-        return array_keys($array) !== range(0, \count($array) - 1);
     }
 }

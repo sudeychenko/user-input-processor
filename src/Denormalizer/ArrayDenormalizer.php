@@ -16,7 +16,7 @@ use Spiks\UserInputProcessor\Pointer;
 /**
  * Denormalizer for fields where indexed array (lists) is expected.
  *
- * It will fail if associative array passed. Use {@see ObjectDenormalizer} instead.
+ * It will fail if associative array passed. Use {@see ObjectPropertyDenormalizer} instead.
  */
 final class ArrayDenormalizer
 {

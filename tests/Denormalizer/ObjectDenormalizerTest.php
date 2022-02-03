@@ -10,9 +10,7 @@ use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
 use Spiks\UserInputProcessor\Denormalizer\ObjectDenormalizer;
 use Spiks\UserInputProcessor\Denormalizer\StringDenormalizer;
 use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\ObjectDiscriminatorFields;
 use Spiks\UserInputProcessor\ObjectField;
-use Spiks\UserInputProcessor\ObjectStaticFields;
 use Spiks\UserInputProcessor\Pointer;
 
 /**
@@ -22,25 +20,9 @@ use Spiks\UserInputProcessor\Pointer;
  */
 final class ObjectDenormalizerTest extends TestCase
 {
-    public function dynamicFieldsDataProvider(): array
-    {
-        return [
-            [
-                [
-                    'type' => 'a',
-                    'foo' => 'Test',
-                ],
-            ],
-            [
-                [
-                    'type' => 'b',
-                    'bar' => 'Test',
-                    'baz' => 'Test',
-                ],
-            ],
-        ];
-    }
-
+    /**
+     * @return list<array{array<mixed>}>
+     */
     public function staticFieldsDataProvider(): array
     {
         return [
@@ -61,6 +43,8 @@ final class ObjectDenormalizerTest extends TestCase
     }
 
     /**
+     * @param array<mixed> $payload
+     *
      * @dataProvider staticFieldsDataProvider
      */
     public function testSuccessfulDenormalization(
@@ -71,10 +55,10 @@ final class ObjectDenormalizerTest extends TestCase
 
         $pointer = Pointer::empty();
 
-        $processedData = $objectDenormalizer->denormalizeStaticFields(
+        $processedData = $objectDenormalizer->denormalize(
             $payload,
             $pointer,
-            new ObjectStaticFields([
+            [
                 'foo' => new ObjectField(
                     static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                     isMandatory: true,
@@ -88,46 +72,7 @@ final class ObjectDenormalizerTest extends TestCase
                     static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                     isMandatory: false,
                 ),
-            ]),
-        );
-
-        Assert::assertEquals($payload, $processedData);
-    }
-
-    /**
-     * @dataProvider dynamicFieldsDataProvider
-     */
-    public function testSuccessfulDiscriminatorDenormalization(
-        array $payload
-    ): void {
-        $objectDenormalizer = new ObjectDenormalizer();
-        $stringDenormalizer = new StringDenormalizer();
-
-        $pointer = Pointer::empty();
-
-        $processedData = $objectDenormalizer->denormalizeDynamicFields(
-            $payload,
-            $pointer,
-            'type',
-            new ObjectDiscriminatorFields([
-                'a' => new ObjectStaticFields([
-                    'foo' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                        isMandatory: true,
-                    ),
-                ]),
-                'b' => new ObjectStaticFields([
-                    'bar' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                        isMandatory: true,
-                        isNullable: true,
-                    ),
-                    'baz' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                        isMandatory: false,
-                    ),
-                ]),
-            ]),
+            ],
         );
 
         Assert::assertEquals($payload, $processedData);
@@ -145,10 +90,10 @@ final class ObjectDenormalizerTest extends TestCase
         $pointer = Pointer::empty();
 
         try {
-            $objectDenormalizer->denormalizeStaticFields(
+            $objectDenormalizer->denormalize(
                 $data,
                 $pointer,
-                new ObjectStaticFields([
+                [
                     'foo' => new ObjectField(
                         static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: true,
@@ -162,7 +107,7 @@ final class ObjectDenormalizerTest extends TestCase
                         static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
                         isMandatory: false,
                     ),
-                ]),
+                ],
             );
         } catch (ValidationError $exception) {
             Assert::assertCount(2, $exception->getViolations());
