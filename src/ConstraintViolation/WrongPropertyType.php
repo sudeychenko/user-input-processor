@@ -12,8 +12,8 @@ final class WrongPropertyType implements ConstraintViolationInterface
     public const JSON_TYPE_ARRAY = 'array';
     public const JSON_TYPE_BOOLEAN = 'boolean';
     public const JSON_TYPE_FLOAT = 'float';
-    public const JSON_TYPE_INTEGER = 'integer';
     public const JSON_TYPE_NULL = 'null';
+    public const JSON_TYPE_NUMBER = 'number';
     public const JSON_TYPE_OBJECT = 'object';
     public const JSON_TYPE_STRING = 'string';
 
@@ -74,7 +74,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     {
         return match (\gettype($value)) {
             'boolean' => self::JSON_TYPE_BOOLEAN,
-            'integer' => self::JSON_TYPE_INTEGER,
+            'integer' => self::JSON_TYPE_NUMBER,
             'double' => self::JSON_TYPE_FLOAT,
             'string' => self::JSON_TYPE_STRING,
             'array' => self::JSON_TYPE_ARRAY,

@@ -50,7 +50,7 @@ final class IntegerDenormalizer
             $violations[] = WrongPropertyType::guessGivenType(
                 $pointer,
                 $data,
-                [WrongPropertyType::JSON_TYPE_INTEGER]
+                [WrongPropertyType::JSON_TYPE_NUMBER]
             );
 
             throw new ValidationError($violations);
