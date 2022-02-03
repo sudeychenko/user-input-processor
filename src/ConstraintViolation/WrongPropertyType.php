@@ -19,6 +19,10 @@ final class WrongPropertyType implements ConstraintViolationInterface
 
     public const TYPE = 'wrong_property_type';
 
+    /**
+     * @param self::JSON_TYPE_*                 $givenType
+     * @param non-empty-list<self::JSON_TYPE_*> $allowedTypes
+     */
     public function __construct(
         private Pointer $pointer,
         private string $givenType,
@@ -31,6 +35,11 @@ final class WrongPropertyType implements ConstraintViolationInterface
         return self::TYPE;
     }
 
+    /**
+     * @param non-empty-list<self::JSON_TYPE_*> $allowedTypes
+     *
+     * @return static
+     */
     public static function guessGivenType(
         Pointer $pointer,
         mixed $givenValue,
@@ -44,7 +53,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     }
 
     /**
-     * @return string[]
+     * @return non-empty-list<self::JSON_TYPE_*> $allowedTypes
      */
     public function getAllowedTypes(): array
     {
@@ -60,6 +69,9 @@ final class WrongPropertyType implements ConstraintViolationInterface
         );
     }
 
+    /**
+     * @return self::JSON_TYPE_*
+     */
     public function getGivenType(): string
     {
         return $this->givenType;
@@ -70,6 +82,9 @@ final class WrongPropertyType implements ConstraintViolationInterface
         return $this->pointer;
     }
 
+    /**
+     * @return self::JSON_TYPE_*
+     */
     private static function getJsonTypeFromValue(mixed $value): string
     {
         if (\is_array($value)) {

@@ -10,6 +10,9 @@ final class StringIsTooLong implements ConstraintViolationInterface
 {
     public const TYPE = 'string_is_too_long';
 
+    /**
+     * @param int<0, max> $maxLength
+     */
     public function __construct(
         private Pointer $pointer,
         private int $maxLength
@@ -26,6 +29,9 @@ final class StringIsTooLong implements ConstraintViolationInterface
         return 'Property contains too long string.';
     }
 
+    /**
+     * @return int<0, max>
+     */
     public function getMaxLength(): int
     {
         return $this->maxLength;

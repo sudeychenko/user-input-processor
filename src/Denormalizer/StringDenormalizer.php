@@ -25,11 +25,11 @@ final class StringDenormalizer
      *
      * It expects `$data` to be string type, but also accept additional validation requirements.
      *
-     * @param mixed       $data      Data to validate and denormalize
-     * @param Pointer     $pointer   Pointer containing path to current field
-     * @param int|null    $minLength Minimum length of string
-     * @param int|null    $maxLength Maximum length of string
-     * @param string|null $pattern   Regular expression to validate string against
+     * @param mixed           $data      Data to validate and denormalize
+     * @param Pointer         $pointer   Pointer containing path to current field
+     * @param int<0,max>|null $minLength Minimum length of string
+     * @param int<0,max>|null $maxLength Maximum length of string
+     * @param string|null     $pattern   Regular expression to validate string against
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      *

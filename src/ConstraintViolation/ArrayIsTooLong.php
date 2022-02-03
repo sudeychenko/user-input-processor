@@ -10,6 +10,9 @@ final class ArrayIsTooLong implements ConstraintViolationInterface
 {
     public const TYPE = 'array_is_too_long';
 
+    /**
+     * @param int<0, max> $maxLength
+     */
     public function __construct(
         private Pointer $pointer,
         private int $maxLength
@@ -26,6 +29,9 @@ final class ArrayIsTooLong implements ConstraintViolationInterface
         return 'Property contains too long array.';
     }
 
+    /**
+     * @return int<0, max>
+     */
     public function getMaxLength(): int
     {
         return $this->maxLength;

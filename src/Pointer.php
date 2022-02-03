@@ -10,7 +10,7 @@ namespace Spiks\UserInputProcessor;
 class Pointer
 {
     /**
-     * @param array $propertyPath Path to the property
+     * @param list<string> $propertyPath Path to the property
      */
     public function __construct(
         protected array $propertyPath
@@ -20,17 +20,17 @@ class Pointer
     /**
      * Creates new Pointer using old one, and appending path segments to it.
      *
-     * @param self       $pointer      Old pointer
-     * @param string|int ...$pathItems Path segments to append to the Pointer
+     * @param self   $pointer      Old pointer
+     * @param string ...$pathItems Path segments to append to the Pointer
      *
      * @return self New instance of the Pointer
      */
-    public static function append(self $pointer, string|int ...$pathItems): self
+    public static function append(self $pointer, string ...$pathItems): self
     {
-        return new self(array_merge(
-            $pointer->getPropertyPath(),
-            $pathItems,
-        ));
+        return new self([
+            ...$pointer->getPropertyPath(),
+            ...array_values($pathItems),
+        ]);
     }
 
     /**
@@ -42,7 +42,7 @@ class Pointer
     }
 
     /**
-     * @return array<string|int>
+     * @return list<string>
      */
     public function getPropertyPath(): array
     {
@@ -52,7 +52,7 @@ class Pointer
     /**
      * Converts pointer to string.
      *
-     * @internal Should not be used outside of the library
+     * @internal Should not be used outside the library
      */
     public function toString(): string
     {
