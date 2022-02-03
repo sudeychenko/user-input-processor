@@ -32,8 +32,11 @@
     "friendsofphp/php-cs-fixer": "^3.4",
     "jetbrains/phpstorm-attributes": "^1.0",
     "phpstan/phpstan": "^1.2",
+    "phpstan/phpstan-phpunit": "^1.0",
+    "phpstan/phpstan-strict-rules": "^1.1",
     "phpunit/phpunit": "^9.5",
-    "vimeo/psalm": "^4.15"
+    "psalm/plugin-phpunit": "^0.16.1",
+    "vimeo/psalm": "^4.19"
   },
   "config": {
     "sort-packages": true
