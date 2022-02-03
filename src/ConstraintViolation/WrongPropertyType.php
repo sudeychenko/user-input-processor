@@ -86,7 +86,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
             'double' => self::JSON_TYPE_FLOAT,
             'string' => self::JSON_TYPE_STRING,
             'NULL' => self::JSON_TYPE_NULL,
-            default => throw new UnexpectedValueException('Given PHP type is not supported in JSON conversion: ' . $value),
+            default => throw new UnexpectedValueException('Given PHP type is not supported in JSON conversion: ' . $type),
         };
     }
 }
