@@ -81,9 +81,6 @@ $rules['single_line_throw'] = false;
 $rules['static_lambda'] = true;
 $rules['use_arrow_functions'] = true;
 $rules['no_superfluous_phpdoc_tags'] = false;
-$rules['phpdoc_to_comment'] = [
-    'ignored_tags' => ['psalm-suppress'],
-];
 
 return (new PhpCsFixer\Config())
     ->setRules($rules)
