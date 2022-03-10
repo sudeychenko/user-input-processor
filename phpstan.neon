@@ -1,5 +1,14 @@
+includes:
+- vendor/phpstan/phpstan-strict-rules/rules.neon
+- vendor/phpstan/phpstan-phpunit/extension.neon
+- vendor/phpstan/phpstan-phpunit/rules.neon
 parameters:
-  level: 5
+  level: 9
+  checkTooWideReturnTypesInProtectedAndPublicMethods: true
+  checkUninitializedProperties: true
+  exceptions:
+    check:
+      tooWideThrowType: true
   paths:
   - src
   - tests

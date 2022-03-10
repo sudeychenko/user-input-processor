@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Spiks\UserInputProcessor\Denormalizer;
 
-use LogicException;
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
 use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
 use Spiks\UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
-use Spiks\UserInputProcessor\ConstraintViolation\WrongDiscriminatorValue;
 use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
 use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\ObjectDiscriminatorFields;
-use Spiks\UserInputProcessor\ObjectStaticFields;
+use Spiks\UserInputProcessor\ObjectField;
 use Spiks\UserInputProcessor\Pointer;
 
 /**
@@ -27,32 +24,24 @@ final class ObjectDenormalizer
      *
      * It expects `$data` to be array type, but also accepts additional validation requirements.
      *
-     * This method should be used when denormalization may differ depending on specific field value.
-     * Such field called "discriminator". All possible values of the discriminator are static and known
-     * in advance. For example, if you are denormalizing OAuth 2 grant, `grant_type` field may be used as
-     * discriminator, and, for example, all possible values of the field will be `authorization_code`, `password`,
-     * `client_credentials`, `refresh_token`, and so on. Depending on the value of the discriminator, denormalization
-     * may differ, and returned by the denormalizer value may also differ.
-     *
-     * @param mixed                     $data                   Data to validate and denormalize
-     * @param Pointer                   $pointer                Pointer containing path to current field
-     * @param string                    $discriminatorFieldName field name of the discriminator
-     * @param ObjectDiscriminatorFields $discriminatorFields    Denormalization rules for each allowed discriminator value
+     * @param mixed                      $data               Data to validate and denormalize
+     * @param Pointer                    $pointer            Pointer containing path to current field
+     * @param array<string, ObjectField> $fieldDenormalizers Denormalization rules for each allowed discriminator value
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      *
-     * @return array The same array as `$data`, but value of each key may be modified by denormalization functions
-     *               defined in `$discriminatorFields` object
+     * @return array<string, mixed> The same array as `$data`, but value of each key may be modified by denormalization functions
+     *                              defined in `$staticFields` object
      */
-    public function denormalizeDynamicFields(
+    public function denormalize(
         mixed $data,
         Pointer $pointer,
-        string $discriminatorFieldName,
-        ObjectDiscriminatorFields $discriminatorFields,
+        array $fieldDenormalizers,
     ): array {
-        $violations = new ConstraintViolationCollection();
+        /** @var list<ConstraintViolationInterface> $violations */
+        $violations = [];
 
-        if (!\is_array($data) || !self::isAssocArray($data)) {
+        if (!\is_array($data) || array_is_list($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
                 $pointer,
                 $data,
@@ -62,85 +51,10 @@ final class ObjectDenormalizer
             throw new ValidationError($violations);
         }
 
-        if (!\array_key_exists($discriminatorFieldName, $data)) {
-            $violations[] = new MandatoryFieldMissing(
-                Pointer::append($pointer, $discriminatorFieldName),
-            );
-
-            throw new ValidationError($violations);
-        }
-
-        $discriminatorValue = $data[$discriminatorFieldName];
-
-        if (!\is_string($discriminatorValue)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                Pointer::append($pointer, $discriminatorFieldName),
-                $discriminatorValue,
-                [WrongPropertyType::JSON_TYPE_STRING]
-            );
-
-            throw new ValidationError($violations);
-        }
-
-        if (!\in_array($discriminatorValue, $discriminatorFields->getPossibleDiscriminatorValues(), true)) {
-            $violations[] = new WrongDiscriminatorValue(
-                Pointer::append($pointer, $discriminatorFieldName),
-                $discriminatorFields->getPossibleDiscriminatorValues(),
-            );
-
-            throw new ValidationError($violations);
-        }
-
-        /** @var array $processedData */
-        $processedData = $this->denormalizeStaticFields(
-            $data,
-            $pointer,
-            $discriminatorFields->getStaticFieldsByDiscriminatorValue($discriminatorValue),
-        );
-
-        if (\array_key_exists($discriminatorFieldName, $processedData)) {
-            throw new LogicException('The same field name as discriminator field name can not be used within ObjectStaticFields declarations');
-        }
-
-        $processedData[$discriminatorFieldName] = $discriminatorValue;
-
-        return $processedData;
-    }
-
-    /**
-     * Validates and denormalizes passed data.
-     *
-     * It expects `$data` to be array type, but also accepts additional validation requirements.
-     *
-     * @param mixed              $data         Data to validate and denormalize
-     * @param Pointer            $pointer      Pointer containing path to current field
-     * @param ObjectStaticFields $staticFields Denormalization rules for each allowed discriminator value
-     *
-     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
-     *
-     * @return array The same array as `$data`, but value of each key may be modified by denormalization functions
-     *               defined in `$staticFields` object
-     */
-    public function denormalizeStaticFields(
-        mixed $data,
-        Pointer $pointer,
-        ObjectStaticFields $staticFields,
-    ): array {
-        $violations = new ConstraintViolationCollection();
-
-        if (!\is_array($data) || !self::isAssocArray($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_OBJECT]
-            );
-
-            throw new ValidationError($violations);
-        }
-
+        /** @var array<string, mixed> $processedData */
         $processedData = [];
 
-        foreach ($staticFields->getFields() as $fieldName => $fieldDefinition) {
+        foreach ($fieldDenormalizers as $fieldName => $fieldDefinition) {
             if (!\array_key_exists($fieldName, $data)) {
                 if ($fieldDefinition->isMandatory()) {
                     $violations[] = new MandatoryFieldMissing(Pointer::append($pointer, $fieldName));
@@ -160,26 +74,25 @@ final class ObjectDenormalizer
             }
 
             try {
-                $processedField = $fieldDefinition->getDenormalizer()(
+                /**
+                 * @psalm-suppress MixedAssignment
+                 */
+                $processedData[$fieldName] = $fieldDefinition->getDenormalizer()(
                     $data[$fieldName],
                     Pointer::append($pointer, $fieldName)
                 );
-
-                $processedData[$fieldName] = $processedField;
             } catch (ValidationError $e) {
-                $violations->addAll($e->getViolations());
+                $violations = [
+                    ...$violations,
+                    ...$e->getViolations(),
+                ];
             }
         }
 
-        if ($violations->isNotEmpty()) {
+        if (\count($violations) > 0) {
             throw new ValidationError($violations);
         }
 
         return $processedData;
-    }
-
-    private static function isAssocArray(array $array): bool
-    {
-        return array_keys($array) !== range(0, \count($array) - 1);
     }
 }

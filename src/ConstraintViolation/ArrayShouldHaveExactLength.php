@@ -10,6 +10,9 @@ final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
 {
     public const TYPE = 'array_should_have_exact_length';
 
+    /**
+     * @param int<0, max> $length
+     */
     public function __construct(
         private Pointer $pointer,
         private int $length
@@ -29,6 +32,9 @@ final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
         );
     }
 
+    /**
+     * @return int<0, max>
+     */
     public function getLength(): int
     {
         return $this->length;

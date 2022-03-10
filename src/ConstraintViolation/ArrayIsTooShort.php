@@ -10,6 +10,9 @@ final class ArrayIsTooShort implements ConstraintViolationInterface
 {
     public const TYPE = 'array_is_too_short';
 
+    /**
+     * @param int<0, max> $minLength
+     */
     public function __construct(
         private Pointer $pointer,
         private int $minLength
@@ -26,6 +29,9 @@ final class ArrayIsTooShort implements ConstraintViolationInterface
         return 'Property contains too short array.';
     }
 
+    /**
+     * @return int<0, max>
+     */
     public function getMinLength(): int
     {
         return $this->minLength;

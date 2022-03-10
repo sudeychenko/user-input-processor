@@ -16,6 +16,9 @@ use Spiks\UserInputProcessor\Pointer;
  */
 final class StringDenormalizerTest extends TestCase
 {
+    /**
+     * @return string[][]
+     */
     public function successfulScenarioDataProvider(): array
     {
         return [
@@ -39,6 +42,6 @@ final class StringDenormalizerTest extends TestCase
             minLength: 1,
         );
 
-        Assert::assertIsString($processedData);
+        Assert::assertEquals($payload, $processedData);
     }
 }

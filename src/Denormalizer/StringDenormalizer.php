@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Spiks\UserInputProcessor\Denormalizer;
 
 use LogicException;
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationCollection;
+use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
 use Spiks\UserInputProcessor\ConstraintViolation\StringIsTooLong;
 use Spiks\UserInputProcessor\ConstraintViolation\StringIsTooShort;
 use Spiks\UserInputProcessor\ConstraintViolation\ValueDoesNotMatchRegex;
@@ -25,11 +25,11 @@ final class StringDenormalizer
      *
      * It expects `$data` to be string type, but also accept additional validation requirements.
      *
-     * @param mixed       $data      Data to validate and denormalize
-     * @param Pointer     $pointer   Pointer containing path to current field
-     * @param int|null    $minLength Minimum length of string
-     * @param int|null    $maxLength Maximum length of string
-     * @param string|null $pattern   Regular expression to validate string against
+     * @param mixed           $data      Data to validate and denormalize
+     * @param Pointer         $pointer   Pointer containing path to current field
+     * @param int<0,max>|null $minLength Minimum length of string
+     * @param int<0,max>|null $maxLength Maximum length of string
+     * @param string|null     $pattern   Regular expression to validate string against
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      *
@@ -46,7 +46,8 @@ final class StringDenormalizer
             throw new LogicException('Min length constraint can not be bigger than max length');
         }
 
-        $violations = new ConstraintViolationCollection();
+        /** @var list<ConstraintViolationInterface> $violations */
+        $violations = [];
 
         if (!\is_string($data)) {
             $violations[] = WrongPropertyType::guessGivenType(
@@ -79,7 +80,7 @@ final class StringDenormalizer
             );
         }
 
-        if ($violations->isNotEmpty()) {
+        if (\count($violations) > 0) {
             throw new ValidationError($violations);
         }
 

@@ -12,13 +12,17 @@ final class WrongPropertyType implements ConstraintViolationInterface
     public const JSON_TYPE_ARRAY = 'array';
     public const JSON_TYPE_BOOLEAN = 'boolean';
     public const JSON_TYPE_FLOAT = 'float';
-    public const JSON_TYPE_INTEGER = 'integer';
     public const JSON_TYPE_NULL = 'null';
+    public const JSON_TYPE_NUMBER = 'number';
     public const JSON_TYPE_OBJECT = 'object';
     public const JSON_TYPE_STRING = 'string';
 
     public const TYPE = 'wrong_property_type';
 
+    /**
+     * @param self::JSON_TYPE_*                 $givenType
+     * @param non-empty-list<self::JSON_TYPE_*> $allowedTypes
+     */
     public function __construct(
         private Pointer $pointer,
         private string $givenType,
@@ -31,6 +35,11 @@ final class WrongPropertyType implements ConstraintViolationInterface
         return self::TYPE;
     }
 
+    /**
+     * @param non-empty-list<self::JSON_TYPE_*> $allowedTypes
+     *
+     * @return static
+     */
     public static function guessGivenType(
         Pointer $pointer,
         mixed $givenValue,
@@ -44,7 +53,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     }
 
     /**
-     * @return string[]
+     * @return non-empty-list<self::JSON_TYPE_*> $allowedTypes
      */
     public function getAllowedTypes(): array
     {
@@ -60,6 +69,9 @@ final class WrongPropertyType implements ConstraintViolationInterface
         );
     }
 
+    /**
+     * @return self::JSON_TYPE_*
+     */
     public function getGivenType(): string
     {
         return $this->givenType;
@@ -70,16 +82,26 @@ final class WrongPropertyType implements ConstraintViolationInterface
         return $this->pointer;
     }
 
+    /**
+     * @return self::JSON_TYPE_*
+     */
     private static function getJsonTypeFromValue(mixed $value): string
     {
-        return match (\gettype($value)) {
+        if (\is_array($value)) {
+            return array_is_list($value)
+                ? self::JSON_TYPE_ARRAY
+                : self::JSON_TYPE_OBJECT;
+        }
+
+        $type = \gettype($value);
+
+        return match ($type) {
             'boolean' => self::JSON_TYPE_BOOLEAN,
-            'integer' => self::JSON_TYPE_INTEGER,
+            'integer' => self::JSON_TYPE_NUMBER,
             'double' => self::JSON_TYPE_FLOAT,
             'string' => self::JSON_TYPE_STRING,
-            'array' => self::JSON_TYPE_ARRAY,
             'NULL' => self::JSON_TYPE_NULL,
-            default => throw new UnexpectedValueException('Given PHP type is not supported in JSON conversion: ' . $value),
+            default => throw new UnexpectedValueException('Given PHP type is not supported in JSON conversion: ' . $type),
         };
     }
 }
