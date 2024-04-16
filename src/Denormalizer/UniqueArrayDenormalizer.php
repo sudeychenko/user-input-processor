@@ -19,12 +19,12 @@ class UniqueArrayDenormalizer
     /**
      * @template TArrayEntry of mixed
      *
-     * @param Closure(mixed, Pointer): TArrayEntry $denormalizer Denormalizer function that will be called for each array entry.
-     *                                                           First parameter of the function will contain value of the entry.
-     * @param Closure(TArrayEntry): string $uniqueKeyProvider    Function to get the key by which the uniqueness of the array will be checked
+     * @param Closure(mixed, Pointer): TArrayEntry $denormalizer      Denormalizer function that will be called for each array entry.
+     *                                                                First parameter of the function will contain value of the entry.
+     * @param Closure(TArrayEntry): string         $uniqueKeyProvider Function to get the key by which the uniqueness of the array will be checked
+     * @param int<0,max>|null                      $minItems          Minimum amount of entries in passed array
+     * @param int<0,max>|null                      $maxItems          Maximum amount of entries in passed array*
      *
-     * @param int<0,max>|null $minItems Minimum amount of entries in passed array
-     * @param int<0,max>|null $maxItems Maximum amount of entries in passed array*
      * @return list<TArrayEntry>
      *
      * @throws ValidationError
