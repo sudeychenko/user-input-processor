@@ -31,16 +31,16 @@ final class StringDenormalizer
      * @param int<0,max>|null $maxLength Maximum length of string
      * @param string|null     $pattern   Regular expression to validate string against
      *
-     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
-     *
      * @return string The same string as the one that was passed to `$data` argument
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      */
     public function denormalize(
         mixed $data,
         Pointer $pointer,
-        int $minLength = null,
-        int $maxLength = null,
-        string $pattern = null,
+        ?int $minLength = null,
+        ?int $maxLength = null,
+        ?string $pattern = null,
     ): string {
         if (null !== $minLength && null !== $maxLength && $minLength > $maxLength) {
             throw new LogicException('Min length constraint can not be bigger than max length');

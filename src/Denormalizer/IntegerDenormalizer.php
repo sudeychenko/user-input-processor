@@ -29,15 +29,15 @@ final class IntegerDenormalizer
      * @param int|null $minimum Minimum value of integer
      * @param int|null $maximum Maximum value of integer
      *
-     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
-     *
      * @return int The same integer as the one that was passed to `$data` argument
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      */
     public function denormalize(
         mixed $data,
         Pointer $pointer,
-        int $minimum = null,
-        int $maximum = null,
+        ?int $minimum = null,
+        ?int $maximum = null,
     ): int {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
