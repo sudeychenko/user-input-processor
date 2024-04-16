@@ -19,7 +19,7 @@ final class StringDenormalizerTest extends TestCase
     /**
      * @return string[][]
      */
-    public function successfulScenarioDataProvider(): array
+    public static function provideSuccessfulDenormalizationCases(): iterable
     {
         return [
             [
@@ -29,7 +29,7 @@ final class StringDenormalizerTest extends TestCase
     }
 
     /**
-     * @dataProvider successfulScenarioDataProvider
+     * @dataProvider provideSuccessfulDenormalizationCases
      */
     public function testSuccessfulDenormalization(
         string $payload

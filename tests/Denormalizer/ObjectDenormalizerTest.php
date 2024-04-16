@@ -23,7 +23,7 @@ final class ObjectDenormalizerTest extends TestCase
     /**
      * @return list<array{array<mixed>}>
      */
-    public function staticFieldsDataProvider(): array
+    public static function provideSuccessfulDenormalizationCases(): iterable
     {
         return [
             [
@@ -45,7 +45,7 @@ final class ObjectDenormalizerTest extends TestCase
     /**
      * @param array<mixed> $payload
      *
-     * @dataProvider staticFieldsDataProvider
+     * @dataProvider provideSuccessfulDenormalizationCases
      */
     public function testSuccessfulDenormalization(
         array $payload

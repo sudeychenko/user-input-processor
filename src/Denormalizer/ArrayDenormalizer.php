@@ -43,8 +43,8 @@ final class ArrayDenormalizer
         mixed $data,
         Pointer $pointer,
         Closure $denormalizer,
-        int $minItems = null,
-        int $maxItems = null,
+        ?int $minItems = null,
+        ?int $maxItems = null,
     ): array {
         if (null !== $minItems && null !== $maxItems && $minItems > $maxItems) {
             throw new LogicException('Min items constraint can not be bigger than max items');

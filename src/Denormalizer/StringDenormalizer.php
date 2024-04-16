@@ -38,9 +38,9 @@ final class StringDenormalizer
     public function denormalize(
         mixed $data,
         Pointer $pointer,
-        int $minLength = null,
-        int $maxLength = null,
-        string $pattern = null,
+        ?int $minLength = null,
+        ?int $maxLength = null,
+        ?string $pattern = null,
     ): string {
         if (null !== $minLength && null !== $maxLength && $minLength > $maxLength) {
             throw new LogicException('Min length constraint can not be bigger than max length');

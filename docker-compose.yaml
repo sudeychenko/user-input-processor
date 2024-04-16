@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  uip-php-cli:
+    container_name: uip-php-cli
+    user: '1000:1000'
+
+    build:
+      context: ./
+      dockerfile: php-cli-local.dockerfile
+
+    volumes:
+      - type: bind
+        source: ./
+        target: /var/www/html/
+
+  uip-composer:
+    container_name: uip-composer
+    image: composer:2.6.6
+    command: [install, --ignore-platform-reqs]
+    volumes:
+      - type: bind
+        source: .
+        target: /app

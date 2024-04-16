@@ -36,8 +36,8 @@ final class IntegerDenormalizer
     public function denormalize(
         mixed $data,
         Pointer $pointer,
-        int $minimum = null,
-        int $maximum = null,
+        ?int $minimum = null,
+        ?int $maximum = null,
     ): int {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
