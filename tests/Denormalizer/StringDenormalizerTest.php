@@ -21,26 +21,17 @@ final class StringDenormalizerTest extends TestCase
      */
     public static function provideSuccessfulDenormalizationCases(): iterable
     {
-        return [
-            [
-                'foobar',
-            ],
-        ];
+        return [['foobar']];
     }
 
     /**
      * @dataProvider provideSuccessfulDenormalizationCases
      */
-    public function testSuccessfulDenormalization(
-        string $payload
-    ): void {
+    public function testSuccessfulDenormalization(string $payload): void
+    {
         $stringDenormalizer = new StringDenormalizer();
 
-        $processedData = $stringDenormalizer->denormalize(
-            $payload,
-            Pointer::empty(),
-            minLength: 1,
-        );
+        $processedData = $stringDenormalizer->denormalize($payload, Pointer::empty(), minLength: 1);
 
         Assert::assertEquals($payload, $processedData);
     }

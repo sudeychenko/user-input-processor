@@ -33,30 +33,30 @@ final class UniqArrayDenormalizerTest extends TestCase
         return [
             [
                 [1, 2, 3, 4, 5, 6, 7, 8],
-                static fn (mixed $value, Pointer $pointer): int => (new IntegerDenormalizer())->denormalize(
+                static fn(mixed $value, Pointer $pointer): int => (new IntegerDenormalizer())->denormalize(
                     data: $value,
-                    pointer: $pointer,
+                    pointer: $pointer
                 ),
             ],
             [
                 ['a', 'b', 'c', 'd', 'e', 'f'],
-                static fn (mixed $value, Pointer $pointer): string => (new StringDenormalizer())->denormalize(
+                static fn(mixed $value, Pointer $pointer): string => (new StringDenormalizer())->denormalize(
                     data: $value,
-                    pointer: $pointer,
+                    pointer: $pointer
                 ),
             ],
             [
                 ['a'],
-                static fn (mixed $value, Pointer $pointer): string => (new StringDenormalizer())->denormalize(
+                static fn(mixed $value, Pointer $pointer): string => (new StringDenormalizer())->denormalize(
                     data: $value,
-                    pointer: $pointer,
+                    pointer: $pointer
                 ),
             ],
             [
                 [],
-                static fn (mixed $value, Pointer $pointer): string => (new StringDenormalizer())->denormalize(
+                static fn(mixed $value, Pointer $pointer): string => (new StringDenormalizer())->denormalize(
                     data: $value,
-                    pointer: $pointer,
+                    pointer: $pointer
                 ),
             ],
         ];
@@ -68,10 +68,8 @@ final class UniqArrayDenormalizerTest extends TestCase
      *
      * @dataProvider provideSuccessfulDenormalizationCases
      */
-    public function testSuccessfulDenormalization(
-        array $payload,
-        Closure $denormalizerClosure,
-    ): void {
+    public function testSuccessfulDenormalization(array $payload, Closure $denormalizerClosure): void
+    {
         $arrayDenormalizer = new ArrayDenormalizer();
         $uniqArrayDenormalizer = new UniqueArrayDenormalizer($arrayDenormalizer);
         $pointer = Pointer::empty();
@@ -80,7 +78,7 @@ final class UniqArrayDenormalizerTest extends TestCase
             data: $payload,
             pointer: $pointer,
             denormalizer: $denormalizerClosure,
-            uniqueKeyProvider: static fn (int|string $val): string => (string) $val,
+            uniqueKeyProvider: static fn(int|string $val): string => (string) $val
         );
 
         Assert::assertCount(\count($payload), $processedData);
@@ -98,11 +96,11 @@ final class UniqArrayDenormalizerTest extends TestCase
             $uniqArrayDenormalizer->denormalize(
                 data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 1],
                 pointer: $pointer,
-                denormalizer: static fn (mixed $val, Pointer $pointer): int => $integerDenormalizer->denormalize(
+                denormalizer: static fn(mixed $val, Pointer $pointer): int => $integerDenormalizer->denormalize(
                     data: $val,
-                    pointer: $pointer,
+                    pointer: $pointer
                 ),
-                uniqueKeyProvider: static fn (string|int $val): string => (string) $val,
+                uniqueKeyProvider: static fn(string|int $val): string => (string) $val,
                 minItems: 1,
                 maxItems: 10
             );

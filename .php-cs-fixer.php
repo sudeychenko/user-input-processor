@@ -8,19 +8,37 @@ use PhpCsFixer\RuleSet\RuleSets;
 $finder = PhpCsFixer\Finder::create()
     ->in('./src/')
     ->in('./tests/')
-    ->append(['.php-cs-fixer.php'])
-;
+    ->append(['.php-cs-fixer.php']);
 
 $ruleSet = new RuleSet();
 
-$rules = array_reduce(RuleSets::getSetDefinitionNames(), static function (array $carry, string $ruleSetName): array {
-    $carry[$ruleSetName] = true;
+$rules = array_reduce(
+    RuleSets::getSetDefinitionNames(),
+    static function (array $carry, string $ruleSetName): array {
+        $carry[$ruleSetName] = true;
 
-    return $carry;
-}, []);
+        return $carry;
+    },
+    []
+);
 
 $rules['blank_line_before_statement'] = [
-    'statements' => ['break', 'case', 'continue', 'default', 'exit', 'for', 'foreach', 'if', 'return', 'switch', 'throw', 'try', 'while', 'yield'],
+    'statements' => [
+        'break',
+        'case',
+        'continue',
+        'default',
+        'exit',
+        'for',
+        'foreach',
+        'if',
+        'return',
+        'switch',
+        'throw',
+        'try',
+        'while',
+        'yield',
+    ],
 ];
 
 $rules['class_attributes_separation'] = [
@@ -85,7 +103,4 @@ $rules['phpdoc_to_comment'] = [
     'ignored_tags' => ['psalm-suppress'],
 ];
 
-return (new PhpCsFixer\Config())
-    ->setRules($rules)
-    ->setFinder($finder)
-;
+return (new PhpCsFixer\Config())->setRules($rules)->setFinder($finder);

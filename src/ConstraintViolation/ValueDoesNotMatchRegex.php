@@ -10,10 +10,8 @@ final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
 {
     public const TYPE = 'value_does_not_match_regex';
 
-    public function __construct(
-        private Pointer $pointer,
-        private string $regex
-    ) {
+    public function __construct(private Pointer $pointer, private string $regex)
+    {
     }
 
     public static function getType(): string
@@ -23,10 +21,7 @@ final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return sprintf(
-            'Property does not match regex "%s".',
-            $this->getRegex()
-        );
+        return sprintf('Property does not match regex "%s".', $this->getRegex());
     }
 
     public function getPointer(): Pointer

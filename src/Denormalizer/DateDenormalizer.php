@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace Spiks\UserInputProcessor\Denormalizer;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use DateTimeZone;
 use Spiks\UserInputProcessor\ConstraintViolation\InvalidDate;
 use Spiks\UserInputProcessor\Exception\ValidationError;
 use Spiks\UserInputProcessor\Pointer;
 
-class DateTimeDenormalizer
+class DateDenormalizer
 {
-    private const DATE_TIME_FORMAT = DateTimeInterface::RFC3339;
+    private const DATE_FORMAT = 'Y-m-d';
+
+    private const DATE_TIME_ZONE = 'UTC';
 
     public function __construct(private readonly StringDenormalizer $stringDenormalizer)
     {
@@ -22,7 +23,7 @@ class DateTimeDenormalizer
     /**
      * Validates and denormalizes passed data.
      *
-     * It expects `$data` to be datetime string type. `$data` must be formatted RFC3339('Y-m-d\TH:i:sP')
+     * It expects `$data` to be date string type. `$data` must be formatted ISO 8601('Y-m-d')
      *
      * @param mixed   $data    Data to validate and denormalize
      * @param Pointer $pointer Pointer containing path to current field
@@ -33,13 +34,16 @@ class DateTimeDenormalizer
      */
     public function denormalize(mixed $data, Pointer $pointer): DateTimeImmutable
     {
-        $stringDate = $this->stringDenormalizer->denormalize($data, $pointer, 1);
-        $dateTime = DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $stringDate);
+        $stringDate = $this->stringDenormalizer->denormalize(data: $data, pointer: $pointer, minLength: 1);
 
-        if (false === $dateTime || $dateTime->format(self::DATE_TIME_FORMAT) !== $stringDate) {
+        $dateTime = DateTimeImmutable::createFromFormat(self::DATE_FORMAT, $stringDate);
+
+        if (false === $dateTime || $dateTime->format(format: self::DATE_FORMAT) !== $stringDate) {
             throw new ValidationError([new InvalidDate($pointer, sprintf('date is not valid: %s', $stringDate))]);
         }
 
-        return $dateTime->setTimezone(new DateTimeZone('UTC'));
+        $timeZone = new DateTimeZone(self::DATE_TIME_ZONE);
+
+        return $dateTime->setTimezone($timeZone);
     }
 }

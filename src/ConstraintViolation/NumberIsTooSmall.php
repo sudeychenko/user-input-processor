@@ -10,10 +10,8 @@ final class NumberIsTooSmall implements ConstraintViolationInterface
 {
     public const TYPE = 'number_is_too_small';
 
-    public function __construct(
-        private Pointer $pointer,
-        private float $min
-    ) {
+    public function __construct(private Pointer $pointer, private float $min)
+    {
     }
 
     public static function getType(): string

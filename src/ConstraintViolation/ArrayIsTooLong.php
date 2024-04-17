@@ -13,10 +13,8 @@ final class ArrayIsTooLong implements ConstraintViolationInterface
     /**
      * @param int<0, max> $maxLength
      */
-    public function __construct(
-        private Pointer $pointer,
-        private int $maxLength
-    ) {
+    public function __construct(private Pointer $pointer, private int $maxLength)
+    {
     }
 
     public static function getType(): string

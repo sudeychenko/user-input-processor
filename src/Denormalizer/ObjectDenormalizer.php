@@ -33,20 +33,13 @@ final class ObjectDenormalizer
      * @return array<string, mixed> The same array as `$data`, but value of each key may be modified by denormalization functions
      *                              defined in `$staticFields` object
      */
-    public function denormalize(
-        mixed $data,
-        Pointer $pointer,
-        array $fieldDenormalizers,
-    ): array {
+    public function denormalize(mixed $data, Pointer $pointer, array $fieldDenormalizers): array
+    {
         /** @var list<ConstraintViolationInterface> $violations */
         $violations = [];
 
         if (!\is_array($data) || array_is_list($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_OBJECT]
-            );
+            $violations[] = WrongPropertyType::guessGivenType($pointer, $data, [WrongPropertyType::JSON_TYPE_OBJECT]);
 
             throw new ValidationError($violations);
         }
@@ -82,10 +75,7 @@ final class ObjectDenormalizer
                     Pointer::append($pointer, $fieldName)
                 );
             } catch (ValidationError $e) {
-                $violations = [
-                    ...$violations,
-                    ...$e->getViolations(),
-                ];
+                $violations = [...$violations, ...$e->getViolations()];
             }
         }
 

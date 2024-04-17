@@ -11,9 +11,8 @@ use Spiks\UserInputProcessor\Pointer;
 
 class UniqueArrayDenormalizer
 {
-    public function __construct(
-        private readonly ArrayDenormalizer $arrayDenormalizer,
-    ) {
+    public function __construct(private readonly ArrayDenormalizer $arrayDenormalizer)
+    {
     }
 
     /**
@@ -35,14 +34,14 @@ class UniqueArrayDenormalizer
         Closure $denormalizer,
         Closure $uniqueKeyProvider,
         ?int $minItems = null,
-        ?int $maxItems = null,
+        ?int $maxItems = null
     ): array {
         $processedArray = $this->arrayDenormalizer->denormalize(
             data: $data,
             pointer: $pointer,
             denormalizer: $denormalizer,
             minItems: $minItems,
-            maxItems: $maxItems,
+            maxItems: $maxItems
         );
 
         if ($this->isUnique(processedArray: $processedArray, uniqueKeyProvider: $uniqueKeyProvider)) {
