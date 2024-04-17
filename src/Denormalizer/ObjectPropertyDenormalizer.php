@@ -34,9 +34,9 @@ final class ObjectPropertyDenormalizer
      *                                                                   First parameter of the function will contain value of the field.
      *                                                                   The second one will contain {@see Pointer} pointing to the field.
      *
-     * @return TObjectPropertyType|null
-     *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
+     *
+     * @return TObjectPropertyType|null
      */
     public function denormalizeNullableObjectProperty(
         mixed $data,
@@ -101,9 +101,9 @@ final class ObjectPropertyDenormalizer
      *                                                                   First parameter of the function will contain value of the field.
      *                                                                   The second one will contain {@see Pointer} pointing to the field.
      *
-     * @return TObjectPropertyType
-     *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
+     *
+     * @return TObjectPropertyType
      */
     public function denormalizeObjectProperty(
         mixed $data,

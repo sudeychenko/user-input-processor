@@ -25,9 +25,9 @@ class UniqueArrayDenormalizer
      * @param int<0,max>|null                      $minItems          Minimum amount of entries in passed array
      * @param int<0,max>|null                      $maxItems          Maximum amount of entries in passed array*
      *
-     * @return list<TArrayEntry>
-     *
      * @throws ValidationError
+     *
+     * @return list<TArrayEntry>
      */
     public function denormalize(
         mixed $data,
