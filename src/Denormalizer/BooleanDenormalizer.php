@@ -26,19 +26,13 @@ final class BooleanDenormalizer
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      */
-    public function denormalize(
-        mixed $data,
-        Pointer $pointer,
-    ): bool {
+    public function denormalize(mixed $data, Pointer $pointer): bool
+    {
         /** @var list<ConstraintViolationInterface> $violations */
         $violations = [];
 
         if (!\is_bool($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_BOOLEAN]
-            );
+            $violations[] = WrongPropertyType::guessGivenType($pointer, $data, [WrongPropertyType::JSON_TYPE_BOOLEAN]);
 
             throw new ValidationError($violations);
         }

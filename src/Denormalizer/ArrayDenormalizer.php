@@ -44,7 +44,7 @@ final class ArrayDenormalizer
         Pointer $pointer,
         Closure $denormalizer,
         ?int $minItems = null,
-        ?int $maxItems = null,
+        ?int $maxItems = null
     ): array {
         if (null !== $minItems && null !== $maxItems && $minItems > $maxItems) {
             throw new LogicException('Min items constraint can not be bigger than max items');
@@ -54,37 +54,25 @@ final class ArrayDenormalizer
         $violations = [];
 
         if (!\is_array($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_ARRAY]
-            );
+            $violations[] = WrongPropertyType::guessGivenType($pointer, $data, [WrongPropertyType::JSON_TYPE_ARRAY]);
 
             throw new ValidationError($violations);
         }
 
         if (!array_is_list($data)) {
-            $violations[] = new WrongPropertyType(
-                $pointer,
-                WrongPropertyType::JSON_TYPE_OBJECT,
-                [WrongPropertyType::JSON_TYPE_ARRAY]
-            );
+            $violations[] = new WrongPropertyType($pointer, WrongPropertyType::JSON_TYPE_OBJECT, [
+                WrongPropertyType::JSON_TYPE_ARRAY,
+            ]);
 
             throw new ValidationError($violations);
         }
 
         if (null !== $minItems && \count($data) < $minItems) {
-            $violations[] = new ArrayIsTooShort(
-                $pointer,
-                $minItems
-            );
+            $violations[] = new ArrayIsTooShort($pointer, $minItems);
         }
 
         if (null !== $maxItems && \count($data) > $maxItems) {
-            $violations[] = new ArrayIsTooLong(
-                $pointer,
-                $maxItems
-            );
+            $violations[] = new ArrayIsTooLong($pointer, $maxItems);
         }
 
         if (\count($violations) > 0) {
@@ -96,17 +84,11 @@ final class ArrayDenormalizer
         /** @var TArrayEntry $indexedData */
         foreach ($data as $index => $indexedData) {
             try {
-                $processedIndex = $denormalizer(
-                    $indexedData,
-                    Pointer::append($pointer, (string) $index)
-                );
+                $processedIndex = $denormalizer($indexedData, Pointer::append($pointer, (string) $index));
 
                 $processedData[] = $processedIndex;
             } catch (ValidationError $e) {
-                $violations = [
-                    ...$violations,
-                    ...$e->getViolations(),
-                ];
+                $violations = [...$violations, ...$e->getViolations()];
             }
         }
 

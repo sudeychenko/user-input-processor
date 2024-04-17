@@ -23,11 +23,8 @@ final class WrongPropertyType implements ConstraintViolationInterface
      * @param self::JSON_TYPE_*                 $givenType
      * @param non-empty-list<self::JSON_TYPE_*> $allowedTypes
      */
-    public function __construct(
-        private Pointer $pointer,
-        private string $givenType,
-        private array $allowedTypes,
-    ) {
+    public function __construct(private Pointer $pointer, private string $givenType, private array $allowedTypes)
+    {
     }
 
     public static function getType(): string
@@ -40,16 +37,9 @@ final class WrongPropertyType implements ConstraintViolationInterface
      *
      * @return static
      */
-    public static function guessGivenType(
-        Pointer $pointer,
-        mixed $givenValue,
-        array $allowedTypes,
-    ): self {
-        return new self(
-            $pointer,
-            self::getJsonTypeFromValue($givenValue),
-            $allowedTypes
-        );
+    public static function guessGivenType(Pointer $pointer, mixed $givenValue, array $allowedTypes): self
+    {
+        return new self($pointer, self::getJsonTypeFromValue($givenValue), $allowedTypes);
     }
 
     /**
@@ -88,9 +78,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
     private static function getJsonTypeFromValue(mixed $value): string
     {
         if (\is_array($value)) {
-            return array_is_list($value)
-                ? self::JSON_TYPE_ARRAY
-                : self::JSON_TYPE_OBJECT;
+            return array_is_list($value) ? self::JSON_TYPE_ARRAY : self::JSON_TYPE_OBJECT;
         }
 
         $type = \gettype($value);
@@ -101,7 +89,9 @@ final class WrongPropertyType implements ConstraintViolationInterface
             'double' => self::JSON_TYPE_FLOAT,
             'string' => self::JSON_TYPE_STRING,
             'NULL' => self::JSON_TYPE_NULL,
-            default => throw new UnexpectedValueException('Given PHP type is not supported in JSON conversion: ' . $type),
+            default => throw new UnexpectedValueException(
+                'Given PHP type is not supported in JSON conversion: ' . $type
+            ),
         };
     }
 }

@@ -33,12 +33,8 @@ final class IntegerDenormalizer
      *
      * @return int The same integer as the one that was passed to `$data` argument
      */
-    public function denormalize(
-        mixed $data,
-        Pointer $pointer,
-        ?int $minimum = null,
-        ?int $maximum = null,
-    ): int {
+    public function denormalize(mixed $data, Pointer $pointer, ?int $minimum = null, ?int $maximum = null): int
+    {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
         }
@@ -47,27 +43,17 @@ final class IntegerDenormalizer
         $violations = [];
 
         if (!\is_int($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_NUMBER]
-            );
+            $violations[] = WrongPropertyType::guessGivenType($pointer, $data, [WrongPropertyType::JSON_TYPE_NUMBER]);
 
             throw new ValidationError($violations);
         }
 
         if (null !== $minimum && $data < $minimum) {
-            $violations[] = new NumberIsTooSmall(
-                $pointer,
-                $minimum
-            );
+            $violations[] = new NumberIsTooSmall($pointer, $minimum);
         }
 
         if (null !== $maximum && $data > $maximum) {
-            $violations[] = new NumberIsTooBig(
-                $pointer,
-                $maximum
-            );
+            $violations[] = new NumberIsTooBig($pointer, $maximum);
         }
 
         if (\count($violations) > 0) {

@@ -21,7 +21,7 @@ class ObjectField
     public function __construct(
         private Closure $denormalizer,
         private bool $isMandatory = true,
-        private bool $isNullable = false,
+        private bool $isNullable = false
     ) {
     }
 

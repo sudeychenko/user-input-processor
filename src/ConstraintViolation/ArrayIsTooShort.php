@@ -13,10 +13,8 @@ final class ArrayIsTooShort implements ConstraintViolationInterface
     /**
      * @param int<0, max> $minLength
      */
-    public function __construct(
-        private Pointer $pointer,
-        private int $minLength
-    ) {
+    public function __construct(private Pointer $pointer, private int $minLength)
+    {
     }
 
     public static function getType(): string

@@ -15,20 +15,24 @@ final class ValidationError extends InvalidArgumentException
     /**
      * @param non-empty-list<ConstraintViolationInterface> $violations
      */
-    public function __construct(
-        array $violations
-    ) {
+    public function __construct(array $violations)
+    {
         $this->violations = $violations;
 
         parent::__construct(
-            message: array_reduce($violations, static function (string $message, ConstraintViolationInterface $violation): string {
-                return $message . sprintf(
-                    '%s (%s): %s' . "\n",
-                    $violation::getType(),
-                    $violation->getPointer()->toString(),
-                    $violation->getDescription()
-                );
-            }, 'Validation errors:' . "\n")
+            message: array_reduce(
+                $violations,
+                static function (string $message, ConstraintViolationInterface $violation): string {
+                    return $message .
+                        sprintf(
+                            '%s (%s): %s' . "\n",
+                            $violation::getType(),
+                            $violation->getPointer()->toString(),
+                            $violation->getDescription()
+                        );
+                },
+                'Validation errors:' . "\n"
+            )
         );
     }
 

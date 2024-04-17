@@ -42,7 +42,7 @@ final class ObjectPropertyDenormalizer
         mixed $data,
         Pointer $pointer,
         string $objectPropertyName,
-        Closure $denormalizer,
+        Closure $denormalizer
     ): mixed {
         /** @var list<ConstraintViolationInterface> $violations */
         $violations = [];
@@ -50,11 +50,7 @@ final class ObjectPropertyDenormalizer
         $processedData = null;
 
         if (!\is_array($data) || array_is_list($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_OBJECT]
-            );
+            $violations[] = WrongPropertyType::guessGivenType($pointer, $data, [WrongPropertyType::JSON_TYPE_OBJECT]);
 
             throw new ValidationError($violations);
         }
@@ -70,15 +66,9 @@ final class ObjectPropertyDenormalizer
         }
 
         try {
-            $processedData = $denormalizer(
-                $data[$objectPropertyName],
-                Pointer::append($pointer, $objectPropertyName)
-            );
+            $processedData = $denormalizer($data[$objectPropertyName], Pointer::append($pointer, $objectPropertyName));
         } catch (ValidationError $e) {
-            $violations = [
-                ...$violations,
-                ...$e->getViolations(),
-            ];
+            $violations = [...$violations, ...$e->getViolations()];
         }
 
         if (\count($violations) > 0) {
@@ -109,14 +99,9 @@ final class ObjectPropertyDenormalizer
         mixed $data,
         Pointer $pointer,
         string $objectPropertyName,
-        Closure $denormalizer,
+        Closure $denormalizer
     ): mixed {
-        $processedData = $this->denormalizeNullableObjectProperty(
-            $data,
-            $pointer,
-            $objectPropertyName,
-            $denormalizer
-        );
+        $processedData = $this->denormalizeNullableObjectProperty($data, $pointer, $objectPropertyName, $denormalizer);
 
         /** @var list<ConstraintViolationInterface> $violations */
         $violations = [];

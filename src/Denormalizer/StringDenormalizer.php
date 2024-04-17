@@ -40,7 +40,7 @@ final class StringDenormalizer
         Pointer $pointer,
         ?int $minLength = null,
         ?int $maxLength = null,
-        ?string $pattern = null,
+        ?string $pattern = null
     ): string {
         if (null !== $minLength && null !== $maxLength && $minLength > $maxLength) {
             throw new LogicException('Min length constraint can not be bigger than max length');
@@ -50,34 +50,21 @@ final class StringDenormalizer
         $violations = [];
 
         if (!\is_string($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_STRING]
-            );
+            $violations[] = WrongPropertyType::guessGivenType($pointer, $data, [WrongPropertyType::JSON_TYPE_STRING]);
 
             throw new ValidationError($violations);
         }
 
         if (null !== $minLength && mb_strlen($data) < $minLength) {
-            $violations[] = new StringIsTooShort(
-                $pointer,
-                $minLength
-            );
+            $violations[] = new StringIsTooShort($pointer, $minLength);
         }
 
         if (null !== $maxLength && mb_strlen($data) > $maxLength) {
-            $violations[] = new StringIsTooLong(
-                $pointer,
-                $maxLength
-            );
+            $violations[] = new StringIsTooLong($pointer, $maxLength);
         }
 
         if (null !== $pattern && 1 !== preg_match($pattern, $data)) {
-            $violations[] = new ValueDoesNotMatchRegex(
-                $pointer,
-                $pattern
-            );
+            $violations[] = new ValueDoesNotMatchRegex($pointer, $pattern);
         }
 
         if (\count($violations) > 0) {
