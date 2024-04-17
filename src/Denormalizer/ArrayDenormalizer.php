@@ -35,9 +35,9 @@ final class ArrayDenormalizer
      * @param int<0,max>|null                      $minItems     Minimum amount of entries in passed array
      * @param int<0,max>|null                      $maxItems     Maximum amount of entries in passed array
      *
-     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
-     *
      * @return list<TArrayEntry> The same array as `$data`, but modified by `$denormalizer` function applied to each array entry
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      */
     public function denormalize(
         mixed $data,

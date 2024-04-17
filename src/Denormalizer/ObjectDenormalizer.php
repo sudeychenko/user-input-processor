@@ -28,10 +28,10 @@ final class ObjectDenormalizer
      * @param Pointer                    $pointer            Pointer containing path to current field
      * @param array<string, ObjectField> $fieldDenormalizers Denormalization rules for each allowed discriminator value
      *
-     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
-     *
      * @return array<string, mixed> The same array as `$data`, but value of each key may be modified by denormalization functions
      *                              defined in `$staticFields` object
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      */
     public function denormalize(
         mixed $data,

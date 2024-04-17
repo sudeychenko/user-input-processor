@@ -31,9 +31,9 @@ final class StringDenormalizer
      * @param int<0,max>|null $maxLength Maximum length of string
      * @param string|null     $pattern   Regular expression to validate string against
      *
-     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
-     *
      * @return string The same string as the one that was passed to `$data` argument
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      */
     public function denormalize(
         mixed $data,

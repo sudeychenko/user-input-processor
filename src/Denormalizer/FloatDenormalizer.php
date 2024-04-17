@@ -30,10 +30,10 @@ final class FloatDenormalizer
      * @param float|null $minimum Minimum value of float or integer
      * @param float|null $maximum Maximum value of float or integer
      *
-     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
-     *
      * @return float The same float as the one that was passed to `$data` argument, but if
      *               integer was passed to `$data`, it will be cast to float
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      */
     public function denormalize(
         mixed $data,
