@@ -48,10 +48,6 @@ $rules['class_attributes_separation'] = [
     ],
 ];
 
-$rules['concat_space'] = [
-    'spacing' => 'one',
-];
-
 $rules['global_namespace_import'] = true;
 $rules['linebreak_after_opening_tag'] = true;
 $rules['mb_str_functions'] = true;
@@ -94,6 +90,13 @@ $rules['ordered_class_elements'] = [
 $rules['phpdoc_line_span'] = [
     'property' => 'single',
 ];
+
+// disable in favor of Prettier
+$rules['concat_space'] = false;
+$rules['function_declaration'] = false;
+$rules['multiline_whitespace_before_semicolons'] = false;
+$rules['operator_linebreak'] = false;
+$rules['types_spaces'] = false;
 
 $rules['single_line_throw'] = false;
 $rules['static_lambda'] = true;
