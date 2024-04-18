@@ -74,7 +74,7 @@ final class DateRangeDenormalizerTest extends TestCase
      *
      * @dataProvider provideSuccessfulDenormalizationCases
      */
-    public function testSuccessfulDenormalizationDateRangeWithDateTimeZone(
+    public function testSuccessfulDenormalization(
         string $form,
         string $to,
         string $timeZone,
@@ -102,7 +102,7 @@ final class DateRangeDenormalizerTest extends TestCase
         );
     }
 
-    public function testUnsuccessfulDenormalizationDateRangeWithDateTimeZone(): void
+    public function testUnsuccessfulDenormalization(): void
     {
         $dateRangeDenormalizer = $this->getDenormalizer();
         $pointer = Pointer::empty();

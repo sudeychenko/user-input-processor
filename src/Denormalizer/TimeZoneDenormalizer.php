@@ -16,6 +16,18 @@ class TimeZoneDenormalizer
     {
     }
 
+    /**
+     * Validates and denormalizes passed data.
+     *
+     * It expects `$data` to be string of timezone (https://www.php.net/manual/en/timezones.php).
+     *
+     * @param mixed   $data    Data to validate and denormalize
+     * @param Pointer $pointer Pointer containing path to current field
+     *
+     * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
+     *
+     * @return DateTimeZone The same string as the one that was passed to `$data` argument
+     */
     public function denormalize(mixed $data, Pointer $pointer): DateTimeZone
     {
         $stringTimeZone = $this->stringDenormalizer->denormalize($data, $pointer, 1);

@@ -19,7 +19,7 @@ use Spiks\UserInputProcessor\Pointer;
  */
 final class DateDenormalizerTest extends TestCase
 {
-    public function testSuccessfulDenormalizationDateOnly(): void
+    public function testSuccessfulDenormalization(): void
     {
         $dateDenormalizer = new DateDenormalizer(new StringDenormalizer());
 
@@ -30,7 +30,7 @@ final class DateDenormalizerTest extends TestCase
         Assert::assertSame($date, $processedData->format('Y-m-d'));
     }
 
-    public function testUnsuccessfulDenormalizationDateOnly(): void
+    public function testUnsuccessfulDenormalization(): void
     {
         $dateDenormalizer = new DateDenormalizer(new StringDenormalizer());
 
