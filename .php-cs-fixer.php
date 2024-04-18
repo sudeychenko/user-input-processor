@@ -8,19 +8,37 @@ use PhpCsFixer\RuleSet\RuleSets;
 $finder = PhpCsFixer\Finder::create()
     ->in('./src/')
     ->in('./tests/')
-    ->append(['.php-cs-fixer.php'])
-;
+    ->append(['.php-cs-fixer.php']);
 
 $ruleSet = new RuleSet();
 
-$rules = array_reduce(RuleSets::getSetDefinitionNames(), static function (array $carry, string $ruleSetName): array {
-    $carry[$ruleSetName] = true;
+$rules = array_reduce(
+    RuleSets::getSetDefinitionNames(),
+    static function (array $carry, string $ruleSetName): array {
+        $carry[$ruleSetName] = true;
 
-    return $carry;
-}, []);
+        return $carry;
+    },
+    []
+);
 
 $rules['blank_line_before_statement'] = [
-    'statements' => ['break', 'case', 'continue', 'default', 'exit', 'for', 'foreach', 'if', 'return', 'switch', 'throw', 'try', 'while', 'yield'],
+    'statements' => [
+        'break',
+        'case',
+        'continue',
+        'default',
+        'exit',
+        'for',
+        'foreach',
+        'if',
+        'return',
+        'switch',
+        'throw',
+        'try',
+        'while',
+        'yield',
+    ],
 ];
 
 $rules['class_attributes_separation'] = [
@@ -28,10 +46,6 @@ $rules['class_attributes_separation'] = [
         'method' => 'one',
         'property' => 'one',
     ],
-];
-
-$rules['concat_space'] = [
-    'spacing' => 'one',
 ];
 
 $rules['global_namespace_import'] = true;
@@ -77,6 +91,13 @@ $rules['phpdoc_line_span'] = [
     'property' => 'single',
 ];
 
+// disable in favor of Prettier
+$rules['concat_space'] = false;
+$rules['function_declaration'] = false;
+$rules['multiline_whitespace_before_semicolons'] = false;
+$rules['operator_linebreak'] = false;
+$rules['types_spaces'] = false;
+
 $rules['single_line_throw'] = false;
 $rules['static_lambda'] = true;
 $rules['use_arrow_functions'] = true;
@@ -85,7 +106,4 @@ $rules['phpdoc_to_comment'] = [
     'ignored_tags' => ['psalm-suppress'],
 ];
 
-return (new PhpCsFixer\Config())
-    ->setRules($rules)
-    ->setFinder($finder)
-;
+return (new PhpCsFixer\Config())->setRules($rules)->setFinder($finder);

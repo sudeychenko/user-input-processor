@@ -47,33 +47,37 @@ final class ObjectDenormalizerTest extends TestCase
      *
      * @dataProvider provideSuccessfulDenormalizationCases
      */
-    public function testSuccessfulDenormalization(
-        array $payload
-    ): void {
+    public function testSuccessfulDenormalization(array $payload): void
+    {
         $objectDenormalizer = new ObjectDenormalizer();
         $stringDenormalizer = new StringDenormalizer();
 
         $pointer = Pointer::empty();
 
-        $processedData = $objectDenormalizer->denormalize(
-            $payload,
-            $pointer,
-            [
-                'foo' => new ObjectField(
-                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                    isMandatory: true,
+        $processedData = $objectDenormalizer->denormalize($payload, $pointer, [
+            'foo' => new ObjectField(
+                static fn(mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize(
+                    $fieldData,
+                    $fieldPointer
                 ),
-                'bar' => new ObjectField(
-                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                    isMandatory: true,
-                    isNullable: true,
+                isMandatory: true
+            ),
+            'bar' => new ObjectField(
+                static fn(mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize(
+                    $fieldData,
+                    $fieldPointer
                 ),
-                'baz' => new ObjectField(
-                    static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                    isMandatory: false,
+                isMandatory: true,
+                isNullable: true
+            ),
+            'baz' => new ObjectField(
+                static fn(mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize(
+                    $fieldData,
+                    $fieldPointer
                 ),
-            ],
-        );
+                isMandatory: false
+            ),
+        ]);
 
         Assert::assertEquals($payload, $processedData);
     }
@@ -90,25 +94,30 @@ final class ObjectDenormalizerTest extends TestCase
         $pointer = Pointer::empty();
 
         try {
-            $objectDenormalizer->denormalize(
-                $data,
-                $pointer,
-                [
-                    'foo' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                        isMandatory: true,
+            $objectDenormalizer->denormalize($data, $pointer, [
+                'foo' => new ObjectField(
+                    static fn(mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize(
+                        $fieldData,
+                        $fieldPointer
                     ),
-                    'bar' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                        isMandatory: true,
-                        isNullable: true,
+                    isMandatory: true
+                ),
+                'bar' => new ObjectField(
+                    static fn(mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize(
+                        $fieldData,
+                        $fieldPointer
                     ),
-                    'baz' => new ObjectField(
-                        static fn (mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize($fieldData, $fieldPointer),
-                        isMandatory: false,
+                    isMandatory: true,
+                    isNullable: true
+                ),
+                'baz' => new ObjectField(
+                    static fn(mixed $fieldData, Pointer $fieldPointer) => $stringDenormalizer->denormalize(
+                        $fieldData,
+                        $fieldPointer
                     ),
-                ],
-            );
+                    isMandatory: false
+                ),
+            ]);
         } catch (ValidationError $exception) {
             Assert::assertCount(2, $exception->getViolations());
             Assert::assertContainsOnly(MandatoryFieldMissing::class, $exception->getViolations());

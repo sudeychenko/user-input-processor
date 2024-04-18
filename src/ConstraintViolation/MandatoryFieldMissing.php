@@ -10,9 +10,8 @@ final class MandatoryFieldMissing implements ConstraintViolationInterface
 {
     public const TYPE = 'mandatory_field_missing';
 
-    public function __construct(
-        private Pointer $pointer
-    ) {
+    public function __construct(private Pointer $pointer)
+    {
     }
 
     public static function getType(): string

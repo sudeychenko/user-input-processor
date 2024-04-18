@@ -35,12 +35,8 @@ final class FloatDenormalizer
      * @return float The same float as the one that was passed to `$data` argument, but if
      *               integer was passed to `$data`, it will be cast to float
      */
-    public function denormalize(
-        mixed $data,
-        Pointer $pointer,
-        ?float $minimum = null,
-        ?float $maximum = null,
-    ): float {
+    public function denormalize(mixed $data, Pointer $pointer, ?float $minimum = null, ?float $maximum = null): float
+    {
         if (null !== $minimum && null !== $maximum && $minimum > $maximum) {
             throw new LogicException('Minimum constraint can not be bigger than maximum');
         }
@@ -49,27 +45,17 @@ final class FloatDenormalizer
         $violations = [];
 
         if (!\is_int($data) && !\is_float($data)) {
-            $violations[] = WrongPropertyType::guessGivenType(
-                $pointer,
-                $data,
-                [WrongPropertyType::JSON_TYPE_FLOAT]
-            );
+            $violations[] = WrongPropertyType::guessGivenType($pointer, $data, [WrongPropertyType::JSON_TYPE_FLOAT]);
 
             throw new ValidationError($violations);
         }
 
         if (null !== $minimum && $data < $minimum) {
-            $violations[] = new NumberIsTooSmall(
-                $pointer,
-                $minimum
-            );
+            $violations[] = new NumberIsTooSmall($pointer, $minimum);
         }
 
         if (null !== $maximum && $data > $maximum) {
-            $violations[] = new NumberIsTooBig(
-                $pointer,
-                $maximum
-            );
+            $violations[] = new NumberIsTooBig($pointer, $maximum);
         }
 
         if (\count($violations) > 0) {

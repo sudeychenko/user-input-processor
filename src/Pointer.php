@@ -12,9 +12,8 @@ class Pointer
     /**
      * @param list<string> $propertyPath Path to the property
      */
-    public function __construct(
-        protected array $propertyPath
-    ) {
+    public function __construct(protected array $propertyPath)
+    {
     }
 
     /**
@@ -27,10 +26,7 @@ class Pointer
      */
     public static function append(self $pointer, string ...$pathItems): self
     {
-        return new self([
-            ...$pointer->getPropertyPath(),
-            ...array_values($pathItems),
-        ]);
+        return new self([...$pointer->getPropertyPath(), ...array_values($pathItems)]);
     }
 
     /**

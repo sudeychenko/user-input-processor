@@ -13,10 +13,8 @@ final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
     /**
      * @param int<0, max> $length
      */
-    public function __construct(
-        private Pointer $pointer,
-        private int $length
-    ) {
+    public function __construct(private Pointer $pointer, private int $length)
+    {
     }
 
     public static function getType(): string
@@ -26,10 +24,7 @@ final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
 
     public function getDescription(): string
     {
-        return sprintf(
-            'Property should contain array with %d elements.',
-            $this->getLength()
-        );
+        return sprintf('Property should contain array with %d elements.', $this->getLength());
     }
 
     /**
