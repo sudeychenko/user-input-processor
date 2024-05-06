@@ -31,7 +31,7 @@ class EnumerationDenormalizer
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      *
-     * @return BackedEnum the same enum object as the one that was passed to `$data` argument
+     * @psalm-return T the same enum object as the one that was passed to `$data` argument
      */
     public function denormalize(
         mixed $data,
