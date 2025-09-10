@@ -2,40 +2,40 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\Denormalizer;
+namespace UserInputProcessor\Denormalizer;
 
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
-use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
-use Spiks\UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
-use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\ObjectField;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
+use UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
+use UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\ObjectField;
+use UserInputProcessor\Pointer;
 
 /**
  * Denormalizer for fields where associative arrays are expected.
  *
  * It will fail if indexed array (list) passed. Use {@see ArrayDenormalizer} instead.
  */
-final class ObjectDenormalizer
+final readonly class ObjectDenormalizer
 {
     /**
      * Validates and denormalizes passed data.
      *
      * It expects `$data` to be array type, but also accepts additional validation requirements.
      *
-     * @param mixed                      $data               Data to validate and denormalize
-     * @param Pointer                    $pointer            Pointer containing path to current field
-     * @param array<string, ObjectField> $fieldDenormalizers Denormalization rules for each allowed discriminator value
+     * @psalm-param mixed $data Data to validate and denormalize
+     * @psalm-param Pointer $pointer Pointer containing path to current field
+     * @psalm-param array<string, ObjectField> $fieldDenormalizers Denormalization rules for each allowed discriminator value
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      *
-     * @return array<string, mixed> The same array as `$data`, but value of each key may be modified by denormalization functions
+     * @psalm-return array<string, mixed> The same array as `$data`, but value of each key may be modified by denormalization functions
      *                              defined in `$staticFields` object
      */
     public function denormalize(mixed $data, Pointer $pointer, array $fieldDenormalizers): array
     {
-        /** @var list<ConstraintViolationInterface> $violations */
+        /** @psalm-var list<ConstraintViolationInterface> $violations */
         $violations = [];
 
         if (!\is_array($data) || array_is_list($data)) {
@@ -44,7 +44,7 @@ final class ObjectDenormalizer
             throw new ValidationError($violations);
         }
 
-        /** @var array<string, mixed> $processedData */
+        /** @psalm-var array<string, mixed> $processedData */
         $processedData = [];
 
         foreach ($fieldDenormalizers as $fieldName => $fieldDefinition) {

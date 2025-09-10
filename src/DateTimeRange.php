@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor;
+namespace UserInputProcessor;
 
 use DateTimeImmutable;
 
-class DateTimeRange
+final readonly class DateTimeRange
 {
-    public function __construct(public readonly DateTimeImmutable $from, public readonly DateTimeImmutable $to)
+    public function __construct(public DateTimeImmutable $from, public DateTimeImmutable $to)
     {
     }
 }

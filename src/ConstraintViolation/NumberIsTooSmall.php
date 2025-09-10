@@ -2,23 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-final class NumberIsTooSmall implements ConstraintViolationInterface
+final readonly class NumberIsTooSmall implements ConstraintViolationInterface
 {
-    public const TYPE = 'number_is_too_small';
+    public const string TYPE = 'number_is_too_small';
 
     public function __construct(private Pointer $pointer, private float $min)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return 'Property contains too small number.';
@@ -29,6 +32,7 @@ final class NumberIsTooSmall implements ConstraintViolationInterface
         return $this->min;
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

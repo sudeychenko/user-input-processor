@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\Denormalizer;
+namespace UserInputProcessor\Denormalizer;
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
-use Spiks\UserInputProcessor\ConstraintViolation\InvalidDate;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\InvalidDate;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\Pointer;
 
-class DateTimeDenormalizer
+final readonly class DateTimeDenormalizer
 {
-    private const DATE_TIME_FORMAT = DateTimeInterface::RFC3339;
+    private const string DATE_TIME_FORMAT = DateTimeInterface::RFC3339;
 
-    public function __construct(private readonly StringDenormalizer $stringDenormalizer)
+    public function __construct(private StringDenormalizer $stringDenormalizer)
     {
     }
 
@@ -24,8 +24,8 @@ class DateTimeDenormalizer
      *
      * It expects `$data` to be datetime string type. `$data` must be formatted RFC3339('Y-m-d\TH:i:sP')
      *
-     * @param mixed   $data    Data to validate and denormalize
-     * @param Pointer $pointer Pointer containing path to current field
+     * @psalm-param mixed $data Data to validate and denormalize
+     * @psalm-param Pointer $pointer Pointer containing path to current field
      *
      * @psalm-return DateTimeImmutable The same datetime as the one that was passed to `$data` argument
      *
@@ -37,7 +37,7 @@ class DateTimeDenormalizer
         $dateTime = DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $stringDate);
 
         if (false === $dateTime || $dateTime->format(self::DATE_TIME_FORMAT) !== $stringDate) {
-            throw new ValidationError([new InvalidDate($pointer, sprintf('date is not valid: %s', $stringDate))]);
+            throw new ValidationError([new InvalidDate($pointer, \sprintf('date is not valid: %s', $stringDate))]);
         }
 
         return $dateTime->setTimezone(new DateTimeZone('UTC'));

@@ -2,28 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-final class ValueDoesNotMatchRegex implements ConstraintViolationInterface
+final readonly class ValueDoesNotMatchRegex implements ConstraintViolationInterface
 {
-    public const TYPE = 'value_does_not_match_regex';
+    public const string TYPE = 'value_does_not_match_regex';
 
     public function __construct(private Pointer $pointer, private string $regex)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getDescription(): string
     {
-        return sprintf('Property does not match regex "%s".', $this->getRegex());
+        return \sprintf('Property does not match regex "%s".', $this->getRegex());
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

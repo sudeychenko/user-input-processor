@@ -2,34 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Tests\Spiks\UserInputProcessor\Denormalizer;
+namespace Tests\UserInputProcessor\Denormalizer;
 
-use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Spiks\UserInputProcessor\ConstraintViolation\InvalidTimeZone;
-use Spiks\UserInputProcessor\Denormalizer\StringDenormalizer;
-use Spiks\UserInputProcessor\Denormalizer\TimeZoneDenormalizer;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\InvalidTimeZone;
+use UserInputProcessor\Denormalizer\StringDenormalizer;
+use UserInputProcessor\Denormalizer\TimeZoneDenormalizer;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\Pointer;
 
 /**
- * @covers \Spiks\UserInputProcessor\Denormalizer\TimeZoneDenormalizer
- *
  * @internal
  */
 final class TimeZoneDenormalizerTest extends TestCase
 {
-    /**
-     * @psalm-return list<array{non-empty-string}>
-     */
-    public static function provideSuccessfulDenormalizationCases(): iterable
-    {
-        return [['Asia/Singapore'], ['Europe/Moscow'], ['America/Barbados'], ['+03:00']];
-    }
-
-    /**
-     * @dataProvider provideSuccessfulDenormalizationCases
-     */
+    #[DataProvider('provideSuccessfulDenormalizationCases')]
     public function testSuccessfulDenormalization(string $timeZone): void
     {
         $timeZoneDenormalizer = new TimeZoneDenormalizer(new StringDenormalizer());
@@ -37,7 +25,15 @@ final class TimeZoneDenormalizerTest extends TestCase
 
         $processedData = $timeZoneDenormalizer->denormalize($timeZone, $pointer);
 
-        Assert::assertSame($timeZone, $processedData->getName());
+        $this->assertSame($timeZone, $processedData->getName());
+    }
+
+    /**
+     * @psalm-return list<array{non-empty-string}>
+     */
+    public static function provideSuccessfulDenormalizationCases(): iterable
+    {
+        return [['Asia/Singapore'], ['Europe/Moscow'], ['America/Barbados'], ['+03:00']];
     }
 
     public function testUnsuccessfulDenormalization(): void
@@ -47,8 +43,9 @@ final class TimeZoneDenormalizerTest extends TestCase
         try {
             $timeZoneDenormalizer->denormalize('foo/bar', Pointer::empty());
         } catch (ValidationError $exception) {
-            Assert::assertCount(1, $exception->getViolations());
-            Assert::assertContainsOnly(InvalidTimeZone::class, $exception->getViolations());
+            $this->assertCount(1, $exception->getViolations());
+            $validationErrors = $exception->getViolations();
+            $this->assertInstanceOf(InvalidTimeZone::class, array_pop($validationErrors));
         }
     }
 }

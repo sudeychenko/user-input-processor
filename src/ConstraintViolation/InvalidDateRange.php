@@ -2,26 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-class InvalidDateRange implements ConstraintViolationInterface
+final readonly class InvalidDateRange implements ConstraintViolationInterface
 {
-    public function __construct(private readonly Pointer $pointer)
+    public function __construct(private Pointer $pointer)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return 'date_range_is_not_valid';
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return 'Date range is not valid.';
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

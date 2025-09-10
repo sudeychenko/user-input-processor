@@ -2,26 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-class InvalidTimeZone implements ConstraintViolationInterface
+final readonly class InvalidTimeZone implements ConstraintViolationInterface
 {
-    public function __construct(private readonly Pointer $pointer, private readonly string $description)
+    public function __construct(private Pointer $pointer, private string $description)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return 'timezone_is_not_valid';
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

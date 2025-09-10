@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\Denormalizer;
+namespace UserInputProcessor\Denormalizer;
 
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
-use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
+use UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\Pointer;
 
 /**
  * Denormalizer for fields where boolean is expected.
@@ -19,8 +19,8 @@ final class BooleanDenormalizer
      *
      * It expects `$data` to be boolean type.
      *
-     * @param mixed   $data    Data to validate and denormalize
-     * @param Pointer $pointer Pointer containing path to current field
+     * @psalm-param mixed $data Data to validate and denormalize
+     * @psalm-param Pointer $pointer Pointer containing path to current field
      *
      * @psalm-return bool The same boolean as the one that was passed to `$data` argument
      *
@@ -28,7 +28,7 @@ final class BooleanDenormalizer
      */
     public function denormalize(mixed $data, Pointer $pointer): bool
     {
-        /** @var list<ConstraintViolationInterface> $violations */
+        /** @psalm-var list<ConstraintViolationInterface> $violations */
         $violations = [];
 
         if (!\is_bool($data)) {

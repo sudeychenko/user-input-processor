@@ -2,26 +2,30 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-class ArrayIsNotUnique implements ConstraintViolationInterface
+final readonly class ArrayIsNotUnique implements ConstraintViolationInterface
 {
-    public function __construct(private readonly Pointer $pointer)
+    public function __construct(private Pointer $pointer)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return 'array_is_not_unique';
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return 'Array is not unique';
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

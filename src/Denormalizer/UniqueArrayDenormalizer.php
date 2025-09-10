@@ -2,31 +2,31 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\Denormalizer;
+namespace UserInputProcessor\Denormalizer;
 
 use Closure;
-use Spiks\UserInputProcessor\ConstraintViolation\ArrayIsNotUnique;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\ArrayIsNotUnique;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\Pointer;
 
-class UniqueArrayDenormalizer
+final readonly class UniqueArrayDenormalizer
 {
-    public function __construct(private readonly ArrayDenormalizer $arrayDenormalizer)
+    public function __construct(private ArrayDenormalizer $arrayDenormalizer)
     {
     }
 
     /**
      * @template TArrayEntry of mixed
      *
-     * @param Closure(mixed, Pointer): TArrayEntry $denormalizer      Denormalizer function that will be called for each array entry.
-     *                                                                First parameter of the function will contain value of the entry.
-     * @param Closure(TArrayEntry): string         $uniqueKeyProvider Function to get the key by which the uniqueness of the array will be checked
-     * @param int<0,max>|null                      $minItems          Minimum amount of entries in passed array
-     * @param int<0,max>|null                      $maxItems          Maximum amount of entries in passed array*
+     * @psalm-param Closure(mixed, Pointer): TArrayEntry $denormalizer Denormalizer function that will be called for each array entry.
+     *                                                                 First parameter of the function will contain value of the entry.
+     * @psalm-param Closure(TArrayEntry): string $uniqueKeyProvider Function to get the key by which the uniqueness of the array will be checked
+     * @psalm-param int<0,max>|null $minItems Minimum amount of entries in passed array
+     * @psalm-param int<0,max>|null $maxItems Maximum amount of entries in passed array*
      *
      * @throws ValidationError
      *
-     * @return list<TArrayEntry>
+     * @psalm-return list<TArrayEntry>
      */
     public function denormalize(
         mixed $data,
@@ -34,14 +34,14 @@ class UniqueArrayDenormalizer
         Closure $denormalizer,
         Closure $uniqueKeyProvider,
         ?int $minItems = null,
-        ?int $maxItems = null
+        ?int $maxItems = null,
     ): array {
         $processedArray = $this->arrayDenormalizer->denormalize(
             data: $data,
             pointer: $pointer,
             denormalizer: $denormalizer,
             minItems: $minItems,
-            maxItems: $maxItems
+            maxItems: $maxItems,
         );
 
         if ($this->isUnique(processedArray: $processedArray, uniqueKeyProvider: $uniqueKeyProvider)) {

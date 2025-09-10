@@ -2,37 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Tests\Spiks\UserInputProcessor\Denormalizer;
+namespace Tests\UserInputProcessor\Denormalizer;
 
-use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Spiks\UserInputProcessor\Denormalizer\StringDenormalizer;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\Denormalizer\StringDenormalizer;
+use UserInputProcessor\Pointer;
 
 /**
- * @covers \Spiks\UserInputProcessor\StringDenormalizer
- *
  * @internal
  */
 final class StringDenormalizerTest extends TestCase
 {
-    /**
-     * @return string[][]
-     */
-    public static function provideSuccessfulDenormalizationCases(): iterable
-    {
-        return [['foobar']];
-    }
-
-    /**
-     * @dataProvider provideSuccessfulDenormalizationCases
-     */
+    #[DataProvider('provideSuccessfulDenormalizationCases')]
     public function testSuccessfulDenormalization(string $payload): void
     {
         $stringDenormalizer = new StringDenormalizer();
 
         $processedData = $stringDenormalizer->denormalize($payload, Pointer::empty(), minLength: 1);
 
-        Assert::assertEquals($payload, $processedData);
+        $this->assertSame($payload, $processedData);
+    }
+
+    /**
+     * @psalm-return string[][]
+     */
+    public static function provideSuccessfulDenormalizationCases(): iterable
+    {
+        return [['foobar'], ['ФуБар'], ['`'], ['!@#$%^&*(']];
     }
 }

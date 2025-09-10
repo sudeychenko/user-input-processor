@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\Exception;
+namespace UserInputProcessor\Exception;
 
 use InvalidArgumentException;
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
+use UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
 
 final class ValidationError extends InvalidArgumentException
 {
-    /** @var non-empty-list<ConstraintViolationInterface> */
+    /** @psalm-var non-empty-list<ConstraintViolationInterface> */
     private array $violations;
 
     /**
-     * @param non-empty-list<ConstraintViolationInterface> $violations
+     * @psalm-param non-empty-list<ConstraintViolationInterface> $violations
      */
     public function __construct(array $violations)
     {
@@ -22,22 +22,20 @@ final class ValidationError extends InvalidArgumentException
         parent::__construct(
             message: array_reduce(
                 $violations,
-                static function (string $message, ConstraintViolationInterface $violation): string {
-                    return $message .
-                        sprintf(
+                static fn (string $message, ConstraintViolationInterface $violation): string => $message .
+                        \sprintf(
                             '%s (%s): %s' . "\n",
                             $violation::getType(),
                             $violation->getPointer()->toString(),
-                            $violation->getDescription()
-                        );
-                },
-                'Validation errors:' . "\n"
-            )
+                            $violation->getDescription(),
+                        ),
+                'Validation errors:' . "\n",
+            ),
         );
     }
 
     /**
-     * @return non-empty-list<ConstraintViolationInterface>
+     * @psalm-return non-empty-list<ConstraintViolationInterface>
      */
     public function getViolations(): array
     {

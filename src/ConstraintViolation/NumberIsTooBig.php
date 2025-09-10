@@ -2,23 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-final class NumberIsTooBig implements ConstraintViolationInterface
+final readonly class NumberIsTooBig implements ConstraintViolationInterface
 {
-    public const TYPE = 'number_is_too_big';
+    public const string TYPE = 'number_is_too_big';
 
     public function __construct(private Pointer $pointer, private float $max)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return 'Property contains too big number.';
@@ -29,6 +32,7 @@ final class NumberIsTooBig implements ConstraintViolationInterface
         return $this->max;
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

@@ -1,9 +1,9 @@
 {
-  "name": "spiks/user-input-processor",
+  "name": "sudeychenko/user-input-processor",
   "description": "Denormalizer and validator for any kind of user input.",
   "type": "library",
   "license": "MIT",
-  "homepage": "https://github.com/spiks/user-input-processor",
+  "homepage": "https://github.com/sudeychenko/user-input-processor",
   "readme": "./README.md",
   "keywords": [
     "denormalizer",
@@ -12,20 +12,19 @@
   ],
   "authors": [
     {
-      "name": "Petr Flaks",
-      "email": "petr@flaks.dev",
-      "homepage": "https://flaks.dev",
+      "name": "Sudeychenko Alex",
+      "email": "sudeychenko.a.a@gmail.com",
       "role": "Developer"
     }
   ],
   "support": {
-    "issues": "https://github.com/spiks/user-input-processor/issues",
-    "forum": "https://github.com/spiks/user-input-processor/discussions",
-    "source": "https://github.com/spiks/user-input-processor",
-    "docs": "https://github.com/spiks/user-input-processor/blob/main/README.md"
+    "issues": "https://github.com/sudeychenko/user-input-processor/issues",
+    "forum": "https://github.com/sudeychenko/user-input-processor/discussions",
+    "source": "https://github.com/sudeychenko/user-input-processor",
+    "docs": "https://github.com/sudeychenko/user-input-processor/blob/main/README.md"
   },
   "require": {
-    "php": ">= 8.1",
+    "php": ">= 8.4",
     "ext-mbstring": "*"
   },
   "config": {
@@ -33,22 +32,24 @@
   },
   "autoload": {
     "psr-4": {
-      "Spiks\\UserInputProcessor\\": "src/"
+      "UserInputProcessor\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Spiks\\UserInputProcessor\\": "tests/"
+      "Tests\\UserInputProcessor\\": "tests/"
     }
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.5",
+    "friendsofphp/php-cs-fixer": "^3.49",
     "jetbrains/phpstorm-attributes": "^1.0",
-    "phpstan/phpstan": "^1.4",
-    "phpstan/phpstan-phpunit": "^1.0",
-    "phpstan/phpstan-strict-rules": "^1.1",
-    "phpunit/phpunit": "^9.5",
-    "psalm/plugin-phpunit": "^0.16.1",
-    "vimeo/psalm": "^4.20"
+    "phpstan/phpstan": "^1.7",
+    "phpstan/phpstan-phpunit": "^1.1",
+    "phpstan/phpstan-strict-rules": "^1.2",
+    "phpunit/phpunit": "^12",
+    "psalm/plugin-phpunit": "^0.19.5",
+    "vimeo/psalm": "^6.13.1",
+    "dg/bypass-finals": "^1.9",
+    "fakerphp/faker": "^1.24"
   }
 }

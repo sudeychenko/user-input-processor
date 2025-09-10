@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\Pointer;
 
 interface ConstraintViolationInterface
 {

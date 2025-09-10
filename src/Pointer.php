@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor;
+namespace UserInputProcessor;
 
 /**
  * This class represents path to the property.
  */
-class Pointer
+final readonly class Pointer
 {
     /**
-     * @param list<string> $propertyPath Path to the property
+     * @psalm-param list<string> $propertyPath Path to the property
      */
-    public function __construct(protected array $propertyPath)
+    public function __construct(private array $propertyPath)
     {
     }
 
     /**
      * Creates new Pointer using old one, and appending path segments to it.
      *
-     * @param self   $pointer      Old pointer
-     * @param string ...$pathItems Path segments to append to the Pointer
+     * @psalm-param self $pointer Old pointer
+     * @psalm-param string ...$pathItems Path segments to append to the Pointer
      *
-     * @return self New instance of the Pointer
+     * @psalm-return self New instance of the Pointer
      */
     public static function append(self $pointer, string ...$pathItems): self
     {
@@ -38,7 +38,7 @@ class Pointer
     }
 
     /**
-     * @return list<string>
+     * @psalm-return list<string>
      */
     public function getPropertyPath(): array
     {

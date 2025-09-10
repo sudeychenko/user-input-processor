@@ -2,40 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
 use UnexpectedValueException;
+use UserInputProcessor\Pointer;
 
-final class WrongPropertyType implements ConstraintViolationInterface
+final readonly class WrongPropertyType implements ConstraintViolationInterface
 {
-    public const JSON_TYPE_ARRAY = 'array';
-    public const JSON_TYPE_BOOLEAN = 'boolean';
-    public const JSON_TYPE_FLOAT = 'float';
-    public const JSON_TYPE_NULL = 'null';
-    public const JSON_TYPE_NUMBER = 'number';
-    public const JSON_TYPE_OBJECT = 'object';
-    public const JSON_TYPE_STRING = 'string';
+    public const string JSON_TYPE_ARRAY = 'array';
+    public const string JSON_TYPE_BOOLEAN = 'boolean';
+    public const string JSON_TYPE_FLOAT = 'float';
+    public const string JSON_TYPE_NULL = 'null';
+    public const string JSON_TYPE_NUMBER = 'number';
+    public const string JSON_TYPE_OBJECT = 'object';
+    public const string JSON_TYPE_STRING = 'string';
 
-    public const TYPE = 'wrong_property_type';
+    public const string TYPE = 'wrong_property_type';
 
     /**
-     * @param self::JSON_TYPE_*                 $givenType
-     * @param non-empty-list<self::JSON_TYPE_*> $allowedTypes
+     * @psalm-param self::JSON_TYPE_* $givenType
+     * @psalm-param non-empty-list<self::JSON_TYPE_*> $allowedTypes
      */
     public function __construct(private Pointer $pointer, private string $givenType, private array $allowedTypes)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
     /**
-     * @param non-empty-list<self::JSON_TYPE_*> $allowedTypes
+     * @psalm-param non-empty-list<self::JSON_TYPE_*> $allowedTypes
      *
-     * @return static
+     * @psalm-return static
      */
     public static function guessGivenType(Pointer $pointer, mixed $givenValue, array $allowedTypes): self
     {
@@ -43,37 +45,39 @@ final class WrongPropertyType implements ConstraintViolationInterface
     }
 
     /**
-     * @return non-empty-list<self::JSON_TYPE_*> $allowedTypes
+     * @psalm-return non-empty-list<self::JSON_TYPE_*> $allowedTypes
      */
     public function getAllowedTypes(): array
     {
         return $this->allowedTypes;
     }
 
+    #[Override]
     public function getDescription(): string
     {
-        return sprintf(
+        return \sprintf(
             'Property is %s type, but only following types are allowed: %s',
             $this->givenType,
-            implode(', ', $this->allowedTypes)
+            implode(', ', $this->allowedTypes),
         );
     }
 
     /**
-     * @return self::JSON_TYPE_*
+     * @psalm-return self::JSON_TYPE_*
      */
     public function getGivenType(): string
     {
         return $this->givenType;
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;
     }
 
     /**
-     * @return self::JSON_TYPE_*
+     * @psalm-return self::JSON_TYPE_*
      */
     private static function getJsonTypeFromValue(mixed $value): string
     {
@@ -90,7 +94,7 @@ final class WrongPropertyType implements ConstraintViolationInterface
             'string' => self::JSON_TYPE_STRING,
             'NULL' => self::JSON_TYPE_NULL,
             default => throw new UnexpectedValueException(
-                'Given PHP type is not supported in JSON conversion: ' . $type
+                'Given PHP type is not supported in JSON conversion: ' . $type,
             ),
         };
     }

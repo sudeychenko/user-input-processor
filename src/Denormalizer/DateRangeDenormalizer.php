@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\Denormalizer;
+namespace UserInputProcessor\Denormalizer;
 
 use DateTimeImmutable;
 use DateTimeZone;
 use LogicException;
-use Spiks\UserInputProcessor\ConstraintViolation\InvalidDateRange;
-use Spiks\UserInputProcessor\DateTimeRange;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\ObjectField;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\InvalidDateRange;
+use UserInputProcessor\DateTimeRange;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\ObjectField;
+use UserInputProcessor\Pointer;
 
 /**
  * The denormalizer returns a correctly calculated interval, taking into account the time zone offset.
@@ -23,12 +23,12 @@ use Spiks\UserInputProcessor\Pointer;
  *             to: new DateTimeImmutable('2001-01-01 20:59:59'),
  *          }
  */
-class DateRangeDenormalizer
+final readonly class DateRangeDenormalizer
 {
     public function __construct(
-        private readonly DateDenormalizer $dateDenormalizer,
-        private readonly ObjectDenormalizer $objectDenormalizer,
-        private readonly TimeZoneDenormalizer $timeZoneDenormalizer
+        private DateDenormalizer $dateDenormalizer,
+        private ObjectDenormalizer $objectDenormalizer,
+        private TimeZoneDenormalizer $timeZoneDenormalizer,
     ) {
     }
 
@@ -42,8 +42,8 @@ class DateRangeDenormalizer
      *           timeZone: string of timezone (https://www.php.net/manual/en/timezones.php)
      *      }
      *
-     * @param mixed   $data    Data to validate and denormalize
-     * @param Pointer $pointer Pointer containing path to current field
+     * @psalm-param mixed $data Data to validate and denormalize
+     * @psalm-param Pointer $pointer Pointer containing path to current field
      *
      * @psalm-return DateTimeRange The DateTimeRange object containing a time interval adjusted for the time zone.
      *
@@ -62,20 +62,20 @@ class DateRangeDenormalizer
             'from' => new ObjectField(
                 fn(mixed $data, Pointer $pointer): DateTimeImmutable => $this->dateDenormalizer->denormalize(
                     $data,
-                    $pointer
-                )
+                    $pointer,
+                ),
             ),
             'to' => new ObjectField(
                 fn(mixed $data, Pointer $pointer): DateTimeImmutable => $this->dateDenormalizer->denormalize(
                     $data,
-                    $pointer
-                )
+                    $pointer,
+                ),
             ),
             'timeZone' => new ObjectField(
                 fn(mixed $data, Pointer $pointer): DateTimeZone => $this->timeZoneDenormalizer->denormalize(
                     $data,
-                    $pointer
-                )
+                    $pointer,
+                ),
             ),
         ]);
 
@@ -101,7 +101,7 @@ class DateRangeDenormalizer
         $offsetSeconds = $timeZone->getOffset(new DateTimeImmutable());
         $fromTimestamp = $date->setTime(hour: 0, minute: 0)->getTimestamp() - $offsetSeconds;
 
-        return (new DateTimeImmutable())->setTimestamp($fromTimestamp);
+        return new DateTimeImmutable()->setTimestamp($fromTimestamp);
     }
 
     /**
@@ -116,6 +116,6 @@ class DateRangeDenormalizer
         $offsetSeconds = $timeZone->getOffset(new DateTimeImmutable());
         $fromTimestamp = $date->setTime(23, 59, 59)->getTimestamp() - $offsetSeconds;
 
-        return (new DateTimeImmutable())->setTimestamp($fromTimestamp);
+        return new DateTimeImmutable()->setTimestamp($fromTimestamp);
     }
 }

@@ -2,28 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-final class ValueShouldNotBeNull implements ConstraintViolationInterface
+final readonly class ValueShouldNotBeNull implements ConstraintViolationInterface
 {
-    public const TYPE = 'value_should_not_be_null';
+    public const string TYPE = 'value_should_not_be_null';
 
     public function __construct(private Pointer $pointer)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return 'Property should not be null.';
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

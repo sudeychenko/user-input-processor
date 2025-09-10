@@ -2,39 +2,43 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-final class ArrayShouldHaveExactLength implements ConstraintViolationInterface
+final readonly class ArrayShouldHaveExactLength implements ConstraintViolationInterface
 {
-    public const TYPE = 'array_should_have_exact_length';
+    public const string TYPE = 'array_should_have_exact_length';
 
     /**
-     * @param int<0, max> $length
+     * @psalm-param int<0, max> $length
      */
     public function __construct(private Pointer $pointer, private int $length)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getDescription(): string
     {
-        return sprintf('Property should contain array with %d elements.', $this->getLength());
+        return \sprintf('Property should contain array with %d elements.', $this->getLength());
     }
 
     /**
-     * @return int<0, max>
+     * @psalm-return int<0, max>
      */
     public function getLength(): int
     {
         return $this->length;
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

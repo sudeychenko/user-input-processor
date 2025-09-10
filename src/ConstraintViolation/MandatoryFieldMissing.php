@@ -2,28 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-final class MandatoryFieldMissing implements ConstraintViolationInterface
+final readonly class MandatoryFieldMissing implements ConstraintViolationInterface
 {
-    public const TYPE = 'mandatory_field_missing';
+    public const string TYPE = 'mandatory_field_missing';
 
     public function __construct(private Pointer $pointer)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return 'Property is mandatory, but it\'s missing. Even if field is nullable it should be presented in request payload.';
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;

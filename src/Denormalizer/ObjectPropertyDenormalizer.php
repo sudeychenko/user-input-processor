@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\Denormalizer;
+namespace UserInputProcessor\Denormalizer;
 
 use Closure;
-use Spiks\UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
-use Spiks\UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
-use Spiks\UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
-use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\ConstraintViolationInterface;
+use UserInputProcessor\ConstraintViolation\MandatoryFieldMissing;
+use UserInputProcessor\ConstraintViolation\ValueShouldNotBeNull;
+use UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\Pointer;
 
 /**
  * Denormalizer for fields where associative arrays are expected.
@@ -19,7 +19,7 @@ use Spiks\UserInputProcessor\Pointer;
  *
  * WARNING: This API is experimental and may be removed in the future.
  */
-final class ObjectPropertyDenormalizer
+final readonly class ObjectPropertyDenormalizer
 {
     /**
      * Validates and denormalizes passed data.
@@ -28,23 +28,23 @@ final class ObjectPropertyDenormalizer
      *
      * @template TObjectPropertyType of mixed
      *
-     * @param mixed                                        $data         Data to validate and denormalize
-     * @param Pointer                                      $pointer      Pointer containing path to current field
-     * @param Closure(mixed, Pointer): TObjectPropertyType $denormalizer Denormalizer function that handles denormalization of the field.
-     *                                                                   First parameter of the function will contain value of the field.
-     *                                                                   The second one will contain {@see Pointer} pointing to the field.
+     * @psalm-param mixed $data Data to validate and denormalize
+     * @psalm-param Pointer $pointer Pointer containing path to current field
+     * @psalm-param Closure(mixed, Pointer): TObjectPropertyType $denormalizer Denormalizer function that handles denormalization of the field.
+     *                                                                         First parameter of the function will contain value of the field.
+     *                                                                         The second one will contain {@see Pointer} pointing to the field.
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      *
-     * @return TObjectPropertyType|null
+     * @psalm-return TObjectPropertyType|null
      */
     public function denormalizeNullableObjectProperty(
         mixed $data,
         Pointer $pointer,
         string $objectPropertyName,
-        Closure $denormalizer
+        Closure $denormalizer,
     ): mixed {
-        /** @var list<ConstraintViolationInterface> $violations */
+        /** @psalm-var list<ConstraintViolationInterface> $violations */
         $violations = [];
 
         $processedData = null;
@@ -85,25 +85,25 @@ final class ObjectPropertyDenormalizer
      *
      * @template TObjectPropertyType of mixed
      *
-     * @param mixed                                        $data         Data to validate and denormalize
-     * @param Pointer                                      $pointer      Pointer containing path to current field
-     * @param Closure(mixed, Pointer): TObjectPropertyType $denormalizer Denormalizer function that handles denormalization of the field.
-     *                                                                   First parameter of the function will contain value of the field.
-     *                                                                   The second one will contain {@see Pointer} pointing to the field.
+     * @psalm-param mixed $data Data to validate and denormalize
+     * @psalm-param Pointer $pointer Pointer containing path to current field
+     * @psalm-param Closure(mixed, Pointer): TObjectPropertyType $denormalizer Denormalizer function that handles denormalization of the field.
+     *                                                                         First parameter of the function will contain value of the field.
+     *                                                                         The second one will contain {@see Pointer} pointing to the field.
      *
      * @throws ValidationError If `$data` does not meet the requirements of the denormalizer
      *
-     * @return TObjectPropertyType
+     * @psalm-return TObjectPropertyType
      */
     public function denormalizeObjectProperty(
         mixed $data,
         Pointer $pointer,
         string $objectPropertyName,
-        Closure $denormalizer
+        Closure $denormalizer,
     ): mixed {
         $processedData = $this->denormalizeNullableObjectProperty($data, $pointer, $objectPropertyName, $denormalizer);
 
-        /** @var list<ConstraintViolationInterface> $violations */
+        /** @psalm-var list<ConstraintViolationInterface> $violations */
         $violations = [];
 
         if (null === $processedData) {

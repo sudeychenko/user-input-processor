@@ -2,30 +2,62 @@
 
 declare(strict_types=1);
 
-namespace Tests\Spiks\UserInputProcessor\Denormalizer;
+namespace Tests\UserInputProcessor\Denormalizer;
 
 use DateTimeImmutable;
-use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Spiks\UserInputProcessor\ConstraintViolation\InvalidDate;
-use Spiks\UserInputProcessor\ConstraintViolation\InvalidDateRange;
-use Spiks\UserInputProcessor\ConstraintViolation\WrongPropertyType;
-use Spiks\UserInputProcessor\DateTimeRange;
-use Spiks\UserInputProcessor\Denormalizer\DateDenormalizer;
-use Spiks\UserInputProcessor\Denormalizer\DateRangeDenormalizer;
-use Spiks\UserInputProcessor\Denormalizer\ObjectDenormalizer;
-use Spiks\UserInputProcessor\Denormalizer\StringDenormalizer;
-use Spiks\UserInputProcessor\Denormalizer\TimeZoneDenormalizer;
-use Spiks\UserInputProcessor\Exception\ValidationError;
-use Spiks\UserInputProcessor\Pointer;
+use UserInputProcessor\ConstraintViolation\InvalidDate;
+use UserInputProcessor\ConstraintViolation\InvalidDateRange;
+use UserInputProcessor\ConstraintViolation\WrongPropertyType;
+use UserInputProcessor\DateTimeRange;
+use UserInputProcessor\Denormalizer\DateDenormalizer;
+use UserInputProcessor\Denormalizer\DateRangeDenormalizer;
+use UserInputProcessor\Denormalizer\ObjectDenormalizer;
+use UserInputProcessor\Denormalizer\StringDenormalizer;
+use UserInputProcessor\Denormalizer\TimeZoneDenormalizer;
+use UserInputProcessor\Exception\ValidationError;
+use UserInputProcessor\Pointer;
 
 /**
- * @covers \Spiks\UserInputProcessor\Denormalizer\DateRangeDenormalizer
- *
  * @internal
  */
 final class DateRangeDenormalizerTest extends TestCase
 {
+    /**
+     * @psalm-param non-empty-string $from
+     * @psalm-param non-empty-string $timeZone
+     * @psalm-param non-empty-string $to
+     */
+    #[DataProvider('provideSuccessfulDenormalizationCases')]
+    public function testSuccessfulDenormalization(
+        string $from,
+        string $to,
+        string $timeZone,
+        DateTimeRange $expectedDateTimeRange,
+    ): void {
+        $dateRangeDenormalizer = $this->getDenormalizer();
+
+        $dateTimeRange = $dateRangeDenormalizer->denormalize(
+            data: [
+                'from' => $from,
+                'to' => $to,
+                'timeZone' => $timeZone,
+            ],
+            pointer: Pointer::empty(),
+        );
+
+        $this->assertSame(
+            expected: $expectedDateTimeRange->from->getTimestamp(),
+            actual: $dateTimeRange->from->getTimestamp(),
+        );
+
+        $this->assertSame(
+            expected: $expectedDateTimeRange->to->getTimestamp(),
+            actual: $dateTimeRange->to->getTimestamp(),
+        );
+    }
+
     /**
      * @psalm-return list<array{
      *     from: non-empty-string,
@@ -43,7 +75,7 @@ final class DateRangeDenormalizerTest extends TestCase
                 'timeZone' => 'Europe/Moscow', // GMT+3
                 'expectedDateTimeRange' => new DateTimeRange(
                     from: new DateTimeImmutable('1999-12-31 21:00:00'),
-                    to: new DateTimeImmutable('2000-12-31 20:59:59')
+                    to: new DateTimeImmutable('2000-12-31 20:59:59'),
                 ),
             ],
             [
@@ -52,7 +84,7 @@ final class DateRangeDenormalizerTest extends TestCase
                 'timeZone' => 'America/Barbados', // GMT-4
                 'expectedDateTimeRange' => new DateTimeRange(
                     from: new DateTimeImmutable('2000-01-01 04:00:00'),
-                    to: new DateTimeImmutable('2001-01-01 03:59:59')
+                    to: new DateTimeImmutable('2001-01-01 03:59:59'),
                 ),
             ],
             [
@@ -61,45 +93,10 @@ final class DateRangeDenormalizerTest extends TestCase
                 'timeZone' => 'Asia/Singapore', // GMT+8
                 'expectedDateTimeRange' => new DateTimeRange(
                     from: new DateTimeImmutable('1999-12-31 16:00:00'),
-                    to: new DateTimeImmutable('2000-12-31 15:59:59')
+                    to: new DateTimeImmutable('2000-12-31 15:59:59'),
                 ),
             ],
         ];
-    }
-
-    /**
-     * @param non-empty-string $form
-     * @param non-empty-string $timeZone
-     * @param non-empty-string $to
-     *
-     * @dataProvider provideSuccessfulDenormalizationCases
-     */
-    public function testSuccessfulDenormalization(
-        string $form,
-        string $to,
-        string $timeZone,
-        DateTimeRange $expectedDateTimeRange
-    ): void {
-        $dateRangeDenormalizer = $this->getDenormalizer();
-
-        $dateTimeRange = $dateRangeDenormalizer->denormalize(
-            data: [
-                'from' => $form,
-                'to' => $to,
-                'timeZone' => $timeZone,
-            ],
-            pointer: Pointer::empty()
-        );
-
-        Assert::assertSame(
-            expected: $expectedDateTimeRange->from->getTimestamp(),
-            actual: $dateTimeRange->from->getTimestamp()
-        );
-
-        Assert::assertSame(
-            expected: $expectedDateTimeRange->to->getTimestamp(),
-            actual: $dateTimeRange->to->getTimestamp()
-        );
     }
 
     public function testUnsuccessfulDenormalization(): void
@@ -110,8 +107,9 @@ final class DateRangeDenormalizerTest extends TestCase
         try {
             $dateRangeDenormalizer->denormalize([], $pointer);
         } catch (ValidationError $exception) {
-            Assert::assertCount(1, $exception->getViolations());
-            Assert::assertContainsOnly(WrongPropertyType::class, $exception->getViolations());
+            $this->assertCount(1, $exception->getViolations());
+            $validationErrors = $exception->getViolations();
+            $this->assertInstanceOf(WrongPropertyType::class, array_pop($validationErrors));
         }
 
         try {
@@ -121,11 +119,12 @@ final class DateRangeDenormalizerTest extends TestCase
                     'timeZone' => 'Asia/Singapore',
                     'to' => '2000-01-01',
                 ],
-                pointer: Pointer::empty()
+                pointer: Pointer::empty(),
             );
         } catch (ValidationError $exception) {
-            Assert::assertCount(1, $exception->getViolations());
-            Assert::assertContainsOnly(InvalidDateRange::class, $exception->getViolations());
+            $this->assertCount(1, $exception->getViolations());
+            $validationErrors = $exception->getViolations();
+            $this->assertInstanceOf(InvalidDateRange::class, array_pop($validationErrors));
         }
 
         try {
@@ -135,11 +134,12 @@ final class DateRangeDenormalizerTest extends TestCase
                     'timeZone' => 'Asia/Singapore',
                     'to' => '2022-01-01 00:00:00+00:00',
                 ],
-                pointer: Pointer::empty()
+                pointer: Pointer::empty(),
             );
         } catch (ValidationError $exception) {
-            Assert::assertCount(1, $exception->getViolations());
-            Assert::assertContainsOnly(InvalidDate::class, $exception->getViolations());
+            $this->assertCount(1, $exception->getViolations());
+            $validationErrors = $exception->getViolations();
+            $this->assertInstanceOf(InvalidDate::class, array_pop($validationErrors));
         }
     }
 
@@ -150,7 +150,7 @@ final class DateRangeDenormalizerTest extends TestCase
         return new DateRangeDenormalizer(
             dateDenormalizer: new DateDenormalizer($stringDenormalizer),
             objectDenormalizer: new ObjectDenormalizer(),
-            timeZoneDenormalizer: new TimeZoneDenormalizer($stringDenormalizer)
+            timeZoneDenormalizer: new TimeZoneDenormalizer($stringDenormalizer),
         );
     }
 }

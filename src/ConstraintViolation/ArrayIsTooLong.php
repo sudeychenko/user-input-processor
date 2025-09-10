@@ -2,39 +2,43 @@
 
 declare(strict_types=1);
 
-namespace Spiks\UserInputProcessor\ConstraintViolation;
+namespace UserInputProcessor\ConstraintViolation;
 
-use Spiks\UserInputProcessor\Pointer;
+use Override;
+use UserInputProcessor\Pointer;
 
-final class ArrayIsTooLong implements ConstraintViolationInterface
+final readonly class ArrayIsTooLong implements ConstraintViolationInterface
 {
-    public const TYPE = 'array_is_too_long';
+    public const string TYPE = 'array_is_too_long';
 
     /**
-     * @param int<0, max> $maxLength
+     * @psalm-param int<0, max> $maxLength
      */
     public function __construct(private Pointer $pointer, private int $maxLength)
     {
     }
 
+    #[Override]
     public static function getType(): string
     {
         return self::TYPE;
     }
 
+    #[Override]
     public function getDescription(): string
     {
         return 'Property contains too long array.';
     }
 
     /**
-     * @return int<0, max>
+     * @psalm-return int<0, max>
      */
     public function getMaxLength(): int
     {
         return $this->maxLength;
     }
 
+    #[Override]
     public function getPointer(): Pointer
     {
         return $this->pointer;
